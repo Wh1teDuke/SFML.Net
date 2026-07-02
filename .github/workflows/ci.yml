@@ -63,6 +63,7 @@ jobs:
     needs:
       - build
     runs-on: ubuntu-latest
+    environment: nuget-publish
     permissions:
       contents: read
       id-token: write
