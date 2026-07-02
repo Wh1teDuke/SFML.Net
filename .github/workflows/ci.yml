@@ -69,11 +69,15 @@ jobs:
       packages: write
 
     steps:
+      - name: Download packed nupkgs
+        uses: actions/download-artifact@v6
+        with:
+          name: SFML.Net (Linux x64 .NET 10)
+          path: Publish
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '10.0.x'
-
       - name: Push to GitHub Packages
         run: |
           dotnet nuget push "Publish/*.nupkg" \
