@@ -529,7 +529,7 @@ public partial class WindowBase : ObjectBase
                 break;
 
             case EventType.TextEntered:
-                TextEntered?.Invoke(this, new TextEventArgs(e.Text));
+                TextEntered?.Invoke(this, e.Text.Unicode);
                 break;
 
             case EventType.TouchBegan:
@@ -566,7 +566,7 @@ public partial class WindowBase : ObjectBase
     public event EventHandler? GainedFocus;
 
     /// <summary>Event handler for the TextEntered event</summary>
-    public event EventHandler<TextEventArgs>? TextEntered;
+    public event EventHandler<uint>? TextEntered;
 
     /// <summary>Event handler for the KeyPressed event</summary>
     public event EventHandler<KeyEventArgs>? KeyPressed;
