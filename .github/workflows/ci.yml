@@ -58,3 +58,25 @@ jobs:
         with:
           name: SFML.Net (${{ matrix.platform.name }} ${{ matrix.dotnet.name }})
           path: Publish/SFML.*.*.nupkg
+
+  publish:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
+
+    steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Push to GitHub Packages
+        run: |
+          dotnet nuget push "Publish/*.nupkg" \
+           --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+           --api-key ${{ secrets.GITHUB_TOKEN }} \
+           --skip-duplicate
