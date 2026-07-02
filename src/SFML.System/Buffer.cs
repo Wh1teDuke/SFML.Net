@@ -1,15 +1,15 @@
-using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace SFML.System;
+namespace Gaiden.SFML.System;
 
 ////////////////////////////////////////////////////////////
 /// <summary>
 /// Internal helper class for CSFML's sfBuffer
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class Buffer : ObjectBase
+public partial class Buffer : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -68,16 +68,20 @@ public class Buffer : ObjectBase
     protected override void Destroy(bool disposing) => sfBuffer_destroy(CPointer);
 
     #region Imports
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfBuffer_create();
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfBuffer_create();
 
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfBuffer_destroy(IntPtr buffer);
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfBuffer_destroy(IntPtr buffer);
 
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern UIntPtr sfBuffer_getSize(IntPtr buffer);
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial UIntPtr sfBuffer_getSize(IntPtr buffer);
 
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfBuffer_getData(IntPtr buffer);
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfBuffer_getData(IntPtr buffer);
     #endregion
 }

@@ -1,6 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
 
@@ -9,7 +10,7 @@ namespace Gaiden.SFML.Window;
 /// Give access to the real-time state of the keyboard
 /// </summary>
 ////////////////////////////////////////////////////////////
-public static class Keyboard
+public static partial class Keyboard
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -642,24 +643,30 @@ public static class Keyboard
     public static void SetVirtualKeyboardVisible(bool visible) => sfKeyboard_setVirtualKeyboardVisible(visible);
 
     #region Imports
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfKeyboard_isKeyPressed(Key key);
+    private static partial bool sfKeyboard_isKeyPressed(Key key);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfKeyboard_isScancodePressed(Scancode code);
+    private static partial bool sfKeyboard_isScancodePressed(Scancode code);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Key sfKeyboard_localize(Scancode code);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Key sfKeyboard_localize(Scancode code);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Scancode sfKeyboard_delocalize(Key key);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Scancode sfKeyboard_delocalize(Key key);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfKeyboard_getDescription(Scancode code);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfKeyboard_getDescription(Scancode code);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfKeyboard_setVirtualKeyboardVisible(bool visible);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfKeyboard_setVirtualKeyboardVisible([MarshalAs(UnmanagedType.Bool)] bool visible);
     #endregion
 }

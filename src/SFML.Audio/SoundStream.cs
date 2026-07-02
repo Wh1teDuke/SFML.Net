@@ -1,6 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Audio;
 
@@ -9,7 +10,7 @@ namespace Gaiden.SFML.Audio;
 /// Abstract base class for streamed audio sources
 /// </summary>
 ////////////////////////////////////////////////////////////
-public abstract class SoundStream : ObjectBase
+public abstract partial class SoundStream : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -558,145 +559,191 @@ public abstract class SoundStream : ObjectBase
     private short[]? _tempBuffer;
 
     #region Imports
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern unsafe IntPtr sfSoundStream_create(GetDataCallbackType onGetData, SeekCallbackType onSeek, uint channelCount, uint sampleRate, SoundChannel* channelMapData, UIntPtr channelMapSize, IntPtr userData);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static unsafe partial IntPtr sfSoundStream_create(GetDataCallbackType onGetData, SeekCallbackType onSeek, uint channelCount, uint sampleRate, SoundChannel* channelMapData, UIntPtr channelMapSize, IntPtr userData);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_destroy(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_destroy(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_play(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_play(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_pause(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_pause(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_stop(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_stop(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern SoundStatus sfSoundStream_getStatus(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial SoundStatus sfSoundStream_getStatus(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern uint sfSoundStream_getChannelCount(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial uint sfSoundStream_getChannelCount(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern uint sfSoundStream_getSampleRate(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial uint sfSoundStream_getSampleRate(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern unsafe SoundChannel* sfSoundStream_getChannelMap(IntPtr soundStream, out UIntPtr count);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static unsafe partial SoundChannel* sfSoundStream_getChannelMap(IntPtr soundStream, out UIntPtr count);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setPitch(IntPtr soundStream, float pitch);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setPitch(IntPtr soundStream, float pitch);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setPan(IntPtr soundStream, float pan);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setPan(IntPtr soundStream, float pan);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setVolume(IntPtr soundStream, float volume);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setVolume(IntPtr soundStream, float volume);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setSpatializationEnabled(IntPtr soundStream, bool enabled);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setSpatializationEnabled(IntPtr soundStream, [MarshalAs(UnmanagedType.Bool)] bool enabled);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setPosition(IntPtr soundStream, Vector3f position);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setPosition(IntPtr soundStream, Vector3f position);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setDirection(IntPtr soundStream, Vector3f direction);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setDirection(IntPtr soundStream, Vector3f direction);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setCone(IntPtr soundStream, Cone.MarshalData cone);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setCone(IntPtr soundStream, Cone.MarshalData cone);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setVelocity(IntPtr soundStream, Vector3f velocity);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setVelocity(IntPtr soundStream, Vector3f velocity);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setDopplerFactor(IntPtr soundStream, float factor);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setDopplerFactor(IntPtr soundStream, float factor);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setDirectionalAttenuationFactor(IntPtr soundStream, float factor);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setDirectionalAttenuationFactor(IntPtr soundStream, float factor);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setRelativeToListener(IntPtr soundStream, bool relative);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setRelativeToListener(IntPtr soundStream, [MarshalAs(UnmanagedType.Bool)] bool relative);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setMinDistance(IntPtr soundStream, float minDistance);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setMinDistance(IntPtr soundStream, float minDistance);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setMaxDistance(IntPtr soundStream, float maxDistance);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setMaxDistance(IntPtr soundStream, float maxDistance);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setMinGain(IntPtr soundStream, float gain);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setMinGain(IntPtr soundStream, float gain);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setMaxGain(IntPtr soundStream, float gain);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setMaxGain(IntPtr soundStream, float gain);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setAttenuation(IntPtr soundStream, float attenuation);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setAttenuation(IntPtr soundStream, float attenuation);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setPlayingOffset(IntPtr soundStream, Time timeOffset);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setPlayingOffset(IntPtr soundStream, Time timeOffset);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setLooping(IntPtr soundStream, bool loop);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setLooping(IntPtr soundStream, [MarshalAs(UnmanagedType.Bool)] bool loop);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfSoundStream_getPitch(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfSoundStream_getPitch(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfSoundStream_getPan(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfSoundStream_getPan(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfSoundStream_getVolume(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfSoundStream_getVolume(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfSoundStream_isSpatializationEnabled(IntPtr soundStream);
+    private static partial bool sfSoundStream_isSpatializationEnabled(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Vector3f sfSoundStream_getPosition(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Vector3f sfSoundStream_getPosition(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Vector3f sfSoundStream_getDirection(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Vector3f sfSoundStream_getDirection(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Cone.MarshalData sfSoundStream_getCone(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Cone.MarshalData sfSoundStream_getCone(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Vector3f sfSoundStream_getVelocity(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Vector3f sfSoundStream_getVelocity(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfSoundStream_getDopplerFactor(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfSoundStream_getDopplerFactor(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfSoundStream_getDirectionalAttenuationFactor(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfSoundStream_getDirectionalAttenuationFactor(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfSoundStream_isRelativeToListener(IntPtr soundStream);
+    private static partial bool sfSoundStream_isRelativeToListener(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfSoundStream_getMinDistance(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfSoundStream_getMinDistance(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfSoundStream_getMaxDistance(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfSoundStream_getMaxDistance(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfSoundStream_getMinGain(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfSoundStream_getMinGain(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfSoundStream_getMaxGain(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfSoundStream_getMaxGain(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfSoundStream_getAttenuation(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfSoundStream_getAttenuation(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfSoundStream_isLooping(IntPtr soundStream);
+    private static partial bool sfSoundStream_isLooping(IntPtr soundStream);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundStream_setEffectProcessor(IntPtr soundStream, IntPtr effectProcessor);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundStream_setEffectProcessor(IntPtr soundStream, IntPtr effectProcessor);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Time sfSoundStream_getPlayingOffset(IntPtr soundStream);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Time sfSoundStream_getPlayingOffset(IntPtr soundStream);
     #endregion
 }

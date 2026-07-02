@@ -1,14 +1,15 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
 
 /// <summary>
 /// Clipboard provides an interface for getting and setting the contents of the system clipboard.
 /// </summary>
-public static class Clipboard
+public static partial class Clipboard
 {
     /// <summary>
     /// The contents of the Clipboard as a UTF-32 string
@@ -47,9 +48,11 @@ public static class Clipboard
         }
     }
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfClipboard_getUnicodeString();
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfClipboard_getUnicodeString();
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfClipboard_setUnicodeString(IntPtr ptr);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfClipboard_setUnicodeString(IntPtr ptr);
 }

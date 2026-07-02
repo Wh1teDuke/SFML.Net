@@ -1,8 +1,8 @@
-using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace SFML.System;
+namespace Gaiden.SFML.System;
 
 ////////////////////////////////////////////////////////////
 /// <summary>
@@ -16,7 +16,7 @@ namespace SFML.System;
 /// </remarks>
 ////////////////////////////////////////////////////////////
 [StructLayout(LayoutKind.Sequential)]
-public readonly struct Time : IEquatable<Time>
+public readonly partial struct Time : IEquatable<Time>
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -253,13 +253,16 @@ public readonly struct Time : IEquatable<Time>
     private readonly long _microseconds;
 
     #region Imports
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Time sfSeconds(float amount);
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Time sfSeconds(float amount);
 
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Time sfMilliseconds(int amount);
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Time sfMilliseconds(int amount);
 
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Time sfMicroseconds(long amount);
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Time sfMicroseconds(long amount);
     #endregion
 }

@@ -1,6 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
 
@@ -9,7 +10,7 @@ namespace Gaiden.SFML.Window;
 /// Give access to the real-time state of the joysticks
 /// </summary>
 ////////////////////////////////////////////////////////////
-public static class Joystick
+public static partial class Joystick
 {
     /// <summary>Maximum number of supported joysticks</summary>
     public static readonly uint Count = 8;
@@ -167,28 +168,35 @@ public static class Joystick
     }
 
     #region Imports
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfJoystick_isConnected(uint joystick);
+    private static partial bool sfJoystick_isConnected(uint joystick);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern uint sfJoystick_getButtonCount(uint joystick);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial uint sfJoystick_getButtonCount(uint joystick);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfJoystick_hasAxis(uint joystick, Axis axis);
+    private static partial bool sfJoystick_hasAxis(uint joystick, Axis axis);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfJoystick_isButtonPressed(uint joystick, uint button);
+    private static partial bool sfJoystick_isButtonPressed(uint joystick, uint button);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfJoystick_getAxisPosition(uint joystick, Axis axis);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfJoystick_getAxisPosition(uint joystick, Axis axis);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfJoystick_update();
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfJoystick_update();
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IdentificationMarshalData sfJoystick_getIdentification(uint joystick);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IdentificationMarshalData sfJoystick_getIdentification(uint joystick);
     #endregion
 }

@@ -1,6 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Audio;
 
@@ -93,43 +94,51 @@ public static partial class Listener
 
     #region Imports
     [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
     private static partial void sfListener_setGlobalVolume(float volume);
 
     [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
     private static partial float sfListener_getGlobalVolume();
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfListener_setPosition(Vector3f position);
-
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Vector3f sfListener_getPosition();
-
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfListener_setDirection(Vector3f direction);
-
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Vector3f sfListener_getDirection();
-
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfListener_setVelocity(Vector3f direction);
-
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Vector3f sfListener_getVelocity();
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfListener_setPosition(Vector3f position);
 
     [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Vector3f sfListener_getPosition();
+
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfListener_setDirection(Vector3f direction);
+
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Vector3f sfListener_getDirection();
+
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfListener_setVelocity(Vector3f direction);
+
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Vector3f sfListener_getVelocity();
+
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
     private static partial void sfListener_setCone(Cone.MarshalData cone);
 
     [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
     private static partial Cone.MarshalData sfListener_getCone();
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfListener_setUpVector(Vector3f upVector);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfListener_setUpVector(Vector3f upVector);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Vector3f sfListener_getUpVector();
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Vector3f sfListener_getUpVector();
     #endregion
 }

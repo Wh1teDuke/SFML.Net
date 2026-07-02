@@ -1,7 +1,8 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Security;
-using SFML.System;
+using Gaiden.SFML.System;
 
 // TODO getActiveContext
 // TODO getActiveContextId
@@ -13,7 +14,7 @@ namespace Gaiden.SFML.Window;
 /// This class defines a .NET interface to an SFML OpenGL Context
 /// </summary>
 //////////////////////////////////////////////////////////////////
-public class Context : CriticalFinalizerObject
+public partial class Context : CriticalFinalizerObject
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -90,24 +91,30 @@ public class Context : CriticalFinalizerObject
     private readonly IntPtr _this = IntPtr.Zero;
 
     #region Imports
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfContext_create();
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfContext_create();
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfContext_destroy(IntPtr view);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfContext_destroy(IntPtr view);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Window, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfContext_isExtensionAvailable(string name);
+    private static partial bool sfContext_isExtensionAvailable(string name);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfContext_setActive(IntPtr view, bool active);
+    private static partial bool sfContext_setActive(IntPtr view, [MarshalAs(UnmanagedType.Bool)] bool active);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfContext_getFunction(string name);
+    [LibraryImport(CSFML.Window, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfContext_getFunction(string name);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern ContextSettings sfContext_getSettings(IntPtr view);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial ContextSettings sfContext_getSettings(IntPtr view);
     #endregion
 }

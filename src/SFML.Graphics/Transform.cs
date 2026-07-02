@@ -1,6 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using SFML.System;
+using Gaiden.SFML.System;
 
 // TODO REIMPLEMENT WITH 4x4 MATRIX
 
@@ -12,7 +13,7 @@ namespace Gaiden.SFML.Graphics;
 /// </summary>
 ////////////////////////////////////////////////////////////
 [StructLayout(LayoutKind.Sequential)]
-public struct Transform
+public partial struct Transform
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -230,35 +231,45 @@ public struct Transform
     internal float M20, M21, M22;
 
     #region Imports
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Transform sfTransform_getInverse(ref Transform transform);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Transform sfTransform_getInverse(ref Transform transform);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Vector2f sfTransform_transformPoint(ref Transform transform, Vector2f point);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Vector2f sfTransform_transformPoint(ref Transform transform, Vector2f point);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern FloatRect sfTransform_transformRect(ref Transform transform, FloatRect rectangle);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial FloatRect sfTransform_transformRect(ref Transform transform, FloatRect rectangle);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfTransform_combine(ref Transform transform, ref Transform other);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfTransform_combine(ref Transform transform, ref Transform other);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfTransform_translate(ref Transform transform, Vector2f offset);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfTransform_translate(ref Transform transform, Vector2f offset);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfTransform_rotate(ref Transform transform, float angle);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfTransform_rotate(ref Transform transform, float angle);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfTransform_rotateWithCenter(ref Transform transform, float angle, Vector2f center);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfTransform_rotateWithCenter(ref Transform transform, float angle, Vector2f center);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfTransform_scale(ref Transform transform, Vector2f scale);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfTransform_scale(ref Transform transform, Vector2f scale);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfTransform_scaleWithCenter(ref Transform transform, Vector2f scale, Vector2f center);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfTransform_scaleWithCenter(ref Transform transform, Vector2f scale, Vector2f center);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfTransform_equal(ref Transform left, ref Transform right);
+    private static partial bool sfTransform_equal(ref Transform left, ref Transform right);
     #endregion
 }

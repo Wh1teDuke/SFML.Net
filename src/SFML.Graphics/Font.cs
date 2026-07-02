@@ -1,7 +1,8 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 using Gaiden.SFML.Window;
-using SFML.System;
+using Gaiden.SFML.System;
 using LoadingFailedException = Gaiden.SFML.Window.LoadingFailedException;
 
 namespace Gaiden.SFML.Graphics;
@@ -13,7 +14,7 @@ namespace Gaiden.SFML.Graphics;
 /// be used by Text.
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class Font : ObjectBase
+public partial class Font : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -284,54 +285,70 @@ public class Font : ObjectBase
     private GCHandle _myBytesPin;
 
     #region Imports
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfFont_createFromFile(string filename);
+    [LibraryImport(CSFML.Graphics, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfFont_createFromFile(string filename);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfFont_createFromStream(IntPtr stream);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfFont_createFromStream(IntPtr stream);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfFont_createFromMemory(IntPtr data, UIntPtr size);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfFont_createFromMemory(IntPtr data, UIntPtr size);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfFont_copy(IntPtr font);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfFont_copy(IntPtr font);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfFont_destroy(IntPtr cPointer);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfFont_destroy(IntPtr cPointer);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Glyph sfFont_getGlyph(IntPtr cPointer, uint codePoint, uint characterSize, bool bold, float outlineThickness);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Glyph sfFont_getGlyph(IntPtr cPointer, uint codePoint, uint characterSize, [MarshalAs(UnmanagedType.Bool)] bool bold, float outlineThickness);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfFont_hasGlyph(IntPtr font, uint codePoint);
+    private static partial bool sfFont_hasGlyph(IntPtr font, uint codePoint);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfFont_getKerning(IntPtr cPointer, uint first, uint second, uint characterSize);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfFont_getKerning(IntPtr cPointer, uint first, uint second, uint characterSize);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfFont_getBoldKerning(IntPtr cPointer, uint first, uint second, uint characterSize);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfFont_getBoldKerning(IntPtr cPointer, uint first, uint second, uint characterSize);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfFont_getLineSpacing(IntPtr cPointer, uint characterSize);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfFont_getLineSpacing(IntPtr cPointer, uint characterSize);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfFont_getUnderlinePosition(IntPtr cPointer, uint characterSize);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfFont_getUnderlinePosition(IntPtr cPointer, uint characterSize);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern float sfFont_getUnderlineThickness(IntPtr cPointer, uint characterSize);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial float sfFont_getUnderlineThickness(IntPtr cPointer, uint characterSize);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfFont_getTexture(IntPtr cPointer, uint characterSize);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfFont_getTexture(IntPtr cPointer, uint characterSize);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfFont_setSmooth(IntPtr cPointer, bool smooth);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfFont_setSmooth(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool smooth);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfFont_isSmooth(IntPtr cPointer);
+    private static partial bool sfFont_isSmooth(IntPtr cPointer);
 
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern InfoMarshalData sfFont_getInfo(IntPtr cPointer);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial InfoMarshalData sfFont_getInfo(IntPtr cPointer);
     #endregion
 }

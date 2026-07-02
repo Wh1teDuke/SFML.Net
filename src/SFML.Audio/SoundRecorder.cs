@@ -1,6 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Audio;
 
@@ -9,7 +10,7 @@ namespace Gaiden.SFML.Audio;
 /// Base class intended for capturing sound data
 /// </summary>
 ////////////////////////////////////////////////////////////
-public abstract class SoundRecorder : ObjectBase
+public abstract partial class SoundRecorder : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -295,46 +296,59 @@ public abstract class SoundRecorder : ObjectBase
     private readonly StopCallback _stopCallback;
 
     #region Imports
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfSoundRecorder_create(StartCallback onStart, ProcessCallback onProcess, StopCallback onStop, IntPtr userData);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfSoundRecorder_create(StartCallback onStart, ProcessCallback onProcess, StopCallback onStop, IntPtr userData);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundRecorder_destroy(IntPtr soundRecorder);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundRecorder_destroy(IntPtr soundRecorder);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfSoundRecorder_start(IntPtr soundRecorder, uint sampleRate);
+    private static partial bool sfSoundRecorder_start(IntPtr soundRecorder, uint sampleRate);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundRecorder_stop(IntPtr soundRecorder);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundRecorder_stop(IntPtr soundRecorder);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern uint sfSoundRecorder_getSampleRate(IntPtr soundRecorder);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial uint sfSoundRecorder_getSampleRate(IntPtr soundRecorder);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfSoundRecorder_isAvailable();
+    private static partial bool sfSoundRecorder_isAvailable();
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern unsafe IntPtr* sfSoundRecorder_getAvailableDevices(out UIntPtr count);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static unsafe partial IntPtr* sfSoundRecorder_getAvailableDevices(out UIntPtr count);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfSoundRecorder_getDefaultDevice();
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfSoundRecorder_getDefaultDevice();
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Audio, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfSoundRecorder_setDevice(IntPtr soundRecorder, string name);
+    private static partial bool sfSoundRecorder_setDevice(IntPtr soundRecorder, string name);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfSoundRecorder_getDevice(IntPtr soundRecorder);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfSoundRecorder_getDevice(IntPtr soundRecorder);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSoundRecorder_setChannelCount(IntPtr soundRecorder, uint channelCount);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSoundRecorder_setChannelCount(IntPtr soundRecorder, uint channelCount);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern uint sfSoundRecorder_getChannelCount(IntPtr soundRecorder);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial uint sfSoundRecorder_getChannelCount(IntPtr soundRecorder);
 
-    [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern unsafe SoundChannel* sfSoundRecorder_getChannelMap(IntPtr soundRecorder, out UIntPtr count);
+    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static unsafe partial SoundChannel* sfSoundRecorder_getChannelMap(IntPtr soundRecorder, out UIntPtr count);
     #endregion
 }

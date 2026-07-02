@@ -1,4 +1,4 @@
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
 

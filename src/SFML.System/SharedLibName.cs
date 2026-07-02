@@ -1,4 +1,4 @@
-namespace SFML.System;
+namespace Gaiden.SFML.System;
 
 /// <summary>CSFML</summary>
 public static class CSFML

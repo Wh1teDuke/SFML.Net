@@ -1,6 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Graphics;
 
@@ -9,7 +10,7 @@ namespace Gaiden.SFML.Graphics;
 /// Specialized shape representing a circle
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class CircleShape : Shape
+public partial class CircleShape : Shape
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -120,7 +121,8 @@ public class CircleShape : Shape
     private uint _pointCount;
 
     #region Imports
-    [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Vector2f sfCircleShape_getGeometricCenter(IntPtr cPointer);
+    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Vector2f sfCircleShape_getGeometricCenter(IntPtr cPointer);
     #endregion
 }

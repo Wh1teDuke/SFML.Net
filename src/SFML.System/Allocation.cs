@@ -1,14 +1,14 @@
-using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace SFML.System;
+namespace Gaiden.SFML.System;
 
 /// <summary>
 /// Contains functions related to memory allocation.
 /// For internal use only.
 /// </summary>
-public static class Allocation
+public static partial class Allocation
 {
     /// <summary>
     /// This function deallocates the memory being pointed to
@@ -20,6 +20,7 @@ public static class Allocation
     /// <param name="ptr">Pointer to the memory to deallocate</param>
     public static void Free(IntPtr ptr) => sfFree(ptr);
 
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfFree(IntPtr ptr);
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfFree(IntPtr ptr);
 }

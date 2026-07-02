@@ -1,6 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
 
@@ -9,7 +10,7 @@ namespace Gaiden.SFML.Window;
 /// Give access to the real-time state of the mouse
 /// </summary>
 ////////////////////////////////////////////////////////////
-public static class Mouse
+public static partial class Mouse
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -127,14 +128,17 @@ public static class Mouse
     }
 
     #region Imports
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfMouse_isButtonPressed(Button button);
+    private static partial bool sfMouse_isButtonPressed(Button button);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Vector2i sfMouse_getPosition(IntPtr relativeTo);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Vector2i sfMouse_getPosition(IntPtr relativeTo);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfMouse_setPosition(Vector2i position, IntPtr relativeTo);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfMouse_setPosition(Vector2i position, IntPtr relativeTo);
     #endregion
 }

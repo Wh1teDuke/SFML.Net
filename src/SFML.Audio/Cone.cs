@@ -1,5 +1,5 @@
 using System.Runtime.InteropServices;
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Audio;
 

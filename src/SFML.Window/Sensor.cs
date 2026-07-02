@@ -1,6 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
 
@@ -9,7 +10,7 @@ namespace Gaiden.SFML.Window;
 /// Give access to the real-time state of sensors
 /// </summary>
 ////////////////////////////////////////////////////////////
-public static class Sensor
+public static partial class Sensor
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -72,14 +73,17 @@ public static class Sensor
     public static Vector3f GetValue(Type sensor) => sfSensor_getValue(sensor);
 
     #region Imports
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfSensor_isAvailable(Type sensor);
+    private static partial bool sfSensor_isAvailable(Type sensor);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfSensor_setEnabled(Type sensor, bool enabled);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfSensor_setEnabled(Type sensor, [MarshalAs(UnmanagedType.Bool)] bool enabled);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Vector3f sfSensor_getValue(Type sensor);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Vector3f sfSensor_getValue(Type sensor);
     #endregion
 }

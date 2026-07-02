@@ -1,11 +1,12 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
 
 /// <summary>Vulkan helper functions</summary>
-public static class Vulkan
+public static partial class Vulkan
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -56,14 +57,17 @@ public static class Vulkan
     }
 
     #region Imports
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfVulkan_isAvailable(bool requireGraphics);
+    private static partial bool sfVulkan_isAvailable([MarshalAs(UnmanagedType.Bool)] bool requireGraphics);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfVulkan_getFunction(string name);
+    [LibraryImport(CSFML.Window, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfVulkan_getFunction(string name);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern unsafe IntPtr* sfVulkan_getGraphicsRequiredInstanceExtensions(out UIntPtr count);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static unsafe partial IntPtr* sfVulkan_getGraphicsRequiredInstanceExtensions(out UIntPtr count);
     #endregion
 }

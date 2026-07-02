@@ -1,6 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
 
@@ -12,7 +13,7 @@ namespace Gaiden.SFML.Window;
 /// </summary>
 ////////////////////////////////////////////////////////////
 [StructLayout(LayoutKind.Sequential)]
-public struct VideoMode
+public partial struct VideoMode
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -193,14 +194,17 @@ public struct VideoMode
     public static bool operator >=(VideoMode left, VideoMode right) => !(left < right);
 
     #region Imports
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern VideoMode sfVideoMode_getDesktopMode();
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial VideoMode sfVideoMode_getDesktopMode();
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern unsafe VideoMode* sfVideoMode_getFullscreenModes(out UIntPtr count);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static unsafe partial VideoMode* sfVideoMode_getFullscreenModes(out UIntPtr count);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfVideoMode_isValid(VideoMode mode);
+    private static partial bool sfVideoMode_isValid(VideoMode mode);
     #endregion
 }

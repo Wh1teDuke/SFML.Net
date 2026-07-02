@@ -1,6 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
 
@@ -9,7 +10,7 @@ namespace Gaiden.SFML.Window;
 /// Cursor defines the appearance of a system cursor.
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class Cursor : ObjectBase
+public partial class Cursor : ObjectBase
 {
     /// <summary>
     /// Enumeration of possibly available native system cursor types
@@ -239,12 +240,15 @@ public class Cursor : ObjectBase
     ////////////////////////////////////////////////////////////
     protected override void Destroy(bool disposing) => sfCursor_destroy(CPointer);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfCursor_createFromSystem(CursorType type);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfCursor_createFromSystem(CursorType type);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfCursor_createFromPixels(IntPtr pixels, Vector2u size, Vector2u hotspot);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfCursor_createFromPixels(IntPtr pixels, Vector2u size, Vector2u hotspot);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfCursor_destroy(IntPtr cPointer);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfCursor_destroy(IntPtr cPointer);
 }

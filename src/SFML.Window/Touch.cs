@@ -1,6 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using SFML.System;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
 
@@ -9,7 +10,7 @@ namespace Gaiden.SFML.Window;
 /// Give access to the real-time state of the touches
 /// </summary>
 ////////////////////////////////////////////////////////////
-public static class Touch
+public static partial class Touch
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -49,11 +50,13 @@ public static class Touch
     }
 
     #region Imports
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfTouch_isDown(uint finger);
+    private static partial bool sfTouch_isDown(uint finger);
 
-    [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Vector2i sfTouch_getPosition(uint finger, IntPtr relativeTo);
+    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Vector2i sfTouch_getPosition(uint finger, IntPtr relativeTo);
     #endregion
 }

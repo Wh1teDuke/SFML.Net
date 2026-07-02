@@ -1,7 +1,6 @@
-using System;
 using System.Runtime.Serialization;
 
-namespace SFML.System;
+namespace Gaiden.SFML.System;
 
 ////////////////////////////////////////////////////////////
 /// <summary>

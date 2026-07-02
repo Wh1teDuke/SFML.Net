@@ -1,6 +1,4 @@
-using System;
-
-namespace SFML.System;
+namespace Gaiden.SFML.System;
 
 ////////////////////////////////////////////////////////////
 /// <summary>

@@ -1,15 +1,15 @@
-using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace SFML.System;
+namespace Gaiden.SFML.System;
 
 ////////////////////////////////////////////////////////////
 /// <summary>
 /// Utility class that measures the elapsed time
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class Clock : ObjectBase
+public partial class Clock : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -77,29 +77,37 @@ public class Clock : ObjectBase
     public Time Reset() => sfClock_reset(CPointer);
 
     #region Imports
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern IntPtr sfClock_create();
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial IntPtr sfClock_create();
 
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfClock_destroy(IntPtr cPointer);
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfClock_destroy(IntPtr cPointer);
 
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Time sfClock_getElapsedTime(IntPtr clock);
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Time sfClock_getElapsedTime(IntPtr clock);
 
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool sfClock_isRunning(IntPtr clock);
+    private static partial bool sfClock_isRunning(IntPtr clock);
 
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfClock_start(IntPtr clock);
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfClock_start(IntPtr clock);
 
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfClock_stop(IntPtr clock);
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial void sfClock_stop(IntPtr clock);
 
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Time sfClock_restart(IntPtr clock);
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Time sfClock_restart(IntPtr clock);
 
-    [DllImport(CSFML.System, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern Time sfClock_reset(IntPtr clock);
+    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
+    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial Time sfClock_reset(IntPtr clock);
     #endregion
 }

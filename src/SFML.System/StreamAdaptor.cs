@@ -1,8 +1,6 @@
-using System;
-using System.IO;
 using System.Runtime.InteropServices;
 
-namespace SFML.System;
+namespace Gaiden.SFML.System;
 
 ////////////////////////////////////////////////////////////
 /// <summary>
