@@ -52,16 +52,6 @@ public enum State
 public partial class WindowBase : ObjectBase
 {
     ////////////////////////////////////////////////////////////
-    /// <summary>
-    /// Create the window with default style and creation settings
-    /// </summary>
-    /// <param name="mode">Video mode to use</param>
-    /// <param name="title">Title of the window</param>
-    ////////////////////////////////////////////////////////////
-    public WindowBase(VideoMode mode, string title) :
-        this(mode, title, Styles.Default, State.Windowed)
-    {
-    }
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -72,7 +62,11 @@ public partial class WindowBase : ObjectBase
     /// <param name="style">Window style (Resize | Close by default)</param>
     /// <param name="state">Window state</param>
     ////////////////////////////////////////////////////////////
-    public WindowBase(VideoMode mode, string title, Styles style, State state) :
+    public WindowBase(
+        VideoMode mode, 
+        string title, 
+        Styles style = Styles.Default, 
+        State state = State.Windowed) :
         base(IntPtr.Zero)
     {
         // Copy the title to a null-terminated UTF-32 byte array
