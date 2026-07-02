@@ -48,11 +48,6 @@ jobs:
       - name: Pack SFML.Net
         run: dotnet pack --configuration Release -o Publish
 
-      - name: Install SFML.Net Examples Dependencies
-        run: dotnet restore examples/Examples.sln
-      - name: Build SFML.Net Examples
-        run: dotnet build --configuration Release --no-restore examples/Examples.sln
-
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
