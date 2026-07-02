@@ -82,7 +82,7 @@ public struct ContextSettings
     /// </summary>
     /// <returns>String description of the object</returns>
     ////////////////////////////////////////////////////////////
-    public readonly override string ToString() => "[ContextSettings]" +
+    public override readonly string ToString() => "[ContextSettings]" +
                                                   $" DepthBits({DepthBits})" +
                                                   $" StencilBits({StencilBits})" +
                                                   $" AntialiasingLevel({AntialiasingLevel})" +

@@ -37,10 +37,6 @@ csharp_indent_labels = no_change
 # File Extension Settings
 #########################
 
-# Visual Studio Solution Files
-[*.sln]
-indent_style = tab
-
 # Visual Studio XML Project Files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
 indent_size = 2
@@ -65,9 +61,6 @@ trim_trailing_whitespace = false
 [*.{htm,html,js,ts,tsx,css,sass,scss,less,svg,vue}]
 indent_size = 2
 insert_final_newline = true
-
-# Batch Files
-[*.{cmd,bat}]
 
 # Bash Files
 [*.sh]
@@ -158,7 +151,6 @@ csharp_style_conditional_delegate_call = true:warning
 
 # Code block preferences
 # https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference#code_block
-csharp_prefer_braces = true:warning
 csharp_style_prefer_top_level_statements = false:warning
 
 #############################

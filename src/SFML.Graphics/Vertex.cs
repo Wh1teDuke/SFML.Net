@@ -70,7 +70,7 @@ public struct Vertex
     /// </summary>
     /// <returns>String description of the object</returns>
     ////////////////////////////////////////////////////////////
-    public readonly override string ToString() => "[Vertex]" +
+    public override readonly string ToString() => "[Vertex]" +
                                                   " Position(" + Position + ")" +
                                                   " Color(" + Color + ")" +
                                                   " TexCoords(" + TexCoords + ")";

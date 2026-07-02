@@ -190,7 +190,7 @@ public struct Vector3f : IEquatable<Vector3f>
     /// </summary>
     /// <returns>String description of the object</returns>
     ////////////////////////////////////////////////////////////
-    public readonly override string ToString() => $"[Vector3f] X({X}) Y({Y}) Z({Z})";
+    public override readonly string ToString() => $"[Vector3f] X({X}) Y({Y}) Z({Z})";
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -199,7 +199,7 @@ public struct Vector3f : IEquatable<Vector3f>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and vector are equal</returns>
     ////////////////////////////////////////////////////////////
-    public readonly override bool Equals(object? obj) => (obj is Vector3f vec) && Equals(vec);
+    public override readonly bool Equals(object? obj) => (obj is Vector3f vec) && Equals(vec);
 
     ///////////////////////////////////////////////////////////
     /// <summary>
