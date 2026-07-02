@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
 
 namespace Gaiden.SFML.System;
 
@@ -9,7 +7,7 @@ namespace Gaiden.SFML.System;
 /// Internal helper class for CSFML's sfBuffer
 /// </summary>
 ////////////////////////////////////////////////////////////
-public partial class Buffer : ObjectBase
+public class Buffer : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -18,7 +16,7 @@ public partial class Buffer : ObjectBase
     /// <exception cref="LoadingFailedException" />
     ////////////////////////////////////////////////////////////
     public Buffer() :
-        base(sfBuffer_create())
+        base(CSFMLSystem.sfBuffer_create())
     {
         if (IsInvalid)
         {
@@ -34,8 +32,8 @@ public partial class Buffer : ObjectBase
     ////////////////////////////////////////////////////////////
     public byte[] GetData()
     {
-        var size = sfBuffer_getSize(CPointer);
-        var ptr = sfBuffer_getData(CPointer);
+        var size = CSFMLSystem.sfBuffer_getSize(CPointer);
+        var ptr = CSFMLSystem.sfBuffer_getData(CPointer);
 
         if (ptr == IntPtr.Zero)
         {
@@ -65,23 +63,5 @@ public partial class Buffer : ObjectBase
     /// </summary>
     /// <param name="disposing">Is the GC disposing the object, or is it an explicit call?</param>
     ////////////////////////////////////////////////////////////
-    protected override void Destroy(bool disposing) => sfBuffer_destroy(CPointer);
-
-    #region Imports
-    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfBuffer_create();
-
-    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfBuffer_destroy(IntPtr buffer);
-
-    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial UIntPtr sfBuffer_getSize(IntPtr buffer);
-
-    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfBuffer_getData(IntPtr buffer);
-    #endregion
+    protected override void Destroy(bool disposing) => CSFMLSystem.sfBuffer_destroy(CPointer);
 }

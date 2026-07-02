@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
 
 namespace Gaiden.SFML.System;
 
@@ -16,7 +14,7 @@ namespace Gaiden.SFML.System;
 /// </remarks>
 ////////////////////////////////////////////////////////////
 [StructLayout(LayoutKind.Sequential)]
-public readonly partial struct Time : IEquatable<Time>
+public readonly struct Time : IEquatable<Time>
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -32,7 +30,7 @@ public readonly partial struct Time : IEquatable<Time>
     /// <param name="seconds">Number of seconds</param>
     /// <returns>Time constructed from the amount of seconds</returns>
     ////////////////////////////////////////////////////////////
-    public static Time FromSeconds(float seconds) => sfSeconds(seconds);
+    public static Time FromSeconds(float seconds) => CSFMLSystem.sfSeconds(seconds);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -41,7 +39,7 @@ public readonly partial struct Time : IEquatable<Time>
     /// <param name="milliseconds">Number of milliseconds</param>
     /// <returns>Time constructed from the amount of milliseconds</returns>
     ////////////////////////////////////////////////////////////
-    public static Time FromMilliseconds(int milliseconds) => sfMilliseconds(milliseconds);
+    public static Time FromMilliseconds(int milliseconds) => CSFMLSystem.sfMilliseconds(milliseconds);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -50,7 +48,7 @@ public readonly partial struct Time : IEquatable<Time>
     /// <param name="microseconds">Number of microseconds</param>
     /// <returns>Time constructed from the amount of microseconds</returns>
     ////////////////////////////////////////////////////////////
-    public static Time FromMicroseconds(long microseconds) => sfMicroseconds(microseconds);
+    public static Time FromMicroseconds(long microseconds) => CSFMLSystem.sfMicroseconds(microseconds);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -59,7 +57,7 @@ public readonly partial struct Time : IEquatable<Time>
     /// <param name="timeSpan">A TimeSpan representing the amount of time to represent</param>
     /// <returns>Time constructed from an existing TimeSpan</returns>
     ////////////////////////////////////////////////////////////
-    public static Time FromTimeSpan(TimeSpan timeSpan) => sfMicroseconds(timeSpan.Ticks * 1000 / TimeSpan.TicksPerMillisecond);
+    public static Time FromTimeSpan(TimeSpan timeSpan) => CSFMLSystem.sfMicroseconds(timeSpan.Ticks * 1000 / TimeSpan.TicksPerMillisecond);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -251,18 +249,4 @@ public readonly partial struct Time : IEquatable<Time>
     public override int GetHashCode() => _microseconds.GetHashCode();
 
     private readonly long _microseconds;
-
-    #region Imports
-    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Time sfSeconds(float amount);
-
-    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Time sfMilliseconds(int amount);
-
-    [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Time sfMicroseconds(long amount);
-    #endregion
 }

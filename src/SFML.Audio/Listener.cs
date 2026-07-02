@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Audio;
@@ -11,7 +8,7 @@ namespace Gaiden.SFML.Audio;
 /// from where all the sounds are heard
 /// </summary>
 ////////////////////////////////////////////////////////////
-public static partial class Listener
+public static class Listener
 {
     ////////////////////////////////////////////////////////////
     /// <summary>

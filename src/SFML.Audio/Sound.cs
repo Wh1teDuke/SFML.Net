@@ -25,7 +25,7 @@ public enum SoundStatus
 /// Regular sound that can be played in the audio environment
 /// </summary>
 ////////////////////////////////////////////////////////////
-public partial class Sound : ObjectBase
+public class Sound : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
