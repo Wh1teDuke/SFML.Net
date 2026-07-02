@@ -6,7 +6,7 @@ using SFML.System;
 // TODO getActiveContext
 // TODO getActiveContextId
 
-namespace SFML.Window;
+namespace Gaiden.SFML.Window;
 
 //////////////////////////////////////////////////////////////////
 /// <summary>
@@ -52,7 +52,7 @@ public class Context : CriticalFinalizerObject
     /// Get the address of an OpenGL function.
     /// </summary>
     /// <param name="name">Name of the function to get the address of</param>
-    /// <returns>Address of the OpenGL function, <see cref="IntPtr.Zero"/> on failure</returns>
+    /// <returns>Address of the OpenGL function, <see cref="nint.Zero"/> on failure</returns>
     ////////////////////////////////////////////////////////////
     public static IntPtr GetFunction(string name) => sfContext_getFunction(name);
 

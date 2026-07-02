@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using SFML.System;
 
-namespace SFML.Audio;
+namespace Gaiden.SFML.Audio;
 
 ////////////////////////////////////////////////////////////
 /// <summary>

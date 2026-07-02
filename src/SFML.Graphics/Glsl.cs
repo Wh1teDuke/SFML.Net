@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using SFML.System;
 
-namespace SFML.Graphics.Glsl;
+namespace Gaiden.SFML.Graphics;
 
 #region 2D Vectors
 ////////////////////////////////////////////////////////////

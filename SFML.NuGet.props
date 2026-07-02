@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
   <!-- This file contains the data shared by all projects that generate a NuGet package. -->
 

@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace SFML;
+namespace Gaiden.SFML.Window;
 
 ////////////////////////////////////////////////////////////
 /// <summary>

@@ -1,8 +1,9 @@
 using System.Runtime.InteropServices;
 using System.Security;
 using SFML.System;
+using LoadingFailedException = Gaiden.SFML.Window.LoadingFailedException;
 
-namespace SFML.Graphics;
+namespace Gaiden.SFML.Graphics;
 
 ////////////////////////////////////////////////////////////
 /// <summary>
@@ -62,7 +63,7 @@ public class Image : ObjectBase
     public Image(Stream stream) :
         base(IntPtr.Zero)
     {
-        using (var adaptor = new SFML.System.StreamAdaptor(stream))
+        using (var adaptor = new StreamAdaptor(stream))
         {
             CPointer = sfImage_createFromStream(adaptor.InputStreamPtr);
         }
@@ -194,7 +195,7 @@ public class Image : ObjectBase
     ////////////////////////////////////////////////////////////
     public bool SaveToMemory(out byte[] output, string format)
     {
-        using var buffer = new SFML.System.Buffer();
+        using var buffer = new global::SFML.System.Buffer();
         var success = sfImage_saveToMemory(CPointer, buffer.CPointer, format);
 
         output = success ? buffer.GetData() : [];

@@ -3,7 +3,7 @@ using System.Security;
 using System.Text;
 using SFML.System;
 
-namespace SFML.Window;
+namespace Gaiden.SFML.Window;
 
 ////////////////////////////////////////////////////////////
 /// <summary>

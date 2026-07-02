@@ -4,7 +4,7 @@ using SFML.System;
 
 // TODO REIMPLEMENT WITH 4x4 MATRIX
 
-namespace SFML.Graphics;
+namespace Gaiden.SFML.Graphics;
 
 ////////////////////////////////////////////////////////////
 /// <summary>

@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using SFML.System;
 
-namespace SFML.Window;
+namespace Gaiden.SFML.Window;
 
 /// <summary>Vulkan helper functions</summary>
 public static class Vulkan
@@ -29,7 +29,7 @@ public static class Vulkan
     /// Get the address of a Vulkan function
     /// </summary>
     /// <param name="name"> Name of the function to get the address of </param>
-    /// <returns>Address of the Vulkan function, <see cref="IntPtr.Zero"/> on failure</returns>
+    /// <returns>Address of the Vulkan function, <see cref="nint.Zero"/> on failure</returns>
     ////////////////////////////////////////////////////////////
     public static IntPtr GetFunction(string name) => sfVulkan_getFunction(name);
 

@@ -1,9 +1,10 @@
 using System.Runtime.InteropServices;
 using System.Security;
+using Gaiden.SFML.Window;
 using SFML.System;
-using SFML.Window;
+using LoadingFailedException = Gaiden.SFML.Window.LoadingFailedException;
 
-namespace SFML.Graphics;
+namespace Gaiden.SFML.Graphics;
 
 ////////////////////////////////////////////////////////////
 /// <summary>

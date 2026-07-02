@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace SFML.Graphics;
+namespace Gaiden.SFML.Graphics;
 
 ////////////////////////////////////////////////////////////
 /// <summary>

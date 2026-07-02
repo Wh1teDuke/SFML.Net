@@ -1,9 +1,9 @@
-using SFML.System;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
+using SFML.System;
 
-namespace SFML.Window;
+namespace Gaiden.SFML.Window;
 
 /// <summary>
 /// Clipboard provides an interface for getting and setting the contents of the system clipboard.

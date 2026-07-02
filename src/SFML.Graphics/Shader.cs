@@ -1,9 +1,10 @@
 using System.Runtime.InteropServices;
 using System.Security;
+using Gaiden.SFML.Window;
 using SFML.System;
-using SFML.Window;
+using LoadingFailedException = Gaiden.SFML.Window.LoadingFailedException;
 
-namespace SFML.Graphics;
+namespace Gaiden.SFML.Graphics;
 
 ////////////////////////////////////////////////////////////
 /// <summary>
@@ -163,7 +164,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="vector">Value of the vec2 vector</param>
     ////////////////////////////////////////////////////////////
-    public void SetUniform(string name, Glsl.Vec2 vector) => sfShader_setVec2Uniform(CPointer, name, vector);
+    public void SetUniform(string name, Vec2 vector) => sfShader_setVec2Uniform(CPointer, name, vector);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -172,7 +173,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="vector">Value of the vec3 vector</param>
     ////////////////////////////////////////////////////////////
-    public void SetUniform(string name, Glsl.Vec3 vector) => sfShader_setVec3Uniform(CPointer, name, vector);
+    public void SetUniform(string name, Vec3 vector) => sfShader_setVec3Uniform(CPointer, name, vector);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -181,7 +182,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="vector">Value of the vec4 vector</param>
     ////////////////////////////////////////////////////////////
-    public void SetUniform(string name, Glsl.Vec4 vector) => sfShader_setVec4Uniform(CPointer, name, vector);
+    public void SetUniform(string name, Vec4 vector) => sfShader_setVec4Uniform(CPointer, name, vector);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -208,7 +209,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="vector">Value of the ivec2 vector</param>
     ////////////////////////////////////////////////////////////
-    public void SetUniform(string name, Glsl.Ivec2 vector) => sfShader_setIvec2Uniform(CPointer, name, vector);
+    public void SetUniform(string name, Ivec2 vector) => sfShader_setIvec2Uniform(CPointer, name, vector);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -217,7 +218,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="vector">Value of the ivec3 vector</param>
     ////////////////////////////////////////////////////////////
-    public void SetUniform(string name, Glsl.Ivec3 vector) => sfShader_setIvec3Uniform(CPointer, name, vector);
+    public void SetUniform(string name, Ivec3 vector) => sfShader_setIvec3Uniform(CPointer, name, vector);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -226,7 +227,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="vector">Value of the ivec4 vector</param>
     ////////////////////////////////////////////////////////////
-    public void SetUniform(string name, Glsl.Ivec4 vector) => sfShader_setIvec4Uniform(CPointer, name, vector);
+    public void SetUniform(string name, Ivec4 vector) => sfShader_setIvec4Uniform(CPointer, name, vector);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -244,7 +245,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="vector">Value of the bvec2 vector</param>
     ////////////////////////////////////////////////////////////
-    public void SetUniform(string name, Glsl.Bvec2 vector) => sfShader_setBvec2Uniform(CPointer, name, vector);
+    public void SetUniform(string name, Bvec2 vector) => sfShader_setBvec2Uniform(CPointer, name, vector);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -253,7 +254,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="vector">Value of the bvec3 vector</param>
     ////////////////////////////////////////////////////////////
-    public void SetUniform(string name, Glsl.Bvec3 vector) => sfShader_setBvec3Uniform(CPointer, name, vector);
+    public void SetUniform(string name, Bvec3 vector) => sfShader_setBvec3Uniform(CPointer, name, vector);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -262,7 +263,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="vector">Value of the bvec4 vector</param>
     ////////////////////////////////////////////////////////////
-    public void SetUniform(string name, Glsl.Bvec4 vector) => sfShader_setBvec4Uniform(CPointer, name, vector);
+    public void SetUniform(string name, Bvec4 vector) => sfShader_setBvec4Uniform(CPointer, name, vector);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -271,7 +272,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="matrix">Value of the mat3 matrix</param>
     ////////////////////////////////////////////////////////////
-    public void SetUniform(string name, Glsl.Mat3 matrix) => sfShader_setMat3Uniform(CPointer, name, matrix);
+    public void SetUniform(string name, Mat3 matrix) => sfShader_setMat3Uniform(CPointer, name, matrix);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -280,7 +281,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="matrix">Value of the mat4 matrix</param>
     ////////////////////////////////////////////////////////////
-    public void SetUniform(string name, Glsl.Mat4 matrix) => sfShader_setMat4Uniform(CPointer, name, matrix);
+    public void SetUniform(string name, Mat4 matrix) => sfShader_setMat4Uniform(CPointer, name, matrix);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -374,9 +375,9 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="array">array of <c>vec2</c> values</param>
     ////////////////////////////////////////////////////////////
-    public unsafe void SetUniformArray(string name, Glsl.Vec2[] array)
+    public unsafe void SetUniformArray(string name, Vec2[] array)
     {
-        fixed (Glsl.Vec2* data = array)
+        fixed (Vec2* data = array)
         {
             sfShader_setVec2UniformArray(CPointer, name, data, (UIntPtr)array.Length);
         }
@@ -389,9 +390,9 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="array">array of <c>vec3</c> values</param>
     ////////////////////////////////////////////////////////////
-    public unsafe void SetUniformArray(string name, Glsl.Vec3[] array)
+    public unsafe void SetUniformArray(string name, Vec3[] array)
     {
-        fixed (Glsl.Vec3* data = array)
+        fixed (Vec3* data = array)
         {
             sfShader_setVec3UniformArray(CPointer, name, data, (UIntPtr)array.Length);
         }
@@ -404,9 +405,9 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="array">array of <c>vec4</c> values</param>
     ////////////////////////////////////////////////////////////
-    public unsafe void SetUniformArray(string name, Glsl.Vec4[] array)
+    public unsafe void SetUniformArray(string name, Vec4[] array)
     {
-        fixed (Glsl.Vec4* data = array)
+        fixed (Vec4* data = array)
         {
             sfShader_setVec4UniformArray(CPointer, name, data, (UIntPtr)array.Length);
         }
@@ -419,9 +420,9 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="array">array of <c>mat3</c> values</param>
     ////////////////////////////////////////////////////////////
-    public unsafe void SetUniformArray(string name, Glsl.Mat3[] array)
+    public unsafe void SetUniformArray(string name, Mat3[] array)
     {
-        fixed (Glsl.Mat3* data = array)
+        fixed (Mat3* data = array)
         {
             sfShader_setMat3UniformArray(CPointer, name, data, (UIntPtr)array.Length);
         }
@@ -434,9 +435,9 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="array">array of <c>mat4</c> values</param>
     ////////////////////////////////////////////////////////////
-    public unsafe void SetUniformArray(string name, Glsl.Mat4[] array)
+    public unsafe void SetUniformArray(string name, Mat4[] array)
     {
-        fixed (Glsl.Mat4* data = array)
+        fixed (Mat4* data = array)
         {
             sfShader_setMat4UniformArray(CPointer, name, data, (UIntPtr)array.Length);
         }
@@ -537,13 +538,13 @@ public class Shader : ObjectBase
     private static extern void sfShader_setFloatUniform(IntPtr shader, string name, float x);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfShader_setVec2Uniform(IntPtr shader, string name, Glsl.Vec2 vector);
+    private static extern void sfShader_setVec2Uniform(IntPtr shader, string name, Vec2 vector);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfShader_setVec3Uniform(IntPtr shader, string name, Glsl.Vec3 vector);
+    private static extern void sfShader_setVec3Uniform(IntPtr shader, string name, Vec3 vector);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfShader_setVec4Uniform(IntPtr shader, string name, Glsl.Vec4 vector);
+    private static extern void sfShader_setVec4Uniform(IntPtr shader, string name, Vec4 vector);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
     private static extern void sfShader_setIntUniform(IntPtr shader, string name, int x);
@@ -552,31 +553,31 @@ public class Shader : ObjectBase
     private static extern void sfShader_setColorUniform(IntPtr shader, string name, Color color);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfShader_setIvec2Uniform(IntPtr shader, string name, Glsl.Ivec2 vector);
+    private static extern void sfShader_setIvec2Uniform(IntPtr shader, string name, Ivec2 vector);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfShader_setIvec3Uniform(IntPtr shader, string name, Glsl.Ivec3 vector);
+    private static extern void sfShader_setIvec3Uniform(IntPtr shader, string name, Ivec3 vector);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfShader_setIvec4Uniform(IntPtr shader, string name, Glsl.Ivec4 vector);
+    private static extern void sfShader_setIvec4Uniform(IntPtr shader, string name, Ivec4 vector);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
     private static extern void sfShader_setBoolUniform(IntPtr shader, string name, bool x);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfShader_setBvec2Uniform(IntPtr shader, string name, Glsl.Bvec2 vector);
+    private static extern void sfShader_setBvec2Uniform(IntPtr shader, string name, Bvec2 vector);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfShader_setBvec3Uniform(IntPtr shader, string name, Glsl.Bvec3 vector);
+    private static extern void sfShader_setBvec3Uniform(IntPtr shader, string name, Bvec3 vector);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfShader_setBvec4Uniform(IntPtr shader, string name, Glsl.Bvec4 vector);
+    private static extern void sfShader_setBvec4Uniform(IntPtr shader, string name, Bvec4 vector);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfShader_setMat3Uniform(IntPtr shader, string name, Glsl.Mat3 matrix);
+    private static extern void sfShader_setMat3Uniform(IntPtr shader, string name, Mat3 matrix);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern void sfShader_setMat4Uniform(IntPtr shader, string name, Glsl.Mat4 matrix);
+    private static extern void sfShader_setMat4Uniform(IntPtr shader, string name, Mat4 matrix);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
     private static extern void sfShader_setTextureUniform(IntPtr shader, string name, IntPtr texture);
@@ -588,19 +589,19 @@ public class Shader : ObjectBase
     private static extern unsafe void sfShader_setFloatUniformArray(IntPtr shader, string name, float* data, UIntPtr length);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern unsafe void sfShader_setVec2UniformArray(IntPtr shader, string name, Glsl.Vec2* data, UIntPtr length);
+    private static extern unsafe void sfShader_setVec2UniformArray(IntPtr shader, string name, Vec2* data, UIntPtr length);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern unsafe void sfShader_setVec3UniformArray(IntPtr shader, string name, Glsl.Vec3* data, UIntPtr length);
+    private static extern unsafe void sfShader_setVec3UniformArray(IntPtr shader, string name, Vec3* data, UIntPtr length);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern unsafe void sfShader_setVec4UniformArray(IntPtr shader, string name, Glsl.Vec4* data, UIntPtr length);
+    private static extern unsafe void sfShader_setVec4UniformArray(IntPtr shader, string name, Vec4* data, UIntPtr length);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern unsafe void sfShader_setMat3UniformArray(IntPtr shader, string name, Glsl.Mat3* data, UIntPtr length);
+    private static extern unsafe void sfShader_setMat3UniformArray(IntPtr shader, string name, Mat3* data, UIntPtr length);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
-    private static extern unsafe void sfShader_setMat4UniformArray(IntPtr shader, string name, Glsl.Mat4* data, UIntPtr length);
+    private static extern unsafe void sfShader_setMat4UniformArray(IntPtr shader, string name, Mat4* data, UIntPtr length);
 
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
     private static extern uint sfShader_getNativeHandle(IntPtr shader);

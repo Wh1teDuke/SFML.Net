@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace SFML.Window;
+namespace Gaiden.SFML.Window;
 
 ////////////////////////////////////////////////////////////
 /// <summary>

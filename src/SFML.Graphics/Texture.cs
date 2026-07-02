@@ -1,9 +1,10 @@
 using System.Runtime.InteropServices;
 using System.Security;
+using Gaiden.SFML.Window;
 using SFML.System;
-using SFML.Window;
+using LoadingFailedException = Gaiden.SFML.Window.LoadingFailedException;
 
-namespace SFML.Graphics;
+namespace Gaiden.SFML.Graphics;
 
 ////////////////////////////////////////////////////////////
 /// <summary>
@@ -321,7 +322,7 @@ public class Texture : ObjectBase
     /// </summary>
     /// <param name="window">Window to copy to the texture</param>
     ////////////////////////////////////////////////////////////
-    public void Update(SFML.Window.Window window) => Update(window, new Vector2u());
+    public void Update(global::Gaiden.SFML.Window.Window window) => Update(window, new Vector2u());
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -330,7 +331,7 @@ public class Texture : ObjectBase
     /// <param name="window">Window to copy to the texture</param>
     /// <param name="dest">Coordinates of the destination position</param>
     ////////////////////////////////////////////////////////////
-    public void Update(SFML.Window.Window window, Vector2u dest) => sfTexture_updateFromWindow(CPointer, window.CPointer, dest);
+    public void Update(global::Gaiden.SFML.Window.Window window, Vector2u dest) => sfTexture_updateFromWindow(CPointer, window.CPointer, dest);
 
     ////////////////////////////////////////////////////////////
     /// <summary>

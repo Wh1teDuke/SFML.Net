@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.InteropServices;
 
 namespace SFML.System;
@@ -83,7 +84,7 @@ public struct Vector2f : IEquatable<Vector2f>
     /// The result has a sign and lies in the range [-180, 180) degrees.
     /// </returns>
     ////////////////////////////////////////////////////////////
-    public readonly Angle AngleTo(Vector2f rhs) => SFML.System.Angle.FromRadians((float)Math.Atan2(Cross(rhs), Dot(rhs)));
+    public readonly Angle AngleTo(Vector2f rhs) => System.Angle.FromRadians((float)Math.Atan2(Cross(rhs), Dot(rhs)));
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -95,7 +96,7 @@ public struct Vector2f : IEquatable<Vector2f>
     /// </summary>
     /// <returns>Angle in the range [-180, 180) degrees</returns>
     ////////////////////////////////////////////////////////////
-    public readonly Angle Angle() => SFML.System.Angle.FromRadians((float)Math.Atan2(Y, X));
+    public readonly Angle Angle() => System.Angle.FromRadians((float)Math.Atan2(Y, X));
 
     ////////////////////////////////////////////////////////////
     /// <summary>

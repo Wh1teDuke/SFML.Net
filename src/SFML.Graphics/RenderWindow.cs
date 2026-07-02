@@ -1,10 +1,10 @@
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
+using Gaiden.SFML.Window;
 using SFML.System;
-using SFML.Window;
 
-namespace SFML.Graphics;
+namespace Gaiden.SFML.Graphics;
 
 ////////////////////////////////////////////////////////////
 /// <summary>

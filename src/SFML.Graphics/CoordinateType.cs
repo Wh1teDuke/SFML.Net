@@ -1,4 +1,4 @@
-namespace SFML.Graphics;
+namespace Gaiden.SFML.Graphics;
 
 /// <summary>
 /// Types of texture coordinates that can be used for rendering.

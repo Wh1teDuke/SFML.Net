@@ -1,8 +1,8 @@
-using SFML.System;
 using System.Runtime.InteropServices;
 using System.Security;
+using SFML.System;
 
-namespace SFML.Window;
+namespace Gaiden.SFML.Window;
 
 ////////////////////////////////////////////////////////////
 /// <summary>
