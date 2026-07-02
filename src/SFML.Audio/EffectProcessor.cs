@@ -1,6 +1,5 @@
 
 using System.Runtime.InteropServices;
-using System;
 
 namespace SFML.Audio;
 

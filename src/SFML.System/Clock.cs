@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.InteropServices;
 using System.Security;
 
@@ -14,7 +13,7 @@ public class Clock : ObjectBase
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Default Constructor
-    /// 
+    ///
     /// The clock starts automatically after being constructed.
     /// </summary>
     ////////////////////////////////////////////////////////////
@@ -69,7 +68,7 @@ public class Clock : ObjectBase
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Reset the clock
-    /// 
+    ///
     /// This function puts the time counter back to zero, returns
     /// the elapsed time, and leaves the clock in a paused state.
     /// </summary>
