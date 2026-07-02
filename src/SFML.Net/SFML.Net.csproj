@@ -3,7 +3,7 @@
   <Import Project="..\..\SFML.NuGet.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <PackageId>SFML.Net</PackageId>
     <Description>
       A simple, fast, cross-platform and object-oriented multimedia API. It provides access to windowing, graphics, audio and network.
