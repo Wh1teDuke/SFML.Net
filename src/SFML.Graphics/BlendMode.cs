@@ -160,7 +160,7 @@ public struct BlendMode : IEquatable<BlendMode>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and blend mode are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object? obj) => obj is BlendMode mode && Equals(mode);
+    public readonly override bool Equals(object? obj) => obj is BlendMode mode && Equals(mode);
 
     ///////////////////////////////////////////////////////////
     /// <summary>
@@ -182,7 +182,7 @@ public struct BlendMode : IEquatable<BlendMode>
     /// </summary>
     /// <returns>Integer description of the object</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly int GetHashCode() => ColorSrcFactor.GetHashCode() ^
+    public readonly override int GetHashCode() => ColorSrcFactor.GetHashCode() ^
                                                   ColorDstFactor.GetHashCode() ^
                                                   ColorEquation.GetHashCode() ^
                                                   AlphaSrcFactor.GetHashCode() ^

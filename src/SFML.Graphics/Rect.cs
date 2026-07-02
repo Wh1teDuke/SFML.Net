@@ -123,7 +123,7 @@ public struct IntRect : IEquatable<IntRect>
     /// </summary>
     /// <returns>String description of the object</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly string ToString() => $"[IntRect] Position({Left}, {Top}) Size({Width}, {Height})";
+    public readonly override string ToString() => $"[IntRect] Position({Left}, {Top}) Size({Width}, {Height})";
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -132,7 +132,7 @@ public struct IntRect : IEquatable<IntRect>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and rectangle are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object? obj) => obj is IntRect rect && Equals(rect);
+    public readonly override bool Equals(object? obj) => obj is IntRect rect && Equals(rect);
 
     ///////////////////////////////////////////////////////////
     /// <summary>
@@ -152,7 +152,7 @@ public struct IntRect : IEquatable<IntRect>
     /// </summary>
     /// <returns>Integer description of the object</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly int GetHashCode() => unchecked((int)((uint)Left ^
+    public readonly override int GetHashCode() => unchecked((int)((uint)Left ^
                                                                   (((uint)Top << 13) | ((uint)Top >> 19)) ^
                                                                   (((uint)Width << 26) | ((uint)Width >> 6)) ^
                                                                   (((uint)Height << 7) | ((uint)Height >> 25))));
@@ -332,7 +332,7 @@ public struct FloatRect : IEquatable<FloatRect>
     /// </summary>
     /// <returns>String description of the object</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly string ToString() => $"[FloatRect] Position({Left}, {Top})  Size({Width}, {Height})";
+    public readonly override string ToString() => $"[FloatRect] Position({Left}, {Top})  Size({Width}, {Height})";
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -341,7 +341,7 @@ public struct FloatRect : IEquatable<FloatRect>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and rectangle are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object? obj) => obj is FloatRect rect && Equals(rect);
+    public readonly override bool Equals(object? obj) => obj is FloatRect rect && Equals(rect);
 
     ///////////////////////////////////////////////////////////
     /// <summary>
@@ -360,7 +360,7 @@ public struct FloatRect : IEquatable<FloatRect>
     /// </summary>
     /// <returns>Integer description of the object</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly int GetHashCode() => unchecked((int)((uint)Left ^
+    public readonly override int GetHashCode() => unchecked((int)((uint)Left ^
                                                                   (((uint)Top << 13) | ((uint)Top >> 19)) ^
                                                                   (((uint)Width << 26) | ((uint)Width >> 6)) ^
                                                                   (((uint)Height << 7) | ((uint)Height >> 25))));

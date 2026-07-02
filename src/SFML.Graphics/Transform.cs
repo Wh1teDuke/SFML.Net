@@ -217,7 +217,7 @@ public partial struct Transform
     /// </summary>
     /// <returns>String description of the object</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly string ToString() => string.Format("[Transform]" +
+    public readonly override string ToString() => string.Format("[Transform]" +
                                                                 " Matrix(" +
                                                                 "{0}, {1}, {2}," +
                                                                 "{3}, {4}, {5}," +
