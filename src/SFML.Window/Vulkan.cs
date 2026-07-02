@@ -49,7 +49,7 @@ public static class Vulkan
 
             for (var i = 0; i < (int)count; ++i)
             {
-                extensions[i] = Marshal.PtrToStringAnsi(extensionsPtr[i]);
+                extensions[i] = Marshal.PtrToStringAnsi(extensionsPtr[i])!;
             }
 
             return extensions;

@@ -149,7 +149,7 @@ public struct Transform
     /// <param name="obj">Object to check</param>
     /// <returns>Object and transform are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override bool Equals(object obj) => obj is Transform transform && Equals(transform);
+    public override bool Equals(object? obj) => obj is Transform transform && Equals(transform);
 
     ////////////////////////////////////////////////////////////
     /// <summary>

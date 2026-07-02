@@ -6,7 +6,14 @@
   <Import Project="SFML.CodeStyle.props" />
 
   <PropertyGroup>
-    <LangVersion>12</LangVersion>
+    <IsAotCompatible>true</IsAotCompatible>
+    <IsTrimmable>true</IsTrimmable>
+    <VerifyReferenceTrimCompatibility>true</VerifyReferenceTrimCompatibility>
+    <OutputType>Library</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>Nullable</WarningsAsErrors>
+    <InvariantGlobalization>true</InvariantGlobalization>
 
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

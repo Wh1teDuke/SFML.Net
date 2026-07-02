@@ -161,7 +161,7 @@ public struct BlendMode : IEquatable<BlendMode>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and blend mode are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object obj) => obj is BlendMode mode && Equals(mode);
+    public override readonly bool Equals(object? obj) => obj is BlendMode mode && Equals(mode);
 
     ///////////////////////////////////////////////////////////
     /// <summary>

@@ -94,7 +94,7 @@ public struct VideoMode
     /// <param name="obj">Object to check</param>
     /// <returns>Object and video mode are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object obj) => obj is VideoMode mode && Equals(mode);
+    public override readonly bool Equals(object? obj) => obj is VideoMode mode && Equals(mode);
 
     ///////////////////////////////////////////////////////////
     /// <summary>

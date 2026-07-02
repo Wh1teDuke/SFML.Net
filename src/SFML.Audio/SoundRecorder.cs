@@ -205,7 +205,7 @@ public abstract class SoundRecorder : ObjectBase
                 var devices = new string[(int)count];
                 for (var i = 0; i < (int)count; ++i)
                 {
-                    devices[i] = Marshal.PtrToStringAnsi(devicesPtr[i]);
+                    devices[i] = Marshal.PtrToStringAnsi(devicesPtr[i])!;
                 }
 
                 return devices;
@@ -218,7 +218,7 @@ public abstract class SoundRecorder : ObjectBase
     /// Get the name of the default audio capture device
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public static string DefaultDevice => Marshal.PtrToStringAnsi(sfSoundRecorder_getDefaultDevice());
+    public static string DefaultDevice => Marshal.PtrToStringAnsi(sfSoundRecorder_getDefaultDevice())!;
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -235,7 +235,7 @@ public abstract class SoundRecorder : ObjectBase
     /// </summary>
     /// <returns>The name of the current audio capture device</returns>
     ////////////////////////////////////////////////////////////
-    public string GetDevice() => Marshal.PtrToStringAnsi(sfSoundRecorder_getDevice(CPointer));
+    public string GetDevice() => Marshal.PtrToStringAnsi(sfSoundRecorder_getDevice(CPointer))!;
 
     ////////////////////////////////////////////////////////////
     /// <summary>

@@ -200,7 +200,7 @@ public struct Vector3f : IEquatable<Vector3f>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and vector are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object obj) => (obj is Vector3f vec) && Equals(vec);
+    public override readonly bool Equals(object? obj) => (obj is Vector3f vec) && Equals(vec);
 
     ///////////////////////////////////////////////////////////
     /// <summary>

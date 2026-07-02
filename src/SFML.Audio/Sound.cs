@@ -452,8 +452,8 @@ public class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     protected override void Destroy(bool disposing) => sfSound_destroy(CPointer);
 
-    private SoundBuffer _buffer;
-    private EffectProcessorInternal _effectProcessor;
+    private SoundBuffer _buffer = null!;
+    private EffectProcessorInternal? _effectProcessor;
 
     #region Imports
     [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]

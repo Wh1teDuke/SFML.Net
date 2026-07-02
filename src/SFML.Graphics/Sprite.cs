@@ -165,7 +165,7 @@ public class Sprite : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     protected override void Destroy(bool disposing) => sfSprite_destroy(CPointer);
 
-    private Texture _texture;
+    private Texture _texture = null!;
 
     #region Imports
 

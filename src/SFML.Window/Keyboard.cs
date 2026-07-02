@@ -15,7 +15,7 @@ public static class Keyboard
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Key codes
-    /// 
+    ///
     /// The enumerators refer to the "localized" key; i.e. depending
     /// on the layout set by the operating system, a key can be mapped
     /// to `Y` or `Z`.
@@ -239,7 +239,7 @@ public static class Keyboard
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Scancodes
-    /// 
+    ///
     /// The enumerators are bound to a physical key and do not depend on
     /// the keyboard layout used by the operating system. Usually, the AT-101
     /// keyboard can be used as reference for the physical position of the keys.
@@ -630,7 +630,7 @@ public static class Keyboard
         var description = Marshal.PtrToStringAnsi(ptr);
         Allocation.Free(ptr);
 
-        return description;
+        return description!;
     }
 
     ////////////////////////////////////////////////////////////

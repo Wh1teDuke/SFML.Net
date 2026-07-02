@@ -76,7 +76,7 @@ public struct RenderStates
     /// <param name="texture">Texture to use</param>
     /// <param name="shader">Shader to use</param>
     ////////////////////////////////////////////////////////////
-    public RenderStates(BlendMode blendMode, StencilMode stencilMode, Transform transform, CoordinateType coordinateType, Texture texture, Shader shader)
+    public RenderStates(BlendMode blendMode, StencilMode stencilMode, Transform transform, CoordinateType coordinateType, Texture? texture, Shader? shader)
     {
         BlendMode = blendMode;
         StencilMode = stencilMode;
@@ -120,10 +120,10 @@ public struct RenderStates
     public CoordinateType CoordinateType;
 
     /// <summary>Texture</summary>
-    public Texture Texture;
+    public Texture? Texture;
 
     /// <summary>Shader</summary>
-    public Shader Shader;
+    public Shader? Shader;
 
     // Return a marshaled version of the instance, that can directly be passed to the C API
     internal MarshalData Marshal()

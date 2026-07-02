@@ -208,7 +208,7 @@ public class Font : ObjectBase
         var data = sfFont_getInfo(CPointer);
         var info = new Info
         {
-            Family = Marshal.PtrToStringAnsi(data.Family)
+            Family = Marshal.PtrToStringAnsi(data.Family)!
         };
 
         return info;
@@ -282,7 +282,7 @@ public class Font : ObjectBase
     }
 
     private readonly Dictionary<uint, Texture> _textures = [];
-    private readonly StreamAdaptor _myStream;
+    private readonly StreamAdaptor? _myStream;
     private GCHandle _myBytesPin;
 
     #region Imports

@@ -39,7 +39,7 @@ public static class Touch
     /// <param name="relativeTo">Reference window</param>
     /// <returns>Current position of the finger</returns>
     ////////////////////////////////////////////////////////////
-    public static Vector2i GetPosition(uint finger, WindowBase relativeTo)
+    public static Vector2i GetPosition(uint finger, WindowBase? relativeTo)
     {
         if (relativeTo != null)
         {

@@ -94,5 +94,5 @@ public class ConvexShape : Shape
         Update();
     }
 
-    private Vector2f[] _points;
+    private Vector2f[] _points = null!;
 }

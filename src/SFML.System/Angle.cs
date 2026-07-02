@@ -293,7 +293,7 @@ public readonly struct Angle : IEquatable<Angle>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and angle are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override bool Equals(object obj) => (obj is Angle angle) && Equals(angle);
+    public override bool Equals(object? obj) => (obj is Angle angle) && Equals(angle);
 
     ///////////////////////////////////////////////////////////
     /// <summary>

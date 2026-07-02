@@ -553,10 +553,10 @@ public abstract class SoundStream : ObjectBase
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate void SeekCallbackType(Time timeOffset, IntPtr userData);
 
-    private GetDataCallbackType _getDataCallback;
-    private SeekCallbackType _seekCallback;
-    private EffectProcessorInternal _effectProcessor;
-    private short[] _tempBuffer;
+    private GetDataCallbackType? _getDataCallback;
+    private SeekCallbackType? _seekCallback;
+    private EffectProcessorInternal? _effectProcessor;
+    private short[]? _tempBuffer;
 
     #region Imports
     [DllImport(CSFML.Audio, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]

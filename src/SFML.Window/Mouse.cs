@@ -84,7 +84,7 @@ public static class Mouse
     /// <param name="relativeTo">Reference window</param>
     /// <returns>Current position of the mouse</returns>
     ////////////////////////////////////////////////////////////
-    public static Vector2i GetPosition(WindowBase relativeTo)
+    public static Vector2i GetPosition(WindowBase? relativeTo)
     {
         if (relativeTo != null)
         {
@@ -115,7 +115,7 @@ public static class Mouse
     /// <param name="position">New position of the mouse</param>
     /// <param name="relativeTo">Reference window</param>
     ////////////////////////////////////////////////////////////
-    public static void SetPosition(Vector2i position, WindowBase relativeTo)
+    public static void SetPosition(Vector2i position, WindowBase? relativeTo)
     {
         if (relativeTo != null)
         {

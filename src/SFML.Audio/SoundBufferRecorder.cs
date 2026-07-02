@@ -20,7 +20,7 @@ public class SoundBufferRecorder : SoundRecorder
     /// to make any modifications to it.
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public SoundBuffer SoundBuffer { get; private set; }
+    public SoundBuffer? SoundBuffer { get; private set; }
 
     ////////////////////////////////////////////////////////////
     /// <summary>

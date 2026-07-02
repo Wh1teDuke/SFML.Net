@@ -745,7 +745,7 @@ public class RenderWindow : Window.Window, IRenderTarget
             _defaultView.Dispose();
         }
 
-        _defaultView = null;
+        _defaultView = null!;
     }
 
     ////////////////////////////////////////////////////////////
@@ -759,7 +759,7 @@ public class RenderWindow : Window.Window, IRenderTarget
         GC.SuppressFinalize(_defaultView);
     }
 
-    private View _defaultView;
+    private View _defaultView = null!;
 
     #region Imports
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]

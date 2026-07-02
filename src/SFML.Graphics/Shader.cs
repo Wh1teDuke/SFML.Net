@@ -77,12 +77,12 @@ public class Shader : ObjectBase
     /// <param name="fragmentShaderStream">Source stream to read the fragment shader from, or null to skip this shader</param>
     /// <exception cref="LoadingFailedException" />
     ////////////////////////////////////////////////////////////
-    public Shader(Stream vertexShaderStream, Stream geometryShaderStream, Stream fragmentShaderStream) :
+    public Shader(Stream? vertexShaderStream, Stream? geometryShaderStream, Stream? fragmentShaderStream) :
         base(IntPtr.Zero)
     {
         // using these funky conditional operators because StreamAdaptor doesn't have some method for dealing with
         // its constructor argument being null
-        using (StreamAdaptor vertexAdaptor = vertexShaderStream != null ? new StreamAdaptor(vertexShaderStream) : null,
+        using (StreamAdaptor? vertexAdaptor = vertexShaderStream != null ? new StreamAdaptor(vertexShaderStream) : null,
                              geometryAdaptor = geometryShaderStream != null ? new StreamAdaptor(geometryShaderStream) : null,
                              fragmentAdaptor = fragmentShaderStream != null ? new StreamAdaptor(fragmentShaderStream) : null)
         {

@@ -554,73 +554,73 @@ public class WindowBase : ObjectBase
     }
 
     /// <summary>Event handler for the Closed event</summary>
-    public event EventHandler Closed;
+    public event EventHandler? Closed;
 
     /// <summary>Event handler for the Resized event</summary>
-    public event EventHandler<SizeEventArgs> Resized;
+    public event EventHandler<SizeEventArgs>? Resized;
 
     /// <summary>Event handler for the LostFocus event</summary>
-    public event EventHandler LostFocus;
+    public event EventHandler? LostFocus;
 
     /// <summary>Event handler for the GainedFocus event</summary>
-    public event EventHandler GainedFocus;
+    public event EventHandler? GainedFocus;
 
     /// <summary>Event handler for the TextEntered event</summary>
-    public event EventHandler<TextEventArgs> TextEntered;
+    public event EventHandler<TextEventArgs>? TextEntered;
 
     /// <summary>Event handler for the KeyPressed event</summary>
-    public event EventHandler<KeyEventArgs> KeyPressed;
+    public event EventHandler<KeyEventArgs>? KeyPressed;
 
     /// <summary>Event handler for the KeyReleased event</summary>
-    public event EventHandler<KeyEventArgs> KeyReleased;
+    public event EventHandler<KeyEventArgs>? KeyReleased;
 
     /// <summary>Event handler for the MouseWheelScrolled event</summary>
-    public event EventHandler<MouseWheelScrollEventArgs> MouseWheelScrolled;
+    public event EventHandler<MouseWheelScrollEventArgs>? MouseWheelScrolled;
 
     /// <summary>Event handler for the MouseButtonPressed event</summary>
-    public event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
+    public event EventHandler<MouseButtonEventArgs>? MouseButtonPressed;
 
     /// <summary>Event handler for the MouseButtonReleased event</summary>
-    public event EventHandler<MouseButtonEventArgs> MouseButtonReleased;
+    public event EventHandler<MouseButtonEventArgs>? MouseButtonReleased;
 
     /// <summary>Event handler for the MouseMoved event</summary>
-    public event EventHandler<MouseMoveEventArgs> MouseMoved;
+    public event EventHandler<MouseMoveEventArgs>? MouseMoved;
 
     /// <summary>Event handler for the MouseMovedRaw event</summary>
-    public event EventHandler<MouseMoveRawEventArgs> MouseMovedRaw;
+    public event EventHandler<MouseMoveRawEventArgs>? MouseMovedRaw;
 
     /// <summary>Event handler for the MouseEntered event</summary>
-    public event EventHandler MouseEntered;
+    public event EventHandler? MouseEntered;
 
     /// <summary>Event handler for the MouseLeft event</summary>
-    public event EventHandler MouseLeft;
+    public event EventHandler? MouseLeft;
 
     /// <summary>Event handler for the JoystickButtonPressed event</summary>
-    public event EventHandler<JoystickButtonEventArgs> JoystickButtonPressed;
+    public event EventHandler<JoystickButtonEventArgs>? JoystickButtonPressed;
 
     /// <summary>Event handler for the JoystickButtonReleased event</summary>
-    public event EventHandler<JoystickButtonEventArgs> JoystickButtonReleased;
+    public event EventHandler<JoystickButtonEventArgs>? JoystickButtonReleased;
 
     /// <summary>Event handler for the JoystickMoved event</summary>
-    public event EventHandler<JoystickMoveEventArgs> JoystickMoved;
+    public event EventHandler<JoystickMoveEventArgs>? JoystickMoved;
 
     /// <summary>Event handler for the JoystickConnected event</summary>
-    public event EventHandler<JoystickConnectEventArgs> JoystickConnected;
+    public event EventHandler<JoystickConnectEventArgs>? JoystickConnected;
 
     /// <summary>Event handler for the JoystickDisconnected event</summary>
-    public event EventHandler<JoystickConnectEventArgs> JoystickDisconnected;
+    public event EventHandler<JoystickConnectEventArgs>? JoystickDisconnected;
 
     /// <summary>Event handler for the TouchBegan event</summary>
-    public event EventHandler<TouchEventArgs> TouchBegan;
+    public event EventHandler<TouchEventArgs>? TouchBegan;
 
     /// <summary>Event handler for the TouchMoved event</summary>
-    public event EventHandler<TouchEventArgs> TouchMoved;
+    public event EventHandler<TouchEventArgs>? TouchMoved;
 
     /// <summary>Event handler for the TouchEnded event</summary>
-    public event EventHandler<TouchEventArgs> TouchEnded;
+    public event EventHandler<TouchEventArgs>? TouchEnded;
 
     /// <summary>Event handler for the SensorChanged event</summary>
-    public event EventHandler<SensorEventArgs> SensorChanged;
+    public event EventHandler<SensorEventArgs>? SensorChanged;
 
     #region Imports
     [DllImport(CSFML.Window, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]

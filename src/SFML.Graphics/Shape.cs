@@ -235,7 +235,7 @@ public abstract class Shape : Transformable, IDrawable
     private readonly GetPointCountCallbackType _getPointCountCallback;
     private readonly GetPointCallbackType _getPointCallback;
 
-    private Texture _texture;
+    private Texture _texture = null!;
 
     #region Imports
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]

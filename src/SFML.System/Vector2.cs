@@ -300,7 +300,7 @@ public struct Vector2f : IEquatable<Vector2f>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and vector are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object obj) => obj is Vector2f vec && Equals(vec);
+    public override readonly bool Equals(object? obj) => obj is Vector2f vec && Equals(vec);
 
     ///////////////////////////////////////////////////////////
     /// <summary>
@@ -553,7 +553,7 @@ public struct Vector2i : IEquatable<Vector2i>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and vector are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object obj) => obj is Vector2i vec && Equals(vec);
+    public override readonly bool Equals(object? obj) => obj is Vector2i vec && Equals(vec);
 
     ///////////////////////////////////////////////////////////
     /// <summary>
@@ -786,7 +786,7 @@ public struct Vector2u : IEquatable<Vector2u>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and vector are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object obj) => obj is Vector2u vec && Equals(vec);
+    public override readonly bool Equals(object? obj) => obj is Vector2u vec && Equals(vec);
 
     ///////////////////////////////////////////////////////////
     /// <summary>

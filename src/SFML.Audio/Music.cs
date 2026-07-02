@@ -563,9 +563,9 @@ public class Music : ObjectBase
         sfMusic_destroy(CPointer);
     }
 
-    private readonly StreamAdaptor _stream;
+    private readonly StreamAdaptor? _stream;
     private GCHandle _bytesPin;
-    private EffectProcessorInternal _effectProcessor;
+    private EffectProcessorInternal? _effectProcessor;
 
     /// <summary>
     /// Structure defining a Time range.

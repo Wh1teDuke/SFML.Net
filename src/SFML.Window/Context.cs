@@ -86,7 +86,7 @@ public class Context : CriticalFinalizerObject
     ////////////////////////////////////////////////////////////
     public override string ToString() => "[Context]";
 
-    private static Context _globalContext;
+    private static Context? _globalContext;
 
     private readonly IntPtr _this = IntPtr.Zero;
 

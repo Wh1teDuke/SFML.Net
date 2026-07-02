@@ -119,7 +119,7 @@ public readonly struct Time : IEquatable<Time>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and time are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override bool Equals(object obj) => (obj is Time time) && Equals(time);
+    public override bool Equals(object? obj) => (obj is Time time) && Equals(time);
 
     ///////////////////////////////////////////////////////////
     /// <summary>

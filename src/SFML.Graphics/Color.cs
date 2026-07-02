@@ -101,7 +101,7 @@ public struct Color : IEquatable<Color>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and color are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object obj) => obj is Color color && Equals(color);
+    public override readonly bool Equals(object? obj) => obj is Color color && Equals(color);
 
     ///////////////////////////////////////////////////////////
     /// <summary>

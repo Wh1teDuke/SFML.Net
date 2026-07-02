@@ -133,7 +133,7 @@ public struct IntRect : IEquatable<IntRect>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and rectangle are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object obj) => obj is IntRect rect && Equals(rect);
+    public override readonly bool Equals(object? obj) => obj is IntRect rect && Equals(rect);
 
     ///////////////////////////////////////////////////////////
     /// <summary>
@@ -342,7 +342,7 @@ public struct FloatRect : IEquatable<FloatRect>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and rectangle are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object obj) => obj is FloatRect rect && Equals(rect);
+    public override readonly bool Equals(object? obj) => obj is FloatRect rect && Equals(rect);
 
     ///////////////////////////////////////////////////////////
     /// <summary>

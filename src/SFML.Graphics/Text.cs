@@ -198,7 +198,7 @@ public class Text : Transformable, IDrawable
     /// <see cref="SFML.Graphics.Font"/> used to display the text
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public Font Font
+    public Font? Font
     {
         get => _font;
         set { _font = value; sfText_setFont(CPointer, value?.CPointer ?? IntPtr.Zero); }
@@ -342,7 +342,7 @@ public class Text : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     protected override void Destroy(bool disposing) => sfText_destroy(CPointer);
 
-    private Font _font;
+    private Font? _font;
 
     #region Imports
     [DllImport(CSFML.Graphics, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]

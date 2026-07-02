@@ -128,7 +128,7 @@ public static class Joystick
         var identification = sfJoystick_getIdentification(joystick);
         var retIdentification = new Identification
         {
-            Name = Marshal.PtrToStringAnsi(identification.Name),
+            Name = Marshal.PtrToStringAnsi(identification.Name)!,
             VendorId = identification.VendorId,
             ProductId = identification.ProductId
         };
