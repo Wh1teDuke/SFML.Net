@@ -276,19 +276,23 @@ public partial class Image : ObjectBase
 
     ////////////////////////////////////////////////////////////
     /// <summary>
-    /// Get a copy of the array of pixels (RGBA 8 bits integers components)
+    /// Get a copy of the array of pixels (RGBA 8 bits integers components) into the provided span
     /// Array size is Width x Height x 4
     /// </summary>
-    /// <returns>Array of pixels</returns>
     ////////////////////////////////////////////////////////////
-    public byte[] Pixels
+    public void GetPixels(Span<byte> pixels)
     {
-        get
-        {
-            var size = Size;
-            var pixelsPtr = new byte[size.X * size.Y * 4];
-            Marshal.Copy(sfImage_getPixelsPtr(CPointer), pixelsPtr, 0, pixelsPtr.Length);
-            return pixelsPtr;
+        var size = Size;
+        var len = (int)(size.X * size.Y * 4);
+    
+        if (len < pixels.Length)
+            throw new ArgumentOutOfRangeException(nameof(pixels));
+
+        unsafe
+        {        
+            var ptr = sfImage_getPixelsPtr(CPointer);
+            var nativeSpan = new ReadOnlySpan<byte>((void*)ptr, len);
+            nativeSpan.CopyTo(pixels);
         }
     }
 
