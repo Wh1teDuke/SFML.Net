@@ -18,11 +18,11 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          - { name: Linux x64, os: ubuntu-24.04 }
-          - { name: Linux arm64, os: ubuntu-24.04-arm }
-          - { name: Windows x64, os: windows-2025 }
-          - { name: Windows arm64, os: windows-11-arm }
-          - { name: macOS, os: macos-15 }
+          - { name: Linux x64, os: ubuntu-latest }
+          - { name: Linux arm64, os: ubuntu-latest-arm64 }
+          - { name: Windows x64, os: windows-latest }
+          - { name: Windows arm64, os: windows-2025-arm64 }
+          - { name: macOS, os: macos-latest }
         dotnet:
           - { name: .NET 10, version: "10.0.x" }
 
