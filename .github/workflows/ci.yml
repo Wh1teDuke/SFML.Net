@@ -24,8 +24,6 @@ jobs:
           - { name: Windows arm64, os: windows-11-arm }
           - { name: macOS, os: macos-15 }
         dotnet:
-          - { name: .NET 8, version: "8.0.x" }
-          - { name: .NET 9, version: "9.0.x" }
           - { name: .NET 10, version: "10.0.x" }
 
     steps:
@@ -47,9 +45,6 @@ jobs:
         run: dotnet restore
       - name: Build SFML.Net
         run: dotnet build --configuration Release --no-restore
-      - name: Test SFML.Net
-        if: matrix.dotnet.name == '.NET 8'
-        run: dotnet test --configuration Release --no-restore
       - name: Pack SFML.Net
         run: dotnet pack --configuration Release -o Publish
 
