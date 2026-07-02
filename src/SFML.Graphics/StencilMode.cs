@@ -178,7 +178,7 @@ public struct StencilMode
     /// <param name="obj">Object to check</param>
     /// <returns>Object and stencil mode are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object? obj) => obj is StencilMode mode && Equals(mode);
+    public readonly override bool Equals(object? obj) => obj is StencilMode mode && Equals(mode);
 
     ///////////////////////////////////////////////////////////
     /// <summary>

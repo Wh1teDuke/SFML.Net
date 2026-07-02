@@ -76,7 +76,7 @@ public struct Color : IEquatable<Color>
     /// </summary>
     /// <returns>String description of the object</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly string ToString() => $"[Color] R({R}) G({G}) B({B}) A({A})";
+    public readonly override string ToString() => $"[Color] R({R}) G({G}) B({B}) A({A})";
 
     /// <summary>
     /// Deconstructs a Color into a tuple of bytes
@@ -100,7 +100,7 @@ public struct Color : IEquatable<Color>
     /// <param name="obj">Object to check</param>
     /// <returns>Object and color are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object? obj) => obj is Color color && Equals(color);
+    public readonly override bool Equals(object? obj) => obj is Color color && Equals(color);
 
     ///////////////////////////////////////////////////////////
     /// <summary>
@@ -117,7 +117,7 @@ public struct Color : IEquatable<Color>
     /// </summary>
     /// <returns>Integer description of the object</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly int GetHashCode() => (R << 24) | (G << 16) | (B << 8) | A;
+    public readonly override int GetHashCode() => (R << 24) | (G << 16) | (B << 8) | A;
 
     ////////////////////////////////////////////////////////////
     /// <summary>

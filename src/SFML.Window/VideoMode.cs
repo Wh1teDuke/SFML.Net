@@ -83,7 +83,7 @@ public partial struct VideoMode
     /// </summary>
     /// <returns>String description of the object</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly string ToString() => "[VideoMode]" +
+    public readonly override string ToString() => "[VideoMode]" +
                                                   $" Size({Size})" +
                                                   $" BitsPerPixel({BitsPerPixel})";
 
@@ -94,7 +94,7 @@ public partial struct VideoMode
     /// <param name="obj">Object to check</param>
     /// <returns>Object and video mode are equal</returns>
     ////////////////////////////////////////////////////////////
-    public override readonly bool Equals(object? obj) => obj is VideoMode mode && Equals(mode);
+    public readonly override bool Equals(object? obj) => obj is VideoMode mode && Equals(mode);
 
     ///////////////////////////////////////////////////////////
     /// <summary>
