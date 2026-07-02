@@ -46,12 +46,14 @@ jobs:
       - name: Build SFML.Net
         run: dotnet build --configuration Release --no-restore
       - name: Pack SFML.Net
-        run: dotnet pack --configuration Release -o Publish
+        if: matrix.platform.name == 'Linux x64'
+        run: dotnet pack --configuration Release --no-build -o Publish
 
       - name: Upload Artifact
+        if: matrix.platform.name == 'Linux x64'
         uses: actions/upload-artifact@v6
         with:
-          name: SFML.Net (${{ matrix.platform.name }} ${{ matrix.dotnet.name }})
+          name: SFML.Net-nupkgs
           path: Publish/*.nupkg
 
   publish:
@@ -62,15 +64,13 @@ jobs:
     permissions:
       contents: read
       id-token: write
-      packages: write
 
     steps:
       - name: Download packed nupkgs
         uses: actions/download-artifact@v6
         with:
-          pattern: "SFML.Net (*)"
+          name: SFML.Net-nupkgs
           path: Publish
-          merge-multiple: true
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
@@ -81,4 +81,4 @@ jobs:
         with:
           user: ${{ secrets.NUGET_USER }}
       - name: Push to NuGet
-        run: dotnet nuget push "Publish/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push "Publish/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
