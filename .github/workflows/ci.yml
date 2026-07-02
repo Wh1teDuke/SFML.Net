@@ -57,7 +57,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: SFML.Net (${{ matrix.platform.name }} ${{ matrix.dotnet.name }})
-          path: Publish/SFML.*.*.nupkg
+          path: Publish/*.nupkg
 
   publish:
     needs:
