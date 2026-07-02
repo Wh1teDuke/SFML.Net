@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Audio;
@@ -10,7 +8,7 @@ namespace Gaiden.SFML.Audio;
 /// Base class intended for capturing sound data
 /// </summary>
 ////////////////////////////////////////////////////////////
-public abstract partial class SoundRecorder : ObjectBase
+public abstract class SoundRecorder : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -24,7 +22,7 @@ public abstract partial class SoundRecorder : ObjectBase
         _processCallback = new ProcessCallback(ProcessSamples);
         _stopCallback = new StopCallback(StopRecording);
 
-        CPointer = sfSoundRecorder_create(_startCallback, _processCallback, _stopCallback, IntPtr.Zero);
+        CPointer = CSFMLAudio.sfSoundRecorder_create(_startCallback, _processCallback, _stopCallback, IntPtr.Zero);
     }
 
     ////////////////////////////////////////////////////////////
@@ -50,14 +48,14 @@ public abstract partial class SoundRecorder : ObjectBase
     /// </summary>
     /// <param name="sampleRate"> Sound frequency; the more samples, the higher the quality (44100 by default = CD quality)</param>
     ////////////////////////////////////////////////////////////
-    public bool Start(uint sampleRate) => sfSoundRecorder_start(CPointer, sampleRate);
+    public bool Start(uint sampleRate) => CSFMLAudio.sfSoundRecorder_start(CPointer, sampleRate);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Stop the capture
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public void Stop() => sfSoundRecorder_stop(CPointer);
+    public void Stop() => CSFMLAudio.sfSoundRecorder_stop(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -70,7 +68,7 @@ public abstract partial class SoundRecorder : ObjectBase
     /// (for example, 44100 samples/sec is CD quality).
     /// </remarks>
     ////////////////////////////////////////////////////////////
-    public uint SampleRate => sfSoundRecorder_getSampleRate(CPointer);
+    public uint SampleRate => CSFMLAudio.sfSoundRecorder_getSampleRate(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -85,8 +83,8 @@ public abstract partial class SoundRecorder : ObjectBase
     ////////////////////////////////////////////////////////////
     public uint ChannelCount
     {
-        get => sfSoundRecorder_getChannelCount(CPointer);
-        set => sfSoundRecorder_setChannelCount(CPointer, value);
+        get => CSFMLAudio.sfSoundRecorder_getChannelCount(CPointer);
+        set => CSFMLAudio.sfSoundRecorder_setChannelCount(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -103,7 +101,7 @@ public abstract partial class SoundRecorder : ObjectBase
         {
             unsafe
             {
-                var channels = sfSoundRecorder_getChannelMap(CPointer, out var count);
+                var channels = CSFMLAudio.sfSoundRecorder_getChannelMap(CPointer, out var count);
                 var arr = new SoundChannel[(int)count];
 
                 for (var i = 0; i < arr.Length; i++)
@@ -128,7 +126,7 @@ public abstract partial class SoundRecorder : ObjectBase
     /// classes will fail.
     /// </remarks>
     ////////////////////////////////////////////////////////////
-    public static bool IsAvailable => sfSoundRecorder_isAvailable();
+    public static bool IsAvailable => CSFMLAudio.sfSoundRecorder_isAvailable();
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -201,7 +199,7 @@ public abstract partial class SoundRecorder : ObjectBase
         {
             unsafe
             {
-                var devicesPtr = sfSoundRecorder_getAvailableDevices(out var count);
+                var devicesPtr = CSFMLAudio.sfSoundRecorder_getAvailableDevices(out var count);
                 var devices = new string[(int)count];
                 for (var i = 0; i < (int)count; ++i)
                 {
@@ -218,7 +216,7 @@ public abstract partial class SoundRecorder : ObjectBase
     /// Get the name of the default audio capture device
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public static string DefaultDevice => Marshal.PtrToStringAnsi(sfSoundRecorder_getDefaultDevice())!;
+    public static string DefaultDevice => Marshal.PtrToStringAnsi(CSFMLAudio.sfSoundRecorder_getDefaultDevice())!;
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -227,7 +225,7 @@ public abstract partial class SoundRecorder : ObjectBase
     /// <param name="name">The name of the audio capture device</param>
     /// <returns>True, if it was able to set the requested device</returns>
     ////////////////////////////////////////////////////////////
-    public bool SetDevice(string name) => sfSoundRecorder_setDevice(CPointer, name);
+    public bool SetDevice(string name) => CSFMLAudio.sfSoundRecorder_setDevice(CPointer, name);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -235,7 +233,7 @@ public abstract partial class SoundRecorder : ObjectBase
     /// </summary>
     /// <returns>The name of the current audio capture device</returns>
     ////////////////////////////////////////////////////////////
-    public string GetDevice() => Marshal.PtrToStringAnsi(sfSoundRecorder_getDevice(CPointer))!;
+    public string GetDevice() => Marshal.PtrToStringAnsi(CSFMLAudio.sfSoundRecorder_getDevice(CPointer))!;
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -243,7 +241,7 @@ public abstract partial class SoundRecorder : ObjectBase
     /// </summary>
     /// <param name="disposing">Is the GC disposing the object, or is it an explicit call ?</param>
     ////////////////////////////////////////////////////////////
-    protected override void Destroy(bool disposing) => sfSoundRecorder_destroy(CPointer);
+    protected override void Destroy(bool disposing) => CSFMLAudio.sfSoundRecorder_destroy(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -283,72 +281,15 @@ public abstract partial class SoundRecorder : ObjectBase
     private void StopRecording(IntPtr userData) => OnStop();
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool StartCallback(IntPtr userData);
+    public delegate bool StartCallback(IntPtr userData);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool ProcessCallback(IntPtr samples, UIntPtr nbSamples, IntPtr userData);
+    public delegate bool ProcessCallback(IntPtr samples, UIntPtr nbSamples, IntPtr userData);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void StopCallback(IntPtr userData);
+    public delegate void StopCallback(IntPtr userData);
 
     private readonly StartCallback _startCallback;
     private readonly ProcessCallback _processCallback;
     private readonly StopCallback _stopCallback;
-
-    #region Imports
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfSoundRecorder_create(StartCallback onStart, ProcessCallback onProcess, StopCallback onStop, IntPtr userData);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSoundRecorder_destroy(IntPtr soundRecorder);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfSoundRecorder_start(IntPtr soundRecorder, uint sampleRate);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSoundRecorder_stop(IntPtr soundRecorder);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial uint sfSoundRecorder_getSampleRate(IntPtr soundRecorder);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfSoundRecorder_isAvailable();
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial IntPtr* sfSoundRecorder_getAvailableDevices(out UIntPtr count);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfSoundRecorder_getDefaultDevice();
-
-    [LibraryImport(CSFML.Audio, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfSoundRecorder_setDevice(IntPtr soundRecorder, string name);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfSoundRecorder_getDevice(IntPtr soundRecorder);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSoundRecorder_setChannelCount(IntPtr soundRecorder, uint channelCount);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial uint sfSoundRecorder_getChannelCount(IntPtr soundRecorder);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial SoundChannel* sfSoundRecorder_getChannelMap(IntPtr soundRecorder, out UIntPtr count);
-    #endregion
 }

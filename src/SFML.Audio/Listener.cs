@@ -22,8 +22,8 @@ public static partial class Listener
     ////////////////////////////////////////////////////////////
     public static float GlobalVolume
     {
-        get => sfListener_getGlobalVolume();
-        set => sfListener_setGlobalVolume(value);
+        get => CSFMLAudio.sfListener_getGlobalVolume();
+        set => CSFMLAudio.sfListener_setGlobalVolume(value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -33,8 +33,8 @@ public static partial class Listener
     ////////////////////////////////////////////////////////////
     public static Vector3f Position
     {
-        get => sfListener_getPosition();
-        set => sfListener_setPosition(value);
+        get => CSFMLAudio.sfListener_getPosition();
+        set => CSFMLAudio.sfListener_setPosition(value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -49,8 +49,8 @@ public static partial class Listener
     ////////////////////////////////////////////////////////////
     public static Vector3f Direction
     {
-        get => sfListener_getDirection();
-        set => sfListener_setDirection(value);
+        get => CSFMLAudio.sfListener_getDirection();
+        set => CSFMLAudio.sfListener_setDirection(value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -60,8 +60,8 @@ public static partial class Listener
     ////////////////////////////////////////////////////////////
     public static Vector3f Velocity
     {
-        get => sfListener_getVelocity();
-        set => sfListener_setVelocity(value);
+        get => CSFMLAudio.sfListener_getVelocity();
+        set => CSFMLAudio.sfListener_setVelocity(value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -72,8 +72,8 @@ public static partial class Listener
     ////////////////////////////////////////////////////////////
     public static Cone Cone
     {
-        get => new(sfListener_getCone());
-        set => sfListener_setCone(value.Marshal());
+        get => new(CSFMLAudio.sfListener_getCone());
+        set => CSFMLAudio.sfListener_setCone(value.Marshal());
     }
 
     ////////////////////////////////////////////////////////////
@@ -88,57 +88,7 @@ public static partial class Listener
     ////////////////////////////////////////////////////////////
     public static Vector3f UpVector
     {
-        get => sfListener_getUpVector();
-        set => sfListener_setUpVector(value);
+        get => CSFMLAudio.sfListener_getUpVector();
+        set => CSFMLAudio.sfListener_setUpVector(value);
     }
-
-    #region Imports
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfListener_setGlobalVolume(float volume);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfListener_getGlobalVolume();
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfListener_setPosition(Vector3f position);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector3f sfListener_getPosition();
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfListener_setDirection(Vector3f direction);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector3f sfListener_getDirection();
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfListener_setVelocity(Vector3f direction);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector3f sfListener_getVelocity();
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfListener_setCone(Cone.MarshalData cone);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Cone.MarshalData sfListener_getCone();
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfListener_setUpVector(Vector3f upVector);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector3f sfListener_getUpVector();
-    #endregion
 }

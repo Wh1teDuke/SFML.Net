@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Audio;
@@ -36,7 +34,7 @@ public partial class Sound : ObjectBase
     /// <param name="buffer">Sound buffer containing the audio data to play with the sound</param>
     ////////////////////////////////////////////////////////////
     public Sound(SoundBuffer buffer) :
-        base(sfSound_create(buffer.CPointer)) => SoundBuffer = buffer;
+        base(CSFMLAudio.sfSound_create(buffer.CPointer)) => SoundBuffer = buffer;
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -45,7 +43,7 @@ public partial class Sound : ObjectBase
     /// <param name="copy">Sound to copy</param>
     ////////////////////////////////////////////////////////////
     public Sound(Sound copy) :
-        base(sfSound_copy(copy.CPointer)) => SoundBuffer = copy.SoundBuffer;
+        base(CSFMLAudio.sfSound_copy(copy.CPointer)) => SoundBuffer = copy.SoundBuffer;
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -58,7 +56,7 @@ public partial class Sound : ObjectBase
     /// the rest of the program while the sound is played.
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public void Play() => sfSound_play(CPointer);
+    public void Play() => CSFMLAudio.sfSound_play(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -68,7 +66,7 @@ public partial class Sound : ObjectBase
     /// otherwise (sound already paused or stopped) it has no effect.
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public void Pause() => sfSound_pause(CPointer);
+    public void Pause() => CSFMLAudio.sfSound_pause(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -79,7 +77,7 @@ public partial class Sound : ObjectBase
     /// It also resets the playing position (unlike pause()).
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public void Stop() => sfSound_stop(CPointer);
+    public void Stop() => CSFMLAudio.sfSound_stop(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -93,7 +91,7 @@ public partial class Sound : ObjectBase
     public SoundBuffer SoundBuffer
     {
         get => _buffer;
-        set { _buffer = value; sfSound_setBuffer(CPointer, value?.CPointer ?? IntPtr.Zero); }
+        set { _buffer = value; CSFMLAudio.sfSound_setBuffer(CPointer, value?.CPointer ?? IntPtr.Zero); }
     }
 
     ////////////////////////////////////////////////////////////
@@ -101,7 +99,7 @@ public partial class Sound : ObjectBase
     /// Current status of the sound (see SoundStatus enum)
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public SoundStatus Status => sfSound_getStatus(CPointer);
+    public SoundStatus Status => CSFMLAudio.sfSound_getStatus(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -115,8 +113,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public bool IsLooping
     {
-        get => sfSound_isLooping(CPointer);
-        set => sfSound_setLooping(CPointer, value);
+        get => CSFMLAudio.sfSound_isLooping(CPointer);
+        set => CSFMLAudio.sfSound_setLooping(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -132,8 +130,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public float Pitch
     {
-        get => sfSound_getPitch(CPointer);
-        set => sfSound_setPitch(CPointer, value);
+        get => CSFMLAudio.sfSound_getPitch(CPointer);
+        set => CSFMLAudio.sfSound_setPitch(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -148,8 +146,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public float Pan
     {
-        get => sfSound_getPan(CPointer);
-        set => sfSound_setPan(CPointer, value);
+        get => CSFMLAudio.sfSound_getPan(CPointer);
+        set => CSFMLAudio.sfSound_setPan(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -162,8 +160,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public float Volume
     {
-        get => sfSound_getVolume(CPointer);
-        set => sfSound_setVolume(CPointer, value);
+        get => CSFMLAudio.sfSound_getVolume(CPointer);
+        set => CSFMLAudio.sfSound_setVolume(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -178,8 +176,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public bool IsSpatializationEnabled
     {
-        get => sfSound_isSpatializationEnabled(CPointer);
-        set => sfSound_setSpatializationEnabled(CPointer, value);
+        get => CSFMLAudio.sfSound_isSpatializationEnabled(CPointer);
+        set => CSFMLAudio.sfSound_setSpatializationEnabled(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -192,8 +190,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public Time PlayingOffset
     {
-        get => sfSound_getPlayingOffset(CPointer);
-        set => sfSound_setPlayingOffset(CPointer, value);
+        get => CSFMLAudio.sfSound_getPlayingOffset(CPointer);
+        set => CSFMLAudio.sfSound_setPlayingOffset(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -207,8 +205,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public Vector3f Position
     {
-        get => sfSound_getPosition(CPointer);
-        set => sfSound_setPosition(CPointer, value);
+        get => CSFMLAudio.sfSound_getPosition(CPointer);
+        set => CSFMLAudio.sfSound_setPosition(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -223,8 +221,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public Vector3f Direction
     {
-        get => sfSound_getDirection(CPointer);
-        set => sfSound_setDirection(CPointer, value);
+        get => CSFMLAudio.sfSound_getDirection(CPointer);
+        set => CSFMLAudio.sfSound_setDirection(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -237,8 +235,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public Cone Cone
     {
-        get => new(sfSound_getCone(CPointer));
-        set => sfSound_setCone(CPointer, value.Marshal());
+        get => new(CSFMLAudio.sfSound_getCone(CPointer));
+        set => CSFMLAudio.sfSound_setCone(CPointer, value.Marshal());
     }
 
     ////////////////////////////////////////////////////////////
@@ -253,8 +251,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public Vector3f Velocity
     {
-        get => sfSound_getVelocity(CPointer);
-        set => sfSound_setVelocity(CPointer, value);
+        get => CSFMLAudio.sfSound_getVelocity(CPointer);
+        set => CSFMLAudio.sfSound_setVelocity(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -267,8 +265,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public float DopplerFactor
     {
-        get => sfSound_getDopplerFactor(CPointer);
-        set => sfSound_setDopplerFactor(CPointer, value);
+        get => CSFMLAudio.sfSound_getDopplerFactor(CPointer);
+        set => CSFMLAudio.sfSound_setDopplerFactor(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -285,8 +283,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public float DirectionalAttenuationFactor
     {
-        get => sfSound_getDirectionalAttenuationFactor(CPointer);
-        set => sfSound_setDirectionalAttenuationFactor(CPointer, value);
+        get => CSFMLAudio.sfSound_getDirectionalAttenuationFactor(CPointer);
+        set => CSFMLAudio.sfSound_setDirectionalAttenuationFactor(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -302,8 +300,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public bool RelativeToListener
     {
-        get => sfSound_isRelativeToListener(CPointer);
-        set => sfSound_setRelativeToListener(CPointer, value);
+        get => CSFMLAudio.sfSound_isRelativeToListener(CPointer);
+        set => CSFMLAudio.sfSound_setRelativeToListener(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -320,8 +318,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public float MinDistance
     {
-        get => sfSound_getMinDistance(CPointer);
-        set => sfSound_setMinDistance(CPointer, value);
+        get => CSFMLAudio.sfSound_getMinDistance(CPointer);
+        set => CSFMLAudio.sfSound_setMinDistance(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -338,8 +336,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public float MaxDistance
     {
-        get => sfSound_getMaxDistance(CPointer);
-        set => sfSound_setMaxDistance(CPointer, value);
+        get => CSFMLAudio.sfSound_getMaxDistance(CPointer);
+        set => CSFMLAudio.sfSound_setMaxDistance(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -353,8 +351,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public float MinGain
     {
-        get => sfSound_getMinGain(CPointer);
-        set => sfSound_setMinGain(CPointer, value);
+        get => CSFMLAudio.sfSound_getMinGain(CPointer);
+        set => CSFMLAudio.sfSound_setMinGain(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -368,8 +366,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public float MaxGain
     {
-        get => sfSound_getMaxGain(CPointer);
-        set => sfSound_setMaxGain(CPointer, value);
+        get => CSFMLAudio.sfSound_getMaxGain(CPointer);
+        set => CSFMLAudio.sfSound_setMaxGain(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -388,8 +386,8 @@ public partial class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public float Attenuation
     {
-        get => sfSound_getAttenuation(CPointer);
-        set => sfSound_setAttenuation(CPointer, value);
+        get => CSFMLAudio.sfSound_getAttenuation(CPointer);
+        set => CSFMLAudio.sfSound_setAttenuation(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -415,7 +413,7 @@ public partial class Sound : ObjectBase
             return written;
         };
 
-        sfSound_setEffectProcessor(CPointer, Marshal.GetFunctionPointerForDelegate(_effectProcessor));
+        CSFMLAudio.sfSound_setEffectProcessor(CPointer, Marshal.GetFunctionPointerForDelegate(_effectProcessor));
     }
 
     ////////////////////////////////////////////////////////////
@@ -450,193 +448,8 @@ public partial class Sound : ObjectBase
     /// </summary>
     /// <param name="disposing">Is the GC disposing the object, or is it an explicit call?</param>
     ////////////////////////////////////////////////////////////
-    protected override void Destroy(bool disposing) => sfSound_destroy(CPointer);
+    protected override void Destroy(bool disposing) => CSFMLAudio.sfSound_destroy(CPointer);
 
     private SoundBuffer _buffer = null!;
     private EffectProcessorInternal? _effectProcessor;
-
-    #region Imports
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfSound_create(IntPtr soundBuffer);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfSound_copy(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_destroy(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_play(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_pause(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_stop(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setBuffer(IntPtr sound, IntPtr buffer);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setLooping(IntPtr sound, [MarshalAs(UnmanagedType.Bool)] bool loop);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfSound_isLooping(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial SoundStatus sfSound_getStatus(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setPitch(IntPtr sound, float pitch);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setPan(IntPtr sound, float pan);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setVolume(IntPtr sound, float volume);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setSpatializationEnabled(IntPtr sound, [MarshalAs(UnmanagedType.Bool)] bool enabled);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setPosition(IntPtr sound, Vector3f position);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setDirection(IntPtr sound, Vector3f direction);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setCone(IntPtr sound, Cone.MarshalData cone);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setVelocity(IntPtr sound, Vector3f velocity);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setDopplerFactor(IntPtr sound, float factor);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setDirectionalAttenuationFactor(IntPtr sound, float factor);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setRelativeToListener(IntPtr sound, [MarshalAs(UnmanagedType.Bool)] bool relative);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setMinDistance(IntPtr sound, float minDistance);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setMaxDistance(IntPtr sound, float maxDistance);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setMinGain(IntPtr sound, float gain);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setMaxGain(IntPtr sound, float gain);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setAttenuation(IntPtr sound, float attenuation);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setPlayingOffset(IntPtr sound, Time timeOffset);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSound_setEffectProcessor(IntPtr sound, IntPtr effectProcessor);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfSound_getPitch(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfSound_getPan(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfSound_getVolume(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfSound_isSpatializationEnabled(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector3f sfSound_getPosition(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector3f sfSound_getDirection(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Cone.MarshalData sfSound_getCone(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector3f sfSound_getVelocity(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfSound_getDopplerFactor(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfSound_getDirectionalAttenuationFactor(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfSound_isRelativeToListener(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfSound_getMinDistance(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfSound_getMaxDistance(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfSound_getMinGain(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfSound_getMaxGain(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfSound_getAttenuation(IntPtr sound);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Time sfSound_getPlayingOffset(IntPtr sound);
-    #endregion
 }

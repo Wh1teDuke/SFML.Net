@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Audio;
@@ -10,7 +8,7 @@ namespace Gaiden.SFML.Audio;
 /// Storage for audio samples defining a sound
 /// </summary>
 ////////////////////////////////////////////////////////////
-public partial class SoundBuffer : ObjectBase
+public class SoundBuffer : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
