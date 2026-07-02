@@ -94,11 +94,11 @@ public static partial class Listener
 
     #region Imports
     [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     private static partial void sfListener_setGlobalVolume(float volume);
 
     [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     private static partial float sfListener_getGlobalVolume();
 
     [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
@@ -126,11 +126,11 @@ public static partial class Listener
     private static partial Vector3f sfListener_getVelocity();
 
     [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     private static partial void sfListener_setCone(Cone.MarshalData cone);
 
     [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     private static partial Cone.MarshalData sfListener_getCone();
 
     [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]

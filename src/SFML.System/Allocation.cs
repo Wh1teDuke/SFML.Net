@@ -21,6 +21,6 @@ public static partial class Allocation
     public static void Free(IntPtr ptr) => sfFree(ptr);
 
     [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     private static partial void sfFree(IntPtr ptr);
 }

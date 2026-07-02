@@ -78,36 +78,36 @@ public partial class Clock : ObjectBase
 
     #region Imports
     [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     private static partial IntPtr sfClock_create();
 
     [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     private static partial void sfClock_destroy(IntPtr cPointer);
 
     [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     private static partial Time sfClock_getElapsedTime(IntPtr clock);
 
     [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     private static partial bool sfClock_isRunning(IntPtr clock);
 
     [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     private static partial void sfClock_start(IntPtr clock);
 
     [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     private static partial void sfClock_stop(IntPtr clock);
 
     [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     private static partial Time sfClock_restart(IntPtr clock);
 
     [LibraryImport(CSFML.System), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConvAttribute(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     private static partial Time sfClock_reset(IntPtr clock);
     #endregion
 }
