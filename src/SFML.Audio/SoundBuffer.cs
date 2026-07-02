@@ -24,7 +24,7 @@ public partial class SoundBuffer : ObjectBase
     /// <exception cref="LoadingFailedException" />
     ////////////////////////////////////////////////////////////
     public SoundBuffer(string filename) :
-        base(sfSoundBuffer_createFromFile(filename))
+        base(CSFMLAudio.sfSoundBuffer_createFromFile(filename))
     {
         if (IsInvalid)
         {
@@ -48,7 +48,7 @@ public partial class SoundBuffer : ObjectBase
     {
         using (var adaptor = new StreamAdaptor(stream))
         {
-            CPointer = sfSoundBuffer_createFromStream(adaptor.InputStreamPtr);
+            CPointer = CSFMLAudio.sfSoundBuffer_createFromStream(adaptor.InputStreamPtr);
         }
 
         if (IsInvalid)
@@ -75,7 +75,7 @@ public partial class SoundBuffer : ObjectBase
         {
             fixed (void* ptr = bytes)
             {
-                CPointer = sfSoundBuffer_createFromMemory((IntPtr)ptr, (UIntPtr)bytes.Length);
+                CPointer = CSFMLAudio.sfSoundBuffer_createFromMemory((IntPtr)ptr, (UIntPtr)bytes.Length);
             }
         }
 
@@ -104,7 +104,7 @@ public partial class SoundBuffer : ObjectBase
             {
                 fixed (SoundChannel* channels = channelMapData)
                 {
-                    CPointer = sfSoundBuffer_createFromSamples(samplesPtr, (uint)samples.Length, channelCount, sampleRate, channels, (UIntPtr)channelMapData.Length);
+                    CPointer = CSFMLAudio.sfSoundBuffer_createFromSamples(samplesPtr, (uint)samples.Length, channelCount, sampleRate, channels, (UIntPtr)channelMapData.Length);
                 }
             }
         }
@@ -122,7 +122,7 @@ public partial class SoundBuffer : ObjectBase
     /// <param name="copy">Sound buffer to copy</param>
     ////////////////////////////////////////////////////////////
     public SoundBuffer(SoundBuffer copy) :
-        base(sfSoundBuffer_copy(copy.CPointer))
+        base(CSFMLAudio.sfSoundBuffer_copy(copy.CPointer))
     {
     }
 
@@ -137,7 +137,7 @@ public partial class SoundBuffer : ObjectBase
     /// <param name="filename">Path of the sound file to write</param>
     /// <returns>True if saving has been successful</returns>
     ////////////////////////////////////////////////////////////
-    public bool SaveToFile(string filename) => sfSoundBuffer_saveToFile(CPointer, filename);
+    public bool SaveToFile(string filename) => CSFMLAudio.sfSoundBuffer_saveToFile(CPointer, filename);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -147,21 +147,21 @@ public partial class SoundBuffer : ObjectBase
     /// second. The higher, the better the quality.
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public uint SampleRate => sfSoundBuffer_getSampleRate(CPointer);
+    public uint SampleRate => CSFMLAudio.sfSoundBuffer_getSampleRate(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Number of channels (1 = mono, 2 = stereo)
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public uint ChannelCount => sfSoundBuffer_getChannelCount(CPointer);
+    public uint ChannelCount => CSFMLAudio.sfSoundBuffer_getChannelCount(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Total duration of the buffer
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public Time Duration => sfSoundBuffer_getDuration(CPointer);
+    public Time Duration => CSFMLAudio.sfSoundBuffer_getDuration(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -175,8 +175,8 @@ public partial class SoundBuffer : ObjectBase
     {
         get
         {
-            var samplesArray = new short[sfSoundBuffer_getSampleCount(CPointer)];
-            Marshal.Copy(sfSoundBuffer_getSamples(CPointer), samplesArray, 0, samplesArray.Length);
+            var samplesArray = new short[CSFMLAudio.sfSoundBuffer_getSampleCount(CPointer)];
+            Marshal.Copy(CSFMLAudio.sfSoundBuffer_getSamples(CPointer), samplesArray, 0, samplesArray.Length);
             return samplesArray;
         }
     }
@@ -195,7 +195,7 @@ public partial class SoundBuffer : ObjectBase
         {
             unsafe
             {
-                var channels = sfSoundBuffer_getChannelMap(CPointer, out var count);
+                var channels = CSFMLAudio.sfSoundBuffer_getChannelMap(CPointer, out var count);
                 var arr = new SoundChannel[(int)count];
 
                 for (var i = 0; i < arr.Length; i++)
@@ -233,60 +233,5 @@ public partial class SoundBuffer : ObjectBase
     /// </summary>
     /// <param name="disposing">Is the GC disposing the object, or is it an explicit call?</param>
     ////////////////////////////////////////////////////////////
-    protected override void Destroy(bool disposing) => sfSoundBuffer_destroy(CPointer);
-
-    #region Imports
-    [LibraryImport(CSFML.Audio, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfSoundBuffer_createFromFile(string filename);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfSoundBuffer_createFromStream(IntPtr stream);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfSoundBuffer_createFromMemory(IntPtr data, UIntPtr size);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial IntPtr sfSoundBuffer_createFromSamples(short* samples, ulong sampleCount, uint channelsCount, uint sampleRate, SoundChannel* channelMapData, UIntPtr channelMapSize);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfSoundBuffer_copy(IntPtr soundBuffer);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSoundBuffer_destroy(IntPtr soundBuffer);
-
-    [LibraryImport(CSFML.Audio, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfSoundBuffer_saveToFile(IntPtr soundBuffer, string filename);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfSoundBuffer_getSamples(IntPtr soundBuffer);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial ulong sfSoundBuffer_getSampleCount(IntPtr soundBuffer);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial uint sfSoundBuffer_getSampleRate(IntPtr soundBuffer);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial uint sfSoundBuffer_getChannelCount(IntPtr soundBuffer);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial SoundChannel* sfSoundBuffer_getChannelMap(IntPtr soundBuffer, out UIntPtr count);
-
-    [LibraryImport(CSFML.Audio), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Time sfSoundBuffer_getDuration(IntPtr soundBuffer);
-    #endregion
+    protected override void Destroy(bool disposing) => CSFMLAudio.sfSoundBuffer_destroy(CPointer);
 }
