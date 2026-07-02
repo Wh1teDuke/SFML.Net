@@ -29,7 +29,7 @@ public class Shader : ObjectBase
     /// and that represents the texture of the object being drawn
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public static readonly CurrentTextureType CurrentTexture;
+    public static readonly CurrentTextureType CurrentTexture = new();
 
     ////////////////////////////////////////////////////////////
     /// <summary>

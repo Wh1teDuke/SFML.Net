@@ -38,7 +38,7 @@ public readonly struct Angle : IEquatable<Angle>
     /// Predefined 0 degree angle value
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public static readonly Angle Zero;
+    public static readonly Angle Zero = new(0);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
