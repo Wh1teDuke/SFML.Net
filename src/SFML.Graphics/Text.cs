@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -191,6 +192,26 @@ public partial class Text : Transformable, IDrawable
                 }
             }
         }
+    }
+    
+    /// <summary>
+    /// Set the string which is displayed
+    /// </summary>
+    /// <param name="chars"></param>
+    public void SetDisplayedString(ReadOnlySpan<char> chars)
+    {
+        var i = 0;
+        var arr = ArrayPool<int>.Shared.Rent(chars.Length + 1);
+        foreach (var c in chars.EnumerateRunes()) arr[i++] = c.Value;
+        arr[i++] = 0;
+
+        unsafe
+        {
+            fixed (int* ptr = arr.AsSpan(0, i))
+                sfText_setUnicodeString(CPointer, (IntPtr)ptr);
+        }
+
+        ArrayPool<int>.Shared.Return(arr);
     }
 
     ////////////////////////////////////////////////////////////
