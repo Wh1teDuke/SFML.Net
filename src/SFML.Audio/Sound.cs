@@ -24,7 +24,7 @@ public enum SoundStatus
 /// Regular sound that can be played in the audio environment
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class Sound : ObjectBase
+public sealed class Sound : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -87,10 +87,14 @@ public class Sound : ObjectBase
     /// as it is attached to the sound.
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public SoundBuffer SoundBuffer
+    public SoundBuffer? SoundBuffer
     {
-        get => _buffer;
-        set { _buffer = value; CSFMLAudio.sfSound_setBuffer(CPointer, value?.CPointer ?? IntPtr.Zero); }
+        get;
+        set
+        {
+            field = value;
+            CSFMLAudio.sfSound_setBuffer(CPointer, value?.CPointer ?? IntPtr.Zero);
+        }
     }
 
     ////////////////////////////////////////////////////////////
@@ -438,6 +442,5 @@ public class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     protected override void Destroy(bool disposing) => CSFMLAudio.sfSound_destroy(CPointer);
 
-    private SoundBuffer _buffer = null!;
     private EffectProcessorInternal? _effectProcessor;
 }

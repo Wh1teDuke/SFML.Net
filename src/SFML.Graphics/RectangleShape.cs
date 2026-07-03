@@ -7,7 +7,7 @@ namespace Gaiden.SFML.Graphics;
 /// Specialized shape representing a rectangle
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class RectangleShape : Shape
+public sealed class RectangleShape : Shape
 {
     ////////////////////////////////////////////////////////////
     /// <summary>

@@ -7,7 +7,7 @@ namespace Gaiden.SFML.Audio;
 /// Storage for audio samples defining a sound
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class SoundBuffer : ObjectBase
+public sealed class SoundBuffer : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -188,7 +188,7 @@ public class SoundBuffer : ObjectBase
     /// position during spatialisation.
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public virtual ReadOnlySpan<SoundChannel> ChannelMap
+    public ReadOnlySpan<SoundChannel> ChannelMap
     {
         get
         {

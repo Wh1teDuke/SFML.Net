@@ -6,7 +6,7 @@ namespace Gaiden.SFML.Audio;
 /// audio data into a sound buffer
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class SoundBufferRecorder : SoundRecorder
+public sealed class SoundBufferRecorder : SoundRecorder
 {
     ////////////////////////////////////////////////////////////
     /// <summary>

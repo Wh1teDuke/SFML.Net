@@ -7,7 +7,7 @@ namespace Gaiden.SFML.Graphics;
 /// Specialized shape representing a convex polygon
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class ConvexShape : Shape
+public sealed class ConvexShape : Shape
 {
     ////////////////////////////////////////////////////////////
     /// <summary>

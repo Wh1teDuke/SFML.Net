@@ -11,7 +11,7 @@ namespace Gaiden.SFML.Graphics;
 /// Unlike SFML.VertexArray, the vertex data is stored in graphics memory.
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class VertexBuffer : ObjectBase, IDrawable
+public sealed class VertexBuffer : ObjectBase, IDrawable
 {
     ////////////////////////////////////////////////////////////
     /// <summary>

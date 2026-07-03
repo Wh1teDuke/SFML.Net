@@ -77,7 +77,7 @@ public struct InputStream
 /// Adapts a System.IO.Stream to be usable as a SFML InputStream
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class StreamAdaptor : IDisposable
+public sealed class StreamAdaptor : IDisposable
 {
     ////////////////////////////////////////////////////////////
     /// <summary>

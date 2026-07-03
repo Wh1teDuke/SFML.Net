@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace Gaiden.SFML.System;
 

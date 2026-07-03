@@ -7,7 +7,7 @@ namespace Gaiden.SFML.Graphics;
 /// Specialized shape representing a circle
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class CircleShape : Shape
+public sealed class CircleShape : Shape
 {
     ////////////////////////////////////////////////////////////
     /// <summary>

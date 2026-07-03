@@ -10,7 +10,7 @@ namespace Gaiden.SFML.Window;
 /// This class defines a .NET interface to an SFML OpenGL Context
 /// </summary>
 //////////////////////////////////////////////////////////////////
-public class Context : CriticalFinalizerObject
+public sealed class Context : CriticalFinalizerObject
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -69,8 +69,8 @@ public class Context : CriticalFinalizerObject
     {
         get
         {
-            _globalContext ??= new Context();
-            return _globalContext;
+            field ??= new Context();
+            return field;
         }
     }
 
@@ -81,8 +81,6 @@ public class Context : CriticalFinalizerObject
     /// <returns>String description of the object</returns>
     ////////////////////////////////////////////////////////////
     public override string ToString() => "[Context]";
-
-    private static Context? _globalContext;
 
     private readonly IntPtr _this = IntPtr.Zero;
 }

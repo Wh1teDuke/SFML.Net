@@ -7,7 +7,7 @@ namespace Gaiden.SFML.Window;
 /// Cursor defines the appearance of a system cursor.
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class Cursor : ObjectBase
+public sealed class Cursor : ObjectBase
 {
     /// <summary>
     /// Enumeration of possibly available native system cursor types

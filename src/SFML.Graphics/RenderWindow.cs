@@ -10,7 +10,7 @@ namespace Gaiden.SFML.Graphics;
 /// 2D rendering
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class RenderWindow : Window.Window, IRenderTarget
+public sealed class RenderWindow : Window.Window, IRenderTarget
 {
     ////////////////////////////////////////////////////////////
     /// <summary>

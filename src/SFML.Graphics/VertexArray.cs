@@ -7,7 +7,7 @@ namespace Gaiden.SFML.Graphics;
 /// Define a set of one or more 2D primitives
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class VertexArray : ObjectBase, IDrawable // TODO sealed where appropriate
+public sealed class VertexArray : ObjectBase, IDrawable
 {
     ////////////////////////////////////////////////////////////
     /// <summary>

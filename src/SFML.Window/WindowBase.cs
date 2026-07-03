@@ -46,7 +46,7 @@ public enum State
 /// Window that serves as a base for other windows
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class WindowBase : ObjectBase
+public abstract class WindowBase : ObjectBase
 {
     ////////////////////////////////////////////////////////////
 
@@ -59,7 +59,7 @@ public class WindowBase : ObjectBase
     /// <param name="style">Window style (Resize | Close by default)</param>
     /// <param name="state">Window state</param>
     ////////////////////////////////////////////////////////////
-    public WindowBase(
+    protected WindowBase(
         VideoMode mode, 
         string title, 
         Styles style = Styles.Default, 

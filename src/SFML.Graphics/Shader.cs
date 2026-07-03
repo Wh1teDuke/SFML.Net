@@ -9,7 +9,7 @@ namespace Gaiden.SFML.Graphics;
 /// Wrapper for pixel shaders
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class Shader : ObjectBase
+public sealed class Shader : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>

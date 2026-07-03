@@ -11,7 +11,7 @@ namespace Gaiden.SFML.Graphics;
 /// See also the note on coordinates and undistorted rendering in SFML.Graphics.Transformable.
 /// </remarks>
 ////////////////////////////////////////////////////////////
-public class View : ObjectBase
+public sealed class View : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>

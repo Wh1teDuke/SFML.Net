@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 using Gaiden.SFML.System;
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace Gaiden.SFML.Window;
 
@@ -325,7 +326,7 @@ public static partial class CSFMLWindow
     public static partial void sfMouse_setPosition(Vector2i position, IntPtr relativeTo);
     #endregion
     
-    #region Imports
+    #region Keyboard
     [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]

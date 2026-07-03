@@ -8,7 +8,7 @@ namespace Gaiden.SFML.Window;
 /// </summary>
 ////////////////////////////////////////////////////////////
 [Serializable]
-public class LoadingFailedException : Exception
+public sealed class LoadingFailedException : Exception
 {
     ////////////////////////////////////////////////////////////
     /// <summary>

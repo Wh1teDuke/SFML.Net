@@ -8,7 +8,7 @@ namespace Gaiden.SFML.Graphics;
 /// Target for off-screen 2D rendering into a texture
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class RenderTexture : ObjectBase, IRenderTarget
+public sealed class RenderTexture : ObjectBase, IRenderTarget
 {
     ////////////////////////////////////////////////////////////
 
@@ -60,7 +60,8 @@ public class RenderTexture : ObjectBase, IRenderTarget
     /// Size of the rendering region of the render texture
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public Vector2u Size => CSFMLGraphics.sfRenderTexture_getSize(CPointer);
+    public Vector2u Size => _size ??= CSFMLGraphics.sfRenderTexture_getSize(CPointer);
+    private Vector2u? _size;
 
     ////////////////////////////////////////////////////////////
     /// <summary>

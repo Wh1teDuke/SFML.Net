@@ -15,7 +15,7 @@ public abstract class Shape : Transformable, IDrawable
     /// Source texture of the shape
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public Texture Texture
+    public Texture? Texture
     {
         get => _texture;
         set { _texture = value; CSFMLGraphics.sfShape_setTexture(CPointer, value?.CPointer ?? IntPtr.Zero, false); }
@@ -143,13 +143,16 @@ public abstract class Shape : Transformable, IDrawable
         states.Transform *= Transform;
         var marshaledStates = states.Marshal();
 
-        if (target is RenderWindow window)
+        switch (target)
         {
-            CSFMLGraphics.sfRenderWindow_drawShape(window.CPointer, CPointer, ref marshaledStates);
-        }
-        else if (target is RenderTexture texture)
-        {
-            CSFMLGraphics.sfRenderTexture_drawShape(texture.CPointer, CPointer, ref marshaledStates);
+            case RenderWindow window:
+                CSFMLGraphics.sfRenderWindow_drawShape(window.CPointer, CPointer, ref marshaledStates);
+                break;
+            case RenderTexture texture:
+                CSFMLGraphics.sfRenderTexture_drawShape(texture.CPointer, CPointer, ref marshaledStates);
+                break;
+            default:
+                throw new ArgumentException($"{target.GetType().Name} not implemented");
         }
     }
 
@@ -233,5 +236,5 @@ public abstract class Shape : Transformable, IDrawable
     private readonly GetPointCountCallbackType _getPointCountCallback;
     private readonly GetPointCallbackType _getPointCallback;
 
-    private Texture _texture = null!;
+    private Texture? _texture;
 }

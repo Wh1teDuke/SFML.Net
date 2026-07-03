@@ -9,7 +9,7 @@ namespace Gaiden.SFML.Graphics;
 /// See also the note on coordinates and undistorted rendering in SFML.Graphics.Transformable.
 /// </remarks>
 ////////////////////////////////////////////////////////////
-public class Sprite : Transformable, IDrawable
+public sealed class Sprite : Transformable, IDrawable
 {
     ////////////////////////////////////////////////////////////
     /// <summary>

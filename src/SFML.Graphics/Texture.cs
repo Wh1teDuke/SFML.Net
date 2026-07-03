@@ -21,7 +21,7 @@ namespace Gaiden.SFML.Graphics;
 /// framebuffer. This can be requested during window creation.
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class Texture : ObjectBase
+public sealed class Texture : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -444,7 +444,8 @@ public class Texture : ObjectBase
     /// <param name="texture">Shader to bind (can be null to use no texture)</param>
     /// <param name="type">Type of texture coordinates to use</param>
     ////////////////////////////////////////////////////////////
-    public static void Bind(Texture texture, CoordinateType type) => CSFMLGraphics.sfTexture_bind(texture?.CPointer ?? IntPtr.Zero, type);
+    public static void Bind(Texture? texture, CoordinateType type) => 
+        CSFMLGraphics.sfTexture_bind(texture?.CPointer ?? IntPtr.Zero, type);
 
     ////////////////////////////////////////////////////////////
     /// <summary>

@@ -8,7 +8,7 @@ namespace Gaiden.SFML.Audio;
 /// Streamed music played from an audio file
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class Music : ObjectBase
+public sealed class Music : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
