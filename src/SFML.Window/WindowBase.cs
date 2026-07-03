@@ -447,7 +447,6 @@ public class WindowBase : ObjectBase
     {
         switch (e.Type)
         {
-            // TODO Use structs where appropriate
             case EventType.Closed:
                 Closed?.Invoke(this, EventArgs.Empty);
                 break;

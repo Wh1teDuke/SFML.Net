@@ -7,7 +7,7 @@ namespace Gaiden.SFML.Window;
 /// Keyboard event parameters
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class KeyEventArgs : EventArgs
+public struct KeyEventArgs
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -60,38 +60,10 @@ public class KeyEventArgs : EventArgs
 
 ////////////////////////////////////////////////////////////
 /// <summary>
-/// Text event parameters
-/// </summary>
-////////////////////////////////////////////////////////////
-public class TextEventArgs : EventArgs
-{
-    ////////////////////////////////////////////////////////////
-    /// <summary>
-    /// Construct the text arguments from a text event
-    /// </summary>
-    /// <param name="e">Text event</param>
-    ////////////////////////////////////////////////////////////
-    public TextEventArgs(TextEvent e) => Unicode = char.ConvertFromUtf32((int)e.Unicode);
-
-    ////////////////////////////////////////////////////////////
-    /// <summary>
-    /// Provide a string describing the object
-    /// </summary>
-    /// <returns>String description of the object</returns>
-    ////////////////////////////////////////////////////////////
-    public override string ToString() => "[TextEventArgs]" +
-               " Unicode(" + Unicode + ")";
-
-    /// <summary>UTF-16 value of the character</summary>
-    public string Unicode;
-}
-
-////////////////////////////////////////////////////////////
-/// <summary>
 /// Mouse move event parameters
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class MouseMoveEventArgs : EventArgs
+public struct MouseMoveEventArgs
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -119,7 +91,7 @@ public class MouseMoveEventArgs : EventArgs
 /// Mouse move raw event parameters
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class MouseMoveRawEventArgs : EventArgs
+public struct MouseMoveRawEventArgs
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -147,7 +119,7 @@ public class MouseMoveRawEventArgs : EventArgs
 /// Mouse buttons event parameters
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class MouseButtonEventArgs : EventArgs
+public struct MouseButtonEventArgs
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -183,7 +155,7 @@ public class MouseButtonEventArgs : EventArgs
 /// Mouse wheel scroll event parameters
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class MouseWheelScrollEventArgs : EventArgs
+public struct MouseWheelScrollEventArgs
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -224,7 +196,7 @@ public class MouseWheelScrollEventArgs : EventArgs
 /// Joystick axis move event parameters
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class JoystickMoveEventArgs : EventArgs
+public struct JoystickMoveEventArgs
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -265,7 +237,7 @@ public class JoystickMoveEventArgs : EventArgs
 /// Joystick buttons event parameters
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class JoystickButtonEventArgs : EventArgs
+public struct JoystickButtonEventArgs
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -301,7 +273,7 @@ public class JoystickButtonEventArgs : EventArgs
 /// Joystick connection/disconnection event parameters
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class JoystickConnectEventArgs : EventArgs
+public struct JoystickConnectEventArgs
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -329,7 +301,7 @@ public class JoystickConnectEventArgs : EventArgs
 /// Size event parameters
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class SizeEventArgs : EventArgs
+public struct SizeEventArgs
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -357,7 +329,7 @@ public class SizeEventArgs : EventArgs
 /// Touch event parameters
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class TouchEventArgs : EventArgs
+public struct TouchEventArgs
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -393,7 +365,7 @@ public class TouchEventArgs : EventArgs
 /// Sensor event parameters
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class SensorEventArgs : EventArgs
+public struct SensorEventArgs
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
