@@ -5,7 +5,7 @@
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <TargetFramework>net10.0</TargetFramework>
-    <Version>100.0.1</Version>
+    <Version>100.0.2</Version>
     <Authors>Wh1teDuke</Authors>
     <PackageTags>sfml sfml.net</PackageTags>
     <Copyright>Copyright © Laurent Gomila</Copyright>
