@@ -11,8 +11,8 @@
     <Copyright>Copyright © Laurent Gomila</Copyright>
 
     <PackageLicenseExpression>Zlib</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/Wh1teDuke/SFML.Net</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Wh1teDuke/SFML.Net</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Wh1teDuke/SFML.Net.Gaiden</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Wh1teDuke/SFML.Net.Gaiden</RepositoryUrl>
     <PackageIcon>sfml-icon.png</PackageIcon>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
 
