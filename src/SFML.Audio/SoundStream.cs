@@ -446,11 +446,11 @@ public abstract class SoundStream : ObjectBase
     ////////////////////////////////////////////////////////////
     protected void Initialize(uint channelCount, uint sampleRate, ReadOnlySpan<SoundChannel> channelMapData)
     {
-        _getDataCallback = new GetDataCallbackType(GetData);
-        _seekCallback = new SeekCallbackType(Seek);
-
         unsafe
         {
+            _getDataCallback = new GetDataCallbackType(GetData);
+            _seekCallback = new SeekCallbackType(Seek);
+
             fixed (SoundChannel* data = channelMapData)
             {
                 CPointer = CSFMLAudio.sfSoundStream_create(_getDataCallback, _seekCallback, channelCount, sampleRate, data, (UIntPtr)channelMapData.Length, IntPtr.Zero);
@@ -503,17 +503,15 @@ public abstract class SoundStream : ObjectBase
     /// <param name="userData">User data -- unused</param>
     /// <returns>True to continue playback, false to stop</returns>
     ////////////////////////////////////////////////////////////
-    private bool GetData(ref Chunk dataChunk, IntPtr userData)
+    private unsafe bool GetData(Chunk* dataChunk, IntPtr userData)
     {
         if (OnGetData(out _tempBuffer))
         {
-            unsafe
+            fixed (short* samplesPtr = _tempBuffer)
             {
-                fixed (short* samplesPtr = _tempBuffer)
-                {
-                    dataChunk.Samples = samplesPtr;
-                    dataChunk.SampleCount = (uint)_tempBuffer.Length;
-                }
+                ref var chunk = ref *dataChunk;
+                chunk.Samples = samplesPtr;
+                chunk.SampleCount = (uint)_tempBuffer.Length;
             }
 
             return true;
@@ -535,7 +533,7 @@ public abstract class SoundStream : ObjectBase
     private void Seek(Time timeOffset, IntPtr userData) => OnSeek(timeOffset);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate bool GetDataCallbackType(ref Chunk dataChunk, IntPtr userData);
+    internal unsafe delegate bool GetDataCallbackType(Chunk* dataChunk, IntPtr userData);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void SeekCallbackType(Time timeOffset, IntPtr userData);
