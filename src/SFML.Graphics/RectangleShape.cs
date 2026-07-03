@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Graphics;
@@ -10,7 +7,7 @@ namespace Gaiden.SFML.Graphics;
 /// Specialized shape representing a rectangle
 /// </summary>
 ////////////////////////////////////////////////////////////
-public partial class RectangleShape : Shape
+public class RectangleShape : Shape
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -95,13 +92,7 @@ public partial class RectangleShape : Shape
     /// </summary>
     /// <returns>The geometric center of the shape</returns>
     ////////////////////////////////////////////////////////////
-    public override Vector2f GetGeometricCenter() => sfRectangleShape_getGeometricCenter(CPointer);
+    public override Vector2f GetGeometricCenter() => CSFMLGraphics.sfRectangleShape_getGeometricCenter(CPointer);
 
     private Vector2f _size;
-
-    #region Imports
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2f sfRectangleShape_getGeometricCenter(IntPtr cPointer);
-    #endregion
 }

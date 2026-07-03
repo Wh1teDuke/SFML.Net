@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
 using System.Text;
 using Gaiden.SFML.Window;
 using Gaiden.SFML.System;
@@ -13,7 +10,7 @@ namespace Gaiden.SFML.Graphics;
 /// 2D rendering
 /// </summary>
 ////////////////////////////////////////////////////////////
-public partial class RenderWindow : Window.Window, IRenderTarget
+public class RenderWindow : Window.Window, IRenderTarget
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -61,7 +58,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
         {
             fixed (byte* titlePtr = titleAsUtf32)
             {
-                CPointer = sfRenderWindow_createUnicode(mode, (IntPtr)titlePtr, style, state, ref settings);
+                CPointer = CSFMLGraphics.sfRenderWindow_createUnicode(mode, (IntPtr)titlePtr, style, state, ref settings);
             }
         }
         Initialize();
@@ -86,7 +83,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// <param name="settings">Creation parameters</param>
     ////////////////////////////////////////////////////////////
     public RenderWindow(IntPtr handle, ContextSettings settings) :
-        base(sfRenderWindow_createFromHandle(handle, ref settings), 0) => Initialize();
+        base(CSFMLGraphics.sfRenderWindow_createFromHandle(handle, ref settings), 0) => Initialize();
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -95,7 +92,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// Create to recreate the window
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public override void Close() => sfRenderWindow_close(CPointer);
+    public override void Close() => CSFMLGraphics.sfRenderWindow_close(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -105,14 +102,14 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <returns>True if the window is opened</returns>
     ////////////////////////////////////////////////////////////
-    public override bool IsOpen => sfRenderWindow_isOpen(CPointer);
+    public override bool IsOpen => CSFMLGraphics.sfRenderWindow_isOpen(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Creation settings of the window
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public override ContextSettings Settings => sfRenderWindow_getSettings(CPointer);
+    public override ContextSettings Settings => CSFMLGraphics.sfRenderWindow_getSettings(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -121,8 +118,8 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     ////////////////////////////////////////////////////////////
     public override Vector2i Position
     {
-        get => sfRenderWindow_getPosition(CPointer);
-        set => sfRenderWindow_setPosition(CPointer, value);
+        get => CSFMLGraphics.sfRenderWindow_getPosition(CPointer);
+        set => CSFMLGraphics.sfRenderWindow_setPosition(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -132,8 +129,8 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     ////////////////////////////////////////////////////////////
     public override Vector2u Size
     {
-        get => sfRenderWindow_getSize(CPointer);
-        set => sfRenderWindow_setSize(CPointer, value);
+        get => CSFMLGraphics.sfRenderWindow_getSize(CPointer);
+        set => CSFMLGraphics.sfRenderWindow_setSize(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -141,7 +138,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// Tell if the render window will use sRGB encoding when drawing on it
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public bool IsSrgb => sfRenderWindow_isSrgb(CPointer);
+    public bool IsSrgb => CSFMLGraphics.sfRenderWindow_isSrgb(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -156,11 +153,11 @@ public partial class RenderWindow : Window.Window, IRenderTarget
             if (minimumSize.HasValue)
             {
                 var minimumSizeRef = minimumSize.Value;
-                sfRenderWindow_setMinimumSize(CPointer, &minimumSizeRef);
+                CSFMLGraphics.sfRenderWindow_setMinimumSize(CPointer, &minimumSizeRef);
             }
             else
             {
-                sfRenderWindow_setMinimumSize(CPointer, null);
+                CSFMLGraphics.sfRenderWindow_setMinimumSize(CPointer, null);
             }
         }
     }
@@ -178,11 +175,11 @@ public partial class RenderWindow : Window.Window, IRenderTarget
             if (maximumSize.HasValue)
             {
                 var maximumSizeRef = maximumSize.Value;
-                sfRenderWindow_setMaximumSize(CPointer, &maximumSizeRef);
+                CSFMLGraphics.sfRenderWindow_setMaximumSize(CPointer, &maximumSizeRef);
             }
             else
             {
-                sfRenderWindow_setMaximumSize(CPointer, null);
+                CSFMLGraphics.sfRenderWindow_setMaximumSize(CPointer, null);
             }
         }
     }
@@ -202,7 +199,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
         {
             fixed (byte* titlePtr = titleAsUtf32)
             {
-                sfRenderWindow_setUnicodeTitle(CPointer, (IntPtr)titlePtr);
+                CSFMLGraphics.sfRenderWindow_setUnicodeTitle(CPointer, (IntPtr)titlePtr);
             }
         }
     }
@@ -220,7 +217,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
         {
             fixed (byte* pixelsPtr = pixels)
             {
-                sfRenderWindow_setIcon(CPointer, size, pixelsPtr);
+                CSFMLGraphics.sfRenderWindow_setIcon(CPointer, size, pixelsPtr);
             }
         }
     }
@@ -231,7 +228,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <param name="visible">True to show the window, false to hide it</param>
     ////////////////////////////////////////////////////////////
-    public override void SetVisible(bool visible) => sfRenderWindow_setVisible(CPointer, visible);
+    public override void SetVisible(bool visible) => CSFMLGraphics.sfRenderWindow_setVisible(CPointer, visible);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -239,7 +236,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <param name="enable">True to enable v-sync, false to deactivate</param>
     ////////////////////////////////////////////////////////////
-    public override void SetVerticalSyncEnabled(bool enable) => sfRenderWindow_setVerticalSyncEnabled(CPointer, enable);
+    public override void SetVerticalSyncEnabled(bool enable) => CSFMLGraphics.sfRenderWindow_setVerticalSyncEnabled(CPointer, enable);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -247,7 +244,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <param name="visible">True to show, false to hide</param>
     ////////////////////////////////////////////////////////////
-    public override void SetMouseCursorVisible(bool visible) => sfRenderWindow_setMouseCursorVisible(CPointer, visible);
+    public override void SetMouseCursorVisible(bool visible) => CSFMLGraphics.sfRenderWindow_setMouseCursorVisible(CPointer, visible);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -264,7 +261,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// cursor).
     /// </remarks>
     ////////////////////////////////////////////////////////////
-    public override void SetMouseCursorGrabbed(bool grabbed) => sfRenderWindow_setMouseCursorGrabbed(CPointer, grabbed);
+    public override void SetMouseCursorGrabbed(bool grabbed) => CSFMLGraphics.sfRenderWindow_setMouseCursorGrabbed(CPointer, grabbed);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -272,7 +269,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <param name="cursor">Native system cursor type to display</param>
     ////////////////////////////////////////////////////////////
-    public override void SetMouseCursor(Cursor cursor) => sfRenderWindow_setMouseCursor(CPointer, cursor.CPointer);
+    public override void SetMouseCursor(Cursor cursor) => CSFMLGraphics.sfRenderWindow_setMouseCursor(CPointer, cursor.CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -281,7 +278,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <param name="enable">True to enable, false to disable</param>
     ////////////////////////////////////////////////////////////
-    public override void SetKeyRepeatEnabled(bool enable) => sfRenderWindow_setKeyRepeatEnabled(CPointer, enable);
+    public override void SetKeyRepeatEnabled(bool enable) => CSFMLGraphics.sfRenderWindow_setKeyRepeatEnabled(CPointer, enable);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -289,7 +286,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <param name="limit">Framerate limit, in frames per seconds (use 0 to disable limit)</param>
     ////////////////////////////////////////////////////////////
-    public override void SetFramerateLimit(uint limit) => sfRenderWindow_setFramerateLimit(CPointer, limit);
+    public override void SetFramerateLimit(uint limit) => CSFMLGraphics.sfRenderWindow_setFramerateLimit(CPointer, limit);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -298,7 +295,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <param name="threshold">New threshold, in range [0, 100]</param>
     ////////////////////////////////////////////////////////////
-    public override void SetJoystickThreshold(float threshold) => sfRenderWindow_setJoystickThreshold(CPointer, threshold);
+    public override void SetJoystickThreshold(float threshold) => CSFMLGraphics.sfRenderWindow_setJoystickThreshold(CPointer, threshold);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -308,7 +305,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// <param name="active">True to activate, false to deactivate (true by default)</param>
     /// <returns>True if operation was successful, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public override bool SetActive(bool active) => sfRenderWindow_setActive(CPointer, active);
+    public override bool SetActive(bool active) => CSFMLGraphics.sfRenderWindow_setActive(CPointer, active);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -316,7 +313,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// foreground window
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public override void RequestFocus() => sfRenderWindow_requestFocus(CPointer);
+    public override void RequestFocus() => CSFMLGraphics.sfRenderWindow_requestFocus(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -324,7 +321,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <returns>True if the window has focus, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public override bool HasFocus() => sfRenderWindow_hasFocus(CPointer);
+    public override bool HasFocus() => CSFMLGraphics.sfRenderWindow_hasFocus(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -335,28 +332,28 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// <param name="vkAllocator">Allocator to use</param>
     /// <returns>True if surface creation was successful, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public override bool CreateVulkanSurface(IntPtr vkInstance, out IntPtr vkSurface, IntPtr vkAllocator) => sfRenderWindow_createVulkanSurface(CPointer, vkInstance, out vkSurface, vkAllocator);
+    public override bool CreateVulkanSurface(IntPtr vkInstance, out IntPtr vkSurface, IntPtr vkAllocator) => CSFMLGraphics.sfRenderWindow_createVulkanSurface(CPointer, vkInstance, out vkSurface, vkAllocator);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Display the window on screen
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public override void Display() => sfRenderWindow_display(CPointer);
+    public override void Display() => CSFMLGraphics.sfRenderWindow_display(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// OS-specific handle of the window
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public override IntPtr NativeHandle => sfRenderWindow_getNativeHandle(CPointer);
+    public override IntPtr NativeHandle => CSFMLGraphics.sfRenderWindow_getNativeHandle(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Clear the entire window with black color
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public void Clear() => sfRenderWindow_clear(CPointer, Color.Black);
+    public void Clear() => CSFMLGraphics.sfRenderWindow_clear(CPointer, Color.Black);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -364,7 +361,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <param name="color">Color to use to clear the window</param>
     ////////////////////////////////////////////////////////////
-    public void Clear(Color color) => sfRenderWindow_clear(CPointer, color);
+    public void Clear(Color color) => CSFMLGraphics.sfRenderWindow_clear(CPointer, color);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -376,7 +373,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// <param name="color">Fill color to use to clear the render target</param>
     /// <param name="stencilValue">Stencil value to clear to</param>
     ////////////////////////////////////////////////////////////
-    public void Clear(Color color, StencilValue stencilValue) => sfRenderWindow_clearColorAndStencil(CPointer, color, stencilValue);
+    public void Clear(Color color, StencilValue stencilValue) => CSFMLGraphics.sfRenderWindow_clearColorAndStencil(CPointer, color, stencilValue);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -387,7 +384,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <param name="stencilValue">Stencil value to clear to</param>
     ////////////////////////////////////////////////////////////
-    public void ClearStencil(StencilValue stencilValue) => sfRenderWindow_clearStencil(CPointer, stencilValue);
+    public void ClearStencil(StencilValue stencilValue) => CSFMLGraphics.sfRenderWindow_clearStencil(CPointer, stencilValue);
 
 
     ////////////////////////////////////////////////////////////
@@ -396,7 +393,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <param name="view">New view</param>
     ////////////////////////////////////////////////////////////
-    public void SetView(View view) => sfRenderWindow_setView(CPointer, view.CPointer);
+    public void SetView(View view) => CSFMLGraphics.sfRenderWindow_setView(CPointer, view.CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -404,7 +401,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <returns>The current view</returns>
     ////////////////////////////////////////////////////////////
-    public View GetView() => new(sfRenderWindow_getView(CPointer));
+    public View GetView() => new(CSFMLGraphics.sfRenderWindow_getView(CPointer));
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -420,7 +417,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// <param name="view">Target view</param>
     /// <returns>Viewport rectangle, expressed in pixels in the current target</returns>
     ////////////////////////////////////////////////////////////
-    public IntRect GetViewport(View view) => sfRenderWindow_getViewport(CPointer, view.CPointer);
+    public IntRect GetViewport(View view) => CSFMLGraphics.sfRenderWindow_getViewport(CPointer, view.CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -434,7 +431,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// <param name="view">The view for which we want to compute the scissor rectangle</param>
     /// <returns>Scissor rectangle, expressed in pixels</returns>
     ////////////////////////////////////////////////////////////
-    public IntRect GetScissor(View view) => sfRenderWindow_getScissor(CPointer, view.CPointer);
+    public IntRect GetScissor(View view) => CSFMLGraphics.sfRenderWindow_getScissor(CPointer, view.CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -477,7 +474,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// <param name="view">The view to use for converting the point</param>
     /// <returns>The converted point, in "world" coordinates</returns>
     ////////////////////////////////////////////////////////////
-    public Vector2f MapPixelToCoords(Vector2i point, View view) => sfRenderWindow_mapPixelToCoords(CPointer, point, view?.CPointer ?? IntPtr.Zero);
+    public Vector2f MapPixelToCoords(Vector2i point, View view) => CSFMLGraphics.sfRenderWindow_mapPixelToCoords(CPointer, point, view?.CPointer ?? IntPtr.Zero);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -516,7 +513,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// <param name="view">The view to use for converting the point</param>
     /// <returns>The converted point, in target coordinates (pixels)</returns>
     ////////////////////////////////////////////////////////////
-    public Vector2i MapCoordsToPixel(Vector2f point, View view) => sfRenderWindow_mapCoordsToPixel(CPointer, point, view?.CPointer ?? IntPtr.Zero);
+    public Vector2i MapCoordsToPixel(Vector2f point, View view) => CSFMLGraphics.sfRenderWindow_mapCoordsToPixel(CPointer, point, view?.CPointer ?? IntPtr.Zero);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -583,7 +580,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
         {
             fixed (Vertex* vertexPtr = vertices)
             {
-                sfRenderWindow_drawPrimitives(CPointer, vertexPtr + start, (UIntPtr)count, type, ref marshaledStates);
+                CSFMLGraphics.sfRenderWindow_drawPrimitives(CPointer, vertexPtr + start, (UIntPtr)count, type, ref marshaledStates);
             }
         }
     }
@@ -622,7 +619,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// function if you do so.</para>
     /// </remarks>
     ////////////////////////////////////////////////////////////
-    public void PushGLStates() => sfRenderWindow_pushGLStates(CPointer);
+    public void PushGLStates() => CSFMLGraphics.sfRenderWindow_pushGLStates(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -632,7 +629,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// description of these functions.
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public void PopGLStates() => sfRenderWindow_popGLStates(CPointer);
+    public void PopGLStates() => CSFMLGraphics.sfRenderWindow_popGLStates(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -657,7 +654,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// // OpenGL code here...
     /// </example>
     ////////////////////////////////////////////////////////////
-    public void ResetGLStates() => sfRenderWindow_resetGLStates(CPointer);
+    public void ResetGLStates() => CSFMLGraphics.sfRenderWindow_resetGLStates(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -687,7 +684,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// <param name="eventToFill">Variable to fill with the raw pointer to the event structure</param>
     /// <returns>True if there was an event, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    protected override bool PollEvent(out Event eventToFill) => sfRenderWindow_pollEvent(CPointer, out eventToFill);
+    protected override bool PollEvent(out Event eventToFill) => CSFMLGraphics.sfRenderWindow_pollEvent(CPointer, out eventToFill);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -697,7 +694,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// <param name="eventToFill">Variable to fill with the raw pointer to the event structure</param>
     /// <returns>False if any error occurred</returns>
     ////////////////////////////////////////////////////////////
-    protected override bool WaitEvent(Time timeout, out Event eventToFill) => sfRenderWindow_waitEvent(CPointer, timeout, out eventToFill);
+    protected override bool WaitEvent(Time timeout, out Event eventToFill) => CSFMLGraphics.sfRenderWindow_waitEvent(CPointer, timeout, out eventToFill);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -707,7 +704,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <returns>Relative mouse position</returns>
     ////////////////////////////////////////////////////////////
-    protected override Vector2i InternalGetMousePosition() => sfMouse_getPositionRenderWindow(CPointer);
+    protected override Vector2i InternalGetMousePosition() => CSFMLGraphics.sfMouse_getPositionRenderWindow(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -717,7 +714,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// </summary>
     /// <param name="position">Relative mouse position</param>
     ////////////////////////////////////////////////////////////
-    protected override void InternalSetMousePosition(Vector2i position) => sfMouse_setPositionRenderWindow(position, CPointer);
+    protected override void InternalSetMousePosition(Vector2i position) => CSFMLGraphics.sfMouse_setPositionRenderWindow(position, CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -728,7 +725,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     /// <param name="finger">Finger index</param>
     /// <returns>Relative touch position</returns>
     ////////////////////////////////////////////////////////////
-    protected override Vector2i InternalGetTouchPosition(uint finger) => sfTouch_getPositionRenderWindow(finger, CPointer);
+    protected override Vector2i InternalGetTouchPosition(uint finger) => CSFMLGraphics.sfTouch_getPositionRenderWindow(finger, CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -738,7 +735,7 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     ////////////////////////////////////////////////////////////
     protected override void Destroy(bool disposing)
     {
-        sfRenderWindow_destroy(CPointer);
+        CSFMLGraphics.sfRenderWindow_destroy(CPointer);
 
         if (disposing)
         {
@@ -755,210 +752,9 @@ public partial class RenderWindow : Window.Window, IRenderTarget
     ////////////////////////////////////////////////////////////
     private void Initialize()
     {
-        _defaultView = new View(sfRenderWindow_getDefaultView(CPointer));
+        _defaultView = new View(CSFMLGraphics.sfRenderWindow_getDefaultView(CPointer));
         GC.SuppressFinalize(_defaultView);
     }
 
     private View _defaultView = null!;
-
-    #region Imports
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfRenderWindow_createUnicode(VideoMode mode, IntPtr title, Styles style, State state, ref ContextSettings settings);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfRenderWindow_createFromHandle(IntPtr handle, ref ContextSettings settings);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_destroy(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_close(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfRenderWindow_isOpen(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial ContextSettings sfRenderWindow_getSettings(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfRenderWindow_pollEvent(IntPtr cPointer, out Event evt);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfRenderWindow_waitEvent(IntPtr cPointer, Time timeout, out Event evt);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2i sfRenderWindow_getPosition(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_setPosition(IntPtr cPointer, Vector2i position);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2u sfRenderWindow_getSize(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfRenderWindow_isSrgb(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_setSize(IntPtr cPointer, Vector2u size);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial void sfRenderWindow_setMinimumSize(IntPtr cPointer, Vector2u* minimumSize);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial void sfRenderWindow_setMaximumSize(IntPtr cPointer, Vector2u* maximumSize);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_setUnicodeTitle(IntPtr cPointer, IntPtr title);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial void sfRenderWindow_setIcon(IntPtr cPointer, Vector2u size, byte* pixels);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_setVisible(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool visible);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_setVerticalSyncEnabled(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool enable);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_setMouseCursorVisible(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool visible);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_setMouseCursorGrabbed(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool grabbed);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_setMouseCursor(IntPtr window, IntPtr cursor);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_setKeyRepeatEnabled(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool enable);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_setFramerateLimit(IntPtr cPointer, uint limit);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_setJoystickThreshold(IntPtr cPointer, float threshold);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfRenderWindow_setActive(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool active);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_requestFocus(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfRenderWindow_hasFocus(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_display(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfRenderWindow_getNativeHandle(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_clear(IntPtr cPointer, Color clearColor);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_clearStencil(IntPtr cPointer, StencilValue stencilValue);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_clearColorAndStencil(IntPtr cPointer, Color clearColor, StencilValue stencilValue);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_setView(IntPtr cPointer, IntPtr view);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfRenderWindow_getView(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfRenderWindow_getDefaultView(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntRect sfRenderWindow_getViewport(IntPtr cPointer, IntPtr targetView);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntRect sfRenderWindow_getScissor(IntPtr cPointer, IntPtr targetView);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2f sfRenderWindow_mapPixelToCoords(IntPtr cPointer, Vector2i point, IntPtr view);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2i sfRenderWindow_mapCoordsToPixel(IntPtr cPointer, Vector2f point, IntPtr view);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial void sfRenderWindow_drawPrimitives(IntPtr cPointer, Vertex* vertexPtr, UIntPtr vertexCount, PrimitiveType type, ref RenderStates.MarshalData renderStates);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_pushGLStates(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_popGLStates(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_resetGLStates(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2i sfMouse_getPositionRenderWindow(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfMouse_setPositionRenderWindow(Vector2i position, IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2i sfTouch_getPositionRenderWindow(uint finger, IntPtr relativeTo);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfRenderWindow_createVulkanSurface(IntPtr cPointer, IntPtr vkInstance, out IntPtr surface, IntPtr vkAllocator);
-    #endregion
 }

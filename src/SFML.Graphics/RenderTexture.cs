@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.Window;
 using Gaiden.SFML.System;
 
@@ -11,7 +8,7 @@ namespace Gaiden.SFML.Graphics;
 /// Target for off-screen 2D rendering into a texture
 /// </summary>
 ////////////////////////////////////////////////////////////
-public partial class RenderTexture : ObjectBase, IRenderTarget
+public class RenderTexture : ObjectBase, IRenderTarget
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -33,10 +30,10 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// <param name="contextSettings">A ContextSettings struct representing settings for the RenderTexture</param>
     ////////////////////////////////////////////////////////////
     public RenderTexture(Vector2u size, ContextSettings contextSettings) :
-        base(sfRenderTexture_create(size, ref contextSettings))
+        base(CSFMLGraphics.sfRenderTexture_create(size, ref contextSettings))
     {
-        _defaultView = new View(sfRenderTexture_getDefaultView(CPointer));
-        Texture = new Texture(sfRenderTexture_getTexture(CPointer));
+        _defaultView = new View(CSFMLGraphics.sfRenderTexture_getDefaultView(CPointer));
+        Texture = new Texture(CSFMLGraphics.sfRenderTexture_getTexture(CPointer));
         GC.SuppressFinalize(_defaultView);
         GC.SuppressFinalize(Texture);
     }
@@ -49,7 +46,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// <param name="active">True to activate, false to deactivate (true by default)</param>
     /// <returns>True if operation was successful, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public bool SetActive(bool active) => sfRenderTexture_setActive(CPointer, active);
+    public bool SetActive(bool active) => CSFMLGraphics.sfRenderTexture_setActive(CPointer, active);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -63,8 +60,8 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     ////////////////////////////////////////////////////////////
     public bool Repeated
     {
-        get => sfRenderTexture_isRepeated(CPointer);
-        set => sfRenderTexture_setRepeated(CPointer, value);
+        get => CSFMLGraphics.sfRenderTexture_isRepeated(CPointer);
+        set => CSFMLGraphics.sfRenderTexture_setRepeated(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -72,14 +69,14 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// Size of the rendering region of the render texture
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public Vector2u Size => sfRenderTexture_getSize(CPointer);
+    public Vector2u Size => CSFMLGraphics.sfRenderTexture_getSize(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Tell if the render texture will use sRGB encoding when drawing on it
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public bool IsSrgb => sfRenderTexture_isSrgb(CPointer);
+    public bool IsSrgb => CSFMLGraphics.sfRenderTexture_isSrgb(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -94,7 +91,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// </summary>
     /// <returns>The current view</returns>
     ////////////////////////////////////////////////////////////
-    public View GetView() => new(sfRenderTexture_getView(CPointer));
+    public View GetView() => new(CSFMLGraphics.sfRenderTexture_getView(CPointer));
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -102,7 +99,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// </summary>
     /// <param name="view">New view</param>
     ////////////////////////////////////////////////////////////
-    public void SetView(View view) => sfRenderTexture_setView(CPointer, view.CPointer);
+    public void SetView(View view) => CSFMLGraphics.sfRenderTexture_setView(CPointer, view.CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -111,7 +108,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// <param name="view">Target view</param>
     /// <returns>Viewport rectangle, expressed in pixels in the current target</returns>
     ////////////////////////////////////////////////////////////
-    public IntRect GetViewport(View view) => sfRenderTexture_getViewport(CPointer, view.CPointer);
+    public IntRect GetViewport(View view) => CSFMLGraphics.sfRenderTexture_getViewport(CPointer, view.CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -125,7 +122,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// <param name="view">The view for which we want to compute the scissor rectangle</param>
     /// <returns>Scissor rectangle, expressed in pixels</returns>
     ////////////////////////////////////////////////////////////
-    public IntRect GetScissor(View view) => sfRenderTexture_getScissor(CPointer, view.CPointer);
+    public IntRect GetScissor(View view) => CSFMLGraphics.sfRenderTexture_getScissor(CPointer, view.CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -168,7 +165,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// <param name="view">The view to use for converting the point</param>
     /// <returns>The converted point, in "world" coordinates</returns>
     ////////////////////////////////////////////////////////////
-    public Vector2f MapPixelToCoords(Vector2i point, View view) => sfRenderTexture_mapPixelToCoords(CPointer, point, view?.CPointer ?? IntPtr.Zero);
+    public Vector2f MapPixelToCoords(Vector2i point, View view) => CSFMLGraphics.sfRenderTexture_mapPixelToCoords(CPointer, point, view?.CPointer ?? IntPtr.Zero);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -207,7 +204,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// <param name="view">The view to use for converting the point</param>
     /// <returns>The converted point, in target coordinates (pixels)</returns>
     ////////////////////////////////////////////////////////////
-    public Vector2i MapCoordsToPixel(Vector2f point, View view) => sfRenderTexture_mapCoordsToPixel(CPointer, point, view?.CPointer ?? IntPtr.Zero);
+    public Vector2i MapCoordsToPixel(Vector2f point, View view) => CSFMLGraphics.sfRenderTexture_mapCoordsToPixel(CPointer, point, view?.CPointer ?? IntPtr.Zero);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -226,14 +223,14 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     ///
     /// <returns>True if mipmap generation was successful, false if unsuccessful</returns>
     ////////////////////////////////////////////////////////////
-    public bool GenerateMipmap() => sfRenderTexture_generateMipmap(CPointer);
+    public bool GenerateMipmap() => CSFMLGraphics.sfRenderTexture_generateMipmap(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Clear the entire render texture with black color
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public void Clear() => sfRenderTexture_clear(CPointer, Color.Black);
+    public void Clear() => CSFMLGraphics.sfRenderTexture_clear(CPointer, Color.Black);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -241,7 +238,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// </summary>
     /// <param name="color">Color to use to clear the texture</param>
     ////////////////////////////////////////////////////////////
-    public void Clear(Color color) => sfRenderTexture_clear(CPointer, color);
+    public void Clear(Color color) => CSFMLGraphics.sfRenderTexture_clear(CPointer, color);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -253,7 +250,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// <param name="color">Fill color to use to clear the render target</param>
     /// <param name="stencilValue">Stencil value to clear to</param>
     ////////////////////////////////////////////////////////////
-    public void Clear(Color color, StencilValue stencilValue) => sfRenderTexture_clearColorAndStencil(CPointer, color, stencilValue);
+    public void Clear(Color color, StencilValue stencilValue) => CSFMLGraphics.sfRenderTexture_clearColorAndStencil(CPointer, color, stencilValue);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -264,14 +261,14 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// </summary>
     /// <param name="stencilValue">Stencil value to clear to</param>
     ////////////////////////////////////////////////////////////
-    public void ClearStencil(StencilValue stencilValue) => sfRenderTexture_clearStencil(CPointer, stencilValue);
+    public void ClearStencil(StencilValue stencilValue) => CSFMLGraphics.sfRenderTexture_clearStencil(CPointer, stencilValue);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Update the contents of the target texture
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public void Display() => sfRenderTexture_display(CPointer);
+    public void Display() => CSFMLGraphics.sfRenderTexture_display(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -285,7 +282,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// The maximum anti-aliasing level supported by the system
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public static uint MaximumAntiAliasingLevel => sfRenderTexture_getMaximumAntiAliasingLevel();
+    public static uint MaximumAntiAliasingLevel => CSFMLGraphics.sfRenderTexture_getMaximumAntiAliasingLevel();
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -294,8 +291,8 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     ////////////////////////////////////////////////////////////
     public bool Smooth
     {
-        get => sfRenderTexture_isSmooth(CPointer);
-        set => sfRenderTexture_setSmooth(CPointer, value);
+        get => CSFMLGraphics.sfRenderTexture_isSmooth(CPointer);
+        set => CSFMLGraphics.sfRenderTexture_setSmooth(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -363,7 +360,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
         {
             fixed (Vertex* vertexPtr = vertices)
             {
-                sfRenderTexture_drawPrimitives(CPointer, vertexPtr + start, (UIntPtr)count, type, ref marshaledStates);
+                CSFMLGraphics.sfRenderTexture_drawPrimitives(CPointer, vertexPtr + start, (UIntPtr)count, type, ref marshaledStates);
             }
         }
     }
@@ -398,7 +395,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// function if you do so.
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public void PushGLStates() => sfRenderTexture_pushGLStates(CPointer);
+    public void PushGLStates() => CSFMLGraphics.sfRenderTexture_pushGLStates(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -408,7 +405,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// description of these functions.
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public void PopGLStates() => sfRenderTexture_popGLStates(CPointer);
+    public void PopGLStates() => CSFMLGraphics.sfRenderTexture_popGLStates(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -431,7 +428,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     /// // OpenGL code here...
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public void ResetGLStates() => sfRenderTexture_resetGLStates(CPointer);
+    public void ResetGLStates() => CSFMLGraphics.sfRenderTexture_resetGLStates(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -466,7 +463,7 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
             _ = Context.Global.SetActive(true);
         }
 
-        sfRenderTexture_destroy(CPointer);
+        CSFMLGraphics.sfRenderTexture_destroy(CPointer);
 
         if (disposing)
         {
@@ -481,119 +478,4 @@ public partial class RenderTexture : ObjectBase, IRenderTarget
     }
 
     private readonly View _defaultView;
-
-    #region Imports
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfRenderTexture_create(Vector2u size, ref ContextSettings settings);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_destroy(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_clear(IntPtr cPointer, Color clearColor);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_clearStencil(IntPtr cPointer, StencilValue stencilValue);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_clearColorAndStencil(IntPtr cPointer, Color clearColor, StencilValue stencilValue);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2u sfRenderTexture_getSize(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfRenderTexture_isSrgb(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfRenderTexture_setActive(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool active);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_display(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_setView(IntPtr cPointer, IntPtr view);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfRenderTexture_getView(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfRenderTexture_getDefaultView(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntRect sfRenderTexture_getViewport(IntPtr cPointer, IntPtr targetView);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntRect sfRenderTexture_getScissor(IntPtr cPointer, IntPtr targetView);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2i sfRenderTexture_mapCoordsToPixel(IntPtr cPointer, Vector2f point, IntPtr view);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2f sfRenderTexture_mapPixelToCoords(IntPtr cPointer, Vector2i point, IntPtr view);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfRenderTexture_getTexture(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial uint sfRenderTexture_getMaximumAntiAliasingLevel();
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_setSmooth(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool smooth);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfRenderTexture_isSmooth(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_setRepeated(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool repeated);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfRenderTexture_isRepeated(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfRenderTexture_generateMipmap(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial void sfRenderTexture_drawPrimitives(IntPtr cPointer, Vertex* vertexPtr, UIntPtr vertexCount, PrimitiveType type, ref RenderStates.MarshalData renderStates);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_pushGLStates(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_popGLStates(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_resetGLStates(IntPtr cPointer);
-    #endregion
 }

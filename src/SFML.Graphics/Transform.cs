@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 // TODO REIMPLEMENT WITH 4x4 MATRIX
@@ -13,7 +11,7 @@ namespace Gaiden.SFML.Graphics;
 /// </summary>
 ////////////////////////////////////////////////////////////
 [StructLayout(LayoutKind.Sequential)]
-public partial struct Transform
+public struct Transform
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -53,7 +51,7 @@ public partial struct Transform
     /// </summary>
     /// <returns>A new transform which is the inverse of self</returns>
     ////////////////////////////////////////////////////////////
-    public Transform GetInverse() => sfTransform_getInverse(ref this);
+    public Transform GetInverse() => CSFMLGraphics.sfTransform_getInverse(ref this);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -62,7 +60,7 @@ public partial struct Transform
     /// <param name="point">Point to transform</param>
     /// <returns>Transformed point</returns>
     ////////////////////////////////////////////////////////////
-    public Vector2f TransformPoint(Vector2f point) => sfTransform_transformPoint(ref this, point);
+    public Vector2f TransformPoint(Vector2f point) => CSFMLGraphics.sfTransform_transformPoint(ref this, point);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -77,7 +75,7 @@ public partial struct Transform
     /// <param name="rectangle">Rectangle to transform</param>
     /// <returns>Transformed rectangle</returns>
     ////////////////////////////////////////////////////////////
-    public FloatRect TransformRect(FloatRect rectangle) => sfTransform_transformRect(ref this, rectangle);
+    public FloatRect TransformRect(FloatRect rectangle) => CSFMLGraphics.sfTransform_transformRect(ref this, rectangle);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -89,7 +87,7 @@ public partial struct Transform
     /// </summary>
     /// <param name="transform">Transform to combine to this transform</param>
     ////////////////////////////////////////////////////////////
-    public void Combine(Transform transform) => sfTransform_combine(ref this, ref transform);
+    public void Combine(Transform transform) => CSFMLGraphics.sfTransform_combine(ref this, ref transform);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -97,7 +95,7 @@ public partial struct Transform
     /// </summary>
     /// <param name="offset">Translation offset to apply</param>
     ////////////////////////////////////////////////////////////
-    public void Translate(Vector2f offset) => sfTransform_translate(ref this, offset);
+    public void Translate(Vector2f offset) => CSFMLGraphics.sfTransform_translate(ref this, offset);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -105,7 +103,7 @@ public partial struct Transform
     /// </summary>
     /// <param name="angle">Rotation angle</param>
     ////////////////////////////////////////////////////////////
-    public void Rotate(Angle angle) => sfTransform_rotate(ref this, angle.Degrees);
+    public void Rotate(Angle angle) => CSFMLGraphics.sfTransform_rotate(ref this, angle.Degrees);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -119,7 +117,7 @@ public partial struct Transform
     /// <param name="angle">Rotation angle</param>
     /// <param name="center">Center of rotation</param>
     ////////////////////////////////////////////////////////////
-    public void Rotate(Angle angle, Vector2f center) => sfTransform_rotateWithCenter(ref this, angle.Degrees, center);
+    public void Rotate(Angle angle, Vector2f center) => CSFMLGraphics.sfTransform_rotateWithCenter(ref this, angle.Degrees, center);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -127,7 +125,7 @@ public partial struct Transform
     /// </summary>
     /// <param name="factors">Scaling factors</param>
     ////////////////////////////////////////////////////////////
-    public void Scale(Vector2f factors) => sfTransform_scale(ref this, factors);
+    public void Scale(Vector2f factors) => CSFMLGraphics.sfTransform_scale(ref this, factors);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -141,7 +139,7 @@ public partial struct Transform
     /// <param name="factors">Scaling factors</param>
     /// <param name="center">Center of scaling</param>
     ////////////////////////////////////////////////////////////
-    public void Scale(Vector2f factors, Vector2f center) => sfTransform_scaleWithCenter(ref this, factors, center);
+    public void Scale(Vector2f factors, Vector2f center) => CSFMLGraphics.sfTransform_scaleWithCenter(ref this, factors, center);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -162,7 +160,7 @@ public partial struct Transform
     /// <param name="transform">Transform to check</param>
     /// <returns>Transforms are equal</returns>
     ////////////////////////////////////////////////////////////
-    public bool Equals(Transform transform) => sfTransform_equal(ref this, ref transform);
+    public bool Equals(Transform transform) => CSFMLGraphics.sfTransform_equal(ref this, ref transform);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -229,47 +227,4 @@ public partial struct Transform
     internal float M00, M01, M02;
     internal float M10, M11, M12;
     internal float M20, M21, M22;
-
-    #region Imports
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Transform sfTransform_getInverse(ref Transform transform);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2f sfTransform_transformPoint(ref Transform transform, Vector2f point);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial FloatRect sfTransform_transformRect(ref Transform transform, FloatRect rectangle);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTransform_combine(ref Transform transform, ref Transform other);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTransform_translate(ref Transform transform, Vector2f offset);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTransform_rotate(ref Transform transform, float angle);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTransform_rotateWithCenter(ref Transform transform, float angle, Vector2f center);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTransform_scale(ref Transform transform, Vector2f scale);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTransform_scaleWithCenter(ref Transform transform, Vector2f scale, Vector2f center);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfTransform_equal(ref Transform left, ref Transform right);
-    #endregion
 }

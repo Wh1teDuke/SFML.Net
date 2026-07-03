@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.Window;
 using Gaiden.SFML.System;
 using LoadingFailedException = Gaiden.SFML.Window.LoadingFailedException;
@@ -14,7 +12,7 @@ namespace Gaiden.SFML.Graphics;
 /// be used by Text.
 /// </summary>
 ////////////////////////////////////////////////////////////
-public partial class Font : ObjectBase
+public class Font : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -23,7 +21,7 @@ public partial class Font : ObjectBase
     /// <param name="filename">Font file to load</param>
     /// <exception cref="LoadingFailedException" />
     ////////////////////////////////////////////////////////////
-    public Font(string filename) : base(sfFont_createFromFile(filename))
+    public Font(string filename) : base(CSFMLGraphics.sfFont_createFromFile(filename))
     {
         if (IsInvalid)
         {
@@ -43,7 +41,7 @@ public partial class Font : ObjectBase
         // Stream needs to stay alive as long as the Font instance is alive
         // Disposing of it can only be done in Font's Dispose method
         _myStream = new StreamAdaptor(stream);
-        CPointer = sfFont_createFromStream(_myStream.InputStreamPtr);
+        CPointer = CSFMLGraphics.sfFont_createFromStream(_myStream.InputStreamPtr);
 
         if (IsInvalid)
         {
@@ -64,7 +62,7 @@ public partial class Font : ObjectBase
         // Memory needs to stay pinned as long as the Font instance is alive
         // Freeing the handle can only be done in Font's Dispose method
         _myBytesPin = GCHandle.Alloc(bytes, GCHandleType.Pinned);
-        CPointer = sfFont_createFromMemory(_myBytesPin.AddrOfPinnedObject(), (UIntPtr)bytes.Length);
+        CPointer = CSFMLGraphics.sfFont_createFromMemory(_myBytesPin.AddrOfPinnedObject(), (UIntPtr)bytes.Length);
 
         if (IsInvalid)
         {
@@ -79,7 +77,7 @@ public partial class Font : ObjectBase
     /// </summary>
     /// <param name="copy">Font to copy</param>
     ////////////////////////////////////////////////////////////
-    public Font(Font copy) : base(sfFont_copy(copy.CPointer)) { }
+    public Font(Font copy) : base(CSFMLGraphics.sfFont_copy(copy.CPointer)) { }
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -91,7 +89,7 @@ public partial class Font : ObjectBase
     /// <param name="outlineThickness">Thickness of outline (when != 0 the glyph will not be filled)</param>
     /// <returns>The glyph corresponding to the character</returns>
     ////////////////////////////////////////////////////////////
-    public Glyph GetGlyph(uint codePoint, uint characterSize, bool bold, float outlineThickness) => sfFont_getGlyph(CPointer, codePoint, characterSize, bold, outlineThickness);
+    public Glyph GetGlyph(uint codePoint, uint characterSize, bool bold, float outlineThickness) => CSFMLGraphics.sfFont_getGlyph(CPointer, codePoint, characterSize, bold, outlineThickness);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -108,7 +106,7 @@ public partial class Font : ObjectBase
     /// <param name="codePoint">Unicode code point to check</param>
     /// <returns>True if the codepoint has a glyph representation, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public bool HasGlyph(uint codePoint) => sfFont_hasGlyph(CPointer, codePoint);
+    public bool HasGlyph(uint codePoint) => CSFMLGraphics.sfFont_hasGlyph(CPointer, codePoint);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -120,7 +118,7 @@ public partial class Font : ObjectBase
     /// <param name="characterSize">Character size, in pixels</param>
     /// <returns>Kerning offset, in pixels</returns>
     ////////////////////////////////////////////////////////////
-    public float GetKerning(uint first, uint second, uint characterSize) => sfFont_getKerning(CPointer, first, second, characterSize);
+    public float GetKerning(uint first, uint second, uint characterSize) => CSFMLGraphics.sfFont_getKerning(CPointer, first, second, characterSize);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -132,7 +130,7 @@ public partial class Font : ObjectBase
     /// <param name="characterSize">Character size, in pixels</param>
     /// <returns>Kerning offset, in pixels</returns>
     ////////////////////////////////////////////////////////////
-    public float GetBoldKerning(uint first, uint second, uint characterSize) => sfFont_getBoldKerning(CPointer, first, second, characterSize);
+    public float GetBoldKerning(uint first, uint second, uint characterSize) => CSFMLGraphics.sfFont_getBoldKerning(CPointer, first, second, characterSize);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -141,7 +139,7 @@ public partial class Font : ObjectBase
     /// <param name="characterSize">Character size</param>
     /// <returns>Line spacing, in pixels</returns>
     ////////////////////////////////////////////////////////////
-    public float GetLineSpacing(uint characterSize) => sfFont_getLineSpacing(CPointer, characterSize);
+    public float GetLineSpacing(uint characterSize) => CSFMLGraphics.sfFont_getLineSpacing(CPointer, characterSize);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -150,7 +148,7 @@ public partial class Font : ObjectBase
     /// <param name="characterSize">Character size</param>
     /// <returns>Underline position, in pixels</returns>
     ////////////////////////////////////////////////////////////
-    public float GetUnderlinePosition(uint characterSize) => sfFont_getUnderlinePosition(CPointer, characterSize);
+    public float GetUnderlinePosition(uint characterSize) => CSFMLGraphics.sfFont_getUnderlinePosition(CPointer, characterSize);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -159,7 +157,7 @@ public partial class Font : ObjectBase
     /// <param name="characterSize">Character size</param>
     /// <returns>Underline thickness, in pixels</returns>
     ////////////////////////////////////////////////////////////
-    public float GetUnderlineThickness(uint characterSize) => sfFont_getUnderlineThickness(CPointer, characterSize);
+    public float GetUnderlineThickness(uint characterSize) => CSFMLGraphics.sfFont_getUnderlineThickness(CPointer, characterSize);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -170,7 +168,7 @@ public partial class Font : ObjectBase
     ////////////////////////////////////////////////////////////
     public Texture GetTexture(uint characterSize)
     {
-        _textures[characterSize] = new Texture(sfFont_getTexture(CPointer, characterSize));
+        _textures[characterSize] = new Texture(CSFMLGraphics.sfFont_getTexture(CPointer, characterSize));
         return _textures[characterSize];
     }
 
@@ -186,7 +184,7 @@ public partial class Font : ObjectBase
     /// </summary>
     /// <param name="smooth">True to enable smoothing, false to disable it</param>
     ////////////////////////////////////////////////////////////
-    public void SetSmooth(bool smooth) => sfFont_setSmooth(CPointer, smooth);
+    public void SetSmooth(bool smooth) => CSFMLGraphics.sfFont_setSmooth(CPointer, smooth);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -194,7 +192,7 @@ public partial class Font : ObjectBase
     /// </summary>
     /// <returns>True if smoothing is enabled, false if it is disabled</returns>
     ////////////////////////////////////////////////////////////
-    public bool IsSmooth() => sfFont_isSmooth(CPointer);
+    public bool IsSmooth() => CSFMLGraphics.sfFont_isSmooth(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -204,7 +202,7 @@ public partial class Font : ObjectBase
     ////////////////////////////////////////////////////////////
     public Info GetInfo()
     {
-        var data = sfFont_getInfo(CPointer);
+        var data = CSFMLGraphics.sfFont_getInfo(CPointer);
         var info = new Info
         {
             Family = Marshal.PtrToStringAnsi(data.Family)!
@@ -234,7 +232,7 @@ public partial class Font : ObjectBase
             _ = Context.Global.SetActive(true);
         }
 
-        sfFont_destroy(CPointer);
+        CSFMLGraphics.sfFont_destroy(CPointer);
 
         if (disposing)
         {
@@ -275,7 +273,7 @@ public partial class Font : ObjectBase
     /// </summary>
     ////////////////////////////////////////////////////////////
     [StructLayout(LayoutKind.Sequential)]
-    internal struct InfoMarshalData
+    public struct InfoMarshalData
     {
         public IntPtr Family;
     }
@@ -283,72 +281,4 @@ public partial class Font : ObjectBase
     private readonly Dictionary<uint, Texture> _textures = [];
     private readonly StreamAdaptor? _myStream;
     private GCHandle _myBytesPin;
-
-    #region Imports
-    [LibraryImport(CSFML.Graphics, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfFont_createFromFile(string filename);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfFont_createFromStream(IntPtr stream);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfFont_createFromMemory(IntPtr data, UIntPtr size);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfFont_copy(IntPtr font);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfFont_destroy(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Glyph sfFont_getGlyph(IntPtr cPointer, uint codePoint, uint characterSize, [MarshalAs(UnmanagedType.Bool)] bool bold, float outlineThickness);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfFont_hasGlyph(IntPtr font, uint codePoint);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfFont_getKerning(IntPtr cPointer, uint first, uint second, uint characterSize);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfFont_getBoldKerning(IntPtr cPointer, uint first, uint second, uint characterSize);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfFont_getLineSpacing(IntPtr cPointer, uint characterSize);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfFont_getUnderlinePosition(IntPtr cPointer, uint characterSize);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfFont_getUnderlineThickness(IntPtr cPointer, uint characterSize);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfFont_getTexture(IntPtr cPointer, uint characterSize);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfFont_setSmooth(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool smooth);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfFont_isSmooth(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial InfoMarshalData sfFont_getInfo(IntPtr cPointer);
-    #endregion
 }

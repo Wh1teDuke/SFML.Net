@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Graphics;
@@ -10,7 +8,7 @@ namespace Gaiden.SFML.Graphics;
 /// Base class for textured shapes with outline
 /// </summary>
 ////////////////////////////////////////////////////////////
-public abstract partial class Shape : Transformable, IDrawable
+public abstract class Shape : Transformable, IDrawable
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -20,7 +18,7 @@ public abstract partial class Shape : Transformable, IDrawable
     public Texture Texture
     {
         get => _texture;
-        set { _texture = value; sfShape_setTexture(CPointer, value?.CPointer ?? IntPtr.Zero, false); }
+        set { _texture = value; CSFMLGraphics.sfShape_setTexture(CPointer, value?.CPointer ?? IntPtr.Zero, false); }
     }
 
     ////////////////////////////////////////////////////////////
@@ -30,8 +28,8 @@ public abstract partial class Shape : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     public IntRect TextureRect
     {
-        get => sfShape_getTextureRect(CPointer);
-        set => sfShape_setTextureRect(CPointer, value);
+        get => CSFMLGraphics.sfShape_getTextureRect(CPointer);
+        set => CSFMLGraphics.sfShape_setTextureRect(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -41,8 +39,8 @@ public abstract partial class Shape : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     public Color FillColor
     {
-        get => sfShape_getFillColor(CPointer);
-        set => sfShape_setFillColor(CPointer, value);
+        get => CSFMLGraphics.sfShape_getFillColor(CPointer);
+        set => CSFMLGraphics.sfShape_setFillColor(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -52,8 +50,8 @@ public abstract partial class Shape : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     public Color OutlineColor
     {
-        get => sfShape_getOutlineColor(CPointer);
-        set => sfShape_setOutlineColor(CPointer, value);
+        get => CSFMLGraphics.sfShape_getOutlineColor(CPointer);
+        set => CSFMLGraphics.sfShape_setOutlineColor(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -63,8 +61,8 @@ public abstract partial class Shape : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     public float OutlineThickness
     {
-        get => sfShape_getOutlineThickness(CPointer);
-        set => sfShape_setOutlineThickness(CPointer, value);
+        get => CSFMLGraphics.sfShape_getOutlineThickness(CPointer);
+        set => CSFMLGraphics.sfShape_setOutlineThickness(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -100,7 +98,7 @@ public abstract partial class Shape : Transformable, IDrawable
     /// </summary>
     /// <returns>The geometric center of the shape</returns>
     ////////////////////////////////////////////////////////////
-    public virtual Vector2f GetGeometricCenter() => sfShape_getGeometricCenter(CPointer);
+    public virtual Vector2f GetGeometricCenter() => CSFMLGraphics.sfShape_getGeometricCenter(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -114,7 +112,7 @@ public abstract partial class Shape : Transformable, IDrawable
     /// </summary>
     /// <returns>Local bounding rectangle of the entity</returns>
     ////////////////////////////////////////////////////////////
-    public FloatRect GetLocalBounds() => sfShape_getLocalBounds(CPointer);
+    public FloatRect GetLocalBounds() => CSFMLGraphics.sfShape_getLocalBounds(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -147,11 +145,11 @@ public abstract partial class Shape : Transformable, IDrawable
 
         if (target is RenderWindow window)
         {
-            sfRenderWindow_drawShape(window.CPointer, CPointer, ref marshaledStates);
+            CSFMLGraphics.sfRenderWindow_drawShape(window.CPointer, CPointer, ref marshaledStates);
         }
         else if (target is RenderTexture texture)
         {
-            sfRenderTexture_drawShape(texture.CPointer, CPointer, ref marshaledStates);
+            CSFMLGraphics.sfRenderTexture_drawShape(texture.CPointer, CPointer, ref marshaledStates);
         }
     }
 
@@ -165,7 +163,7 @@ public abstract partial class Shape : Transformable, IDrawable
     {
         _getPointCountCallback = new GetPointCountCallbackType(InternalGetPointCount);
         _getPointCallback = new GetPointCallbackType(InternalGetPoint);
-        CPointer = sfShape_create(_getPointCountCallback, _getPointCallback, IntPtr.Zero);
+        CPointer = CSFMLGraphics.sfShape_create(_getPointCountCallback, _getPointCallback, IntPtr.Zero);
     }
 
     ////////////////////////////////////////////////////////////
@@ -179,7 +177,7 @@ public abstract partial class Shape : Transformable, IDrawable
     {
         _getPointCountCallback = new GetPointCountCallbackType(InternalGetPointCount);
         _getPointCallback = new GetPointCallbackType(InternalGetPoint);
-        CPointer = sfShape_create(_getPointCountCallback, _getPointCallback, IntPtr.Zero);
+        CPointer = CSFMLGraphics.sfShape_create(_getPointCountCallback, _getPointCallback, IntPtr.Zero);
 
         Origin = copy.Origin;
         Position = copy.Position;
@@ -202,7 +200,7 @@ public abstract partial class Shape : Transformable, IDrawable
     /// PointCount or GetPoint is different).
     /// </summary>
     ////////////////////////////////////////////////////////////
-    protected void Update() => sfShape_update(CPointer);
+    protected void Update() => CSFMLGraphics.sfShape_update(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -210,7 +208,7 @@ public abstract partial class Shape : Transformable, IDrawable
     /// </summary>
     /// <param name="disposing">Is the GC disposing the object, or is it an explicit call ?</param>
     ////////////////////////////////////////////////////////////
-    protected override void Destroy(bool disposing) => sfShape_destroy(CPointer);
+    protected override void Destroy(bool disposing) => CSFMLGraphics.sfShape_destroy(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -227,79 +225,13 @@ public abstract partial class Shape : Transformable, IDrawable
     private Vector2f InternalGetPoint(UIntPtr index, IntPtr userData) => GetPoint((uint)index);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate UIntPtr GetPointCountCallbackType(IntPtr userData);
+    public delegate UIntPtr GetPointCountCallbackType(IntPtr userData);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate Vector2f GetPointCallbackType(UIntPtr index, IntPtr userData);
+    public delegate Vector2f GetPointCallbackType(UIntPtr index, IntPtr userData);
 
     private readonly GetPointCountCallbackType _getPointCountCallback;
     private readonly GetPointCallbackType _getPointCallback;
 
     private Texture _texture = null!;
-
-    #region Imports
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfShape_create(GetPointCountCallbackType getPointCount, GetPointCallbackType getPoint, IntPtr userData);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfShape_destroy(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfShape_setTexture(IntPtr cPointer, IntPtr texture, [MarshalAs(UnmanagedType.Bool)] bool adjustToNewSize);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfShape_setTextureRect(IntPtr cPointer, IntRect rect);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntRect sfShape_getTextureRect(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfShape_setFillColor(IntPtr cPointer, Color color);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Color sfShape_getFillColor(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfShape_setOutlineColor(IntPtr cPointer, Color color);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Color sfShape_getOutlineColor(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfShape_setOutlineThickness(IntPtr cPointer, float thickness);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfShape_getOutlineThickness(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2f sfShape_getGeometricCenter(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial FloatRect sfShape_getLocalBounds(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfShape_update(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_drawShape(IntPtr cPointer, IntPtr shape, ref RenderStates.MarshalData states);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_drawShape(IntPtr cPointer, IntPtr shape, ref RenderStates.MarshalData states);
-    #endregion
 }

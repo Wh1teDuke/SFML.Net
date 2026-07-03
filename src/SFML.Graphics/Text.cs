@@ -1,7 +1,5 @@
 using System.Buffers;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
 using System.Text;
 using Gaiden.SFML.System;
 
@@ -15,7 +13,7 @@ namespace Gaiden.SFML.Graphics;
 /// See also the note on coordinates and undistorted rendering in SFML.Graphics.Transformable.
 /// </remarks>
 ////////////////////////////////////////////////////////////
-public partial class Text : Transformable, IDrawable
+public class Text : Transformable, IDrawable
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -73,7 +71,7 @@ public partial class Text : Transformable, IDrawable
     /// <param name="characterSize">Font size</param>
     ////////////////////////////////////////////////////////////
     public Text(Font font, string str, uint characterSize) :
-        base(sfText_create(font.CPointer))
+        base(CSFMLGraphics.sfText_create(font.CPointer))
     {
         DisplayedString = str;
         Font = font;
@@ -87,7 +85,7 @@ public partial class Text : Transformable, IDrawable
     /// <param name="copy">Text to copy</param>
     ////////////////////////////////////////////////////////////
     public Text(Text copy) :
-        base(sfText_copy(copy.CPointer))
+        base(CSFMLGraphics.sfText_copy(copy.CPointer))
     {
         Origin = copy.Origin;
         Position = copy.Position;
@@ -112,8 +110,8 @@ public partial class Text : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     public Color FillColor
     {
-        get => sfText_getFillColor(CPointer);
-        set => sfText_setFillColor(CPointer, value);
+        get => CSFMLGraphics.sfText_getFillColor(CPointer);
+        set => CSFMLGraphics.sfText_setFillColor(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -127,8 +125,8 @@ public partial class Text : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     public Color OutlineColor
     {
-        get => sfText_getOutlineColor(CPointer);
-        set => sfText_setOutlineColor(CPointer, value);
+        get => CSFMLGraphics.sfText_getOutlineColor(CPointer);
+        set => CSFMLGraphics.sfText_setOutlineColor(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -144,8 +142,8 @@ public partial class Text : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     public float OutlineThickness
     {
-        get => sfText_getOutlineThickness(CPointer);
-        set => sfText_setOutlineThickness(CPointer, value);
+        get => CSFMLGraphics.sfText_getOutlineThickness(CPointer);
+        set => CSFMLGraphics.sfText_setOutlineThickness(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -158,7 +156,7 @@ public partial class Text : Transformable, IDrawable
         get
         {
             // Get a pointer to the source string (UTF-32)
-            var source = sfText_getUnicodeString(CPointer);
+            var source = CSFMLGraphics.sfText_getUnicodeString(CPointer);
 
             // Find its length (find the terminating 0)
             uint length = 0;
@@ -188,7 +186,7 @@ public partial class Text : Transformable, IDrawable
             {
                 fixed (byte* ptr = utf32)
                 {
-                    sfText_setUnicodeString(CPointer, (IntPtr)ptr);
+                    CSFMLGraphics.sfText_setUnicodeString(CPointer, (IntPtr)ptr);
                 }
             }
         }
@@ -208,7 +206,7 @@ public partial class Text : Transformable, IDrawable
         unsafe
         {
             fixed (int* ptr = arr.AsSpan(0, i))
-                sfText_setUnicodeString(CPointer, (IntPtr)ptr);
+                CSFMLGraphics.sfText_setUnicodeString(CPointer, (IntPtr)ptr);
         }
 
         ArrayPool<int>.Shared.Return(arr);
@@ -222,7 +220,7 @@ public partial class Text : Transformable, IDrawable
     public Font? Font
     {
         get => _font;
-        set { _font = value; sfText_setFont(CPointer, value?.CPointer ?? IntPtr.Zero); }
+        set { _font = value; CSFMLGraphics.sfText_setFont(CPointer, value?.CPointer ?? IntPtr.Zero); }
     }
 
     ////////////////////////////////////////////////////////////
@@ -232,8 +230,8 @@ public partial class Text : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     public uint CharacterSize
     {
-        get => sfText_getCharacterSize(CPointer);
-        set => sfText_setCharacterSize(CPointer, value);
+        get => CSFMLGraphics.sfText_getCharacterSize(CPointer);
+        set => CSFMLGraphics.sfText_setCharacterSize(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -243,8 +241,8 @@ public partial class Text : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     public float LetterSpacing
     {
-        get => sfText_getLetterSpacing(CPointer);
-        set => sfText_setLetterSpacing(CPointer, value);
+        get => CSFMLGraphics.sfText_getLetterSpacing(CPointer);
+        set => CSFMLGraphics.sfText_setLetterSpacing(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -254,8 +252,8 @@ public partial class Text : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     public float LineSpacing
     {
-        get => sfText_getLineSpacing(CPointer);
-        set => sfText_setLineSpacing(CPointer, value);
+        get => CSFMLGraphics.sfText_getLineSpacing(CPointer);
+        set => CSFMLGraphics.sfText_setLineSpacing(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -265,8 +263,8 @@ public partial class Text : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     public Styles Style
     {
-        get => sfText_getStyle(CPointer);
-        set => sfText_setStyle(CPointer, value);
+        get => CSFMLGraphics.sfText_getStyle(CPointer);
+        set => CSFMLGraphics.sfText_setStyle(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -280,7 +278,7 @@ public partial class Text : Transformable, IDrawable
     /// <param name="index">Index of the character</param>
     /// <returns>Position of the Index-th character (end of text if Index is out of range)</returns>
     ////////////////////////////////////////////////////////////
-    public Vector2f FindCharacterPos(uint index) => sfText_findCharacterPos(CPointer, (UIntPtr)index);
+    public Vector2f FindCharacterPos(uint index) => CSFMLGraphics.sfText_findCharacterPos(CPointer, (UIntPtr)index);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -294,7 +292,7 @@ public partial class Text : Transformable, IDrawable
     /// </remarks>
     /// <returns>Local bounding rectangle of the entity</returns>
     ////////////////////////////////////////////////////////////
-    public FloatRect GetLocalBounds() => sfText_getLocalBounds(CPointer);
+    public FloatRect GetLocalBounds() => CSFMLGraphics.sfText_getLocalBounds(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -347,11 +345,11 @@ public partial class Text : Transformable, IDrawable
 
         if (target is RenderWindow window)
         {
-            sfRenderWindow_drawText(window.CPointer, CPointer, ref marshaledStates);
+            CSFMLGraphics.sfRenderWindow_drawText(window.CPointer, CPointer, ref marshaledStates);
         }
         else if (target is RenderTexture texture)
         {
-            sfRenderTexture_drawText(texture.CPointer, CPointer, ref marshaledStates);
+            CSFMLGraphics.sfRenderTexture_drawText(texture.CPointer, CPointer, ref marshaledStates);
         }
     }
 
@@ -361,105 +359,7 @@ public partial class Text : Transformable, IDrawable
     /// </summary>
     /// <param name="disposing">Is the GC disposing the object, or is it an explicit call ?</param>
     ////////////////////////////////////////////////////////////
-    protected override void Destroy(bool disposing) => sfText_destroy(CPointer);
+    protected override void Destroy(bool disposing) => CSFMLGraphics.sfText_destroy(CPointer);
 
     private Font? _font;
-
-    #region Imports
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfText_create(IntPtr font);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfText_copy(IntPtr text);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfText_destroy(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfText_setFillColor(IntPtr cPointer, Color color);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfText_setOutlineColor(IntPtr cPointer, Color color);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfText_setOutlineThickness(IntPtr cPointer, float thickness);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Color sfText_getFillColor(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Color sfText_getOutlineColor(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfText_getOutlineThickness(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_drawText(IntPtr cPointer, IntPtr text, ref RenderStates.MarshalData states);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_drawText(IntPtr cPointer, IntPtr text, ref RenderStates.MarshalData states);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfText_setUnicodeString(IntPtr cPointer, IntPtr text);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfText_setFont(IntPtr cPointer, IntPtr font);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfText_setCharacterSize(IntPtr cPointer, uint size);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfText_setLineSpacing(IntPtr cPointer, float spacingFactor);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfText_setLetterSpacing(IntPtr cPointer, float spacingFactor);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfText_setStyle(IntPtr cPointer, Styles style);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfText_getUnicodeString(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial uint sfText_getCharacterSize(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfText_getLetterSpacing(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfText_getLineSpacing(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Styles sfText_getStyle(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2f sfText_findCharacterPos(IntPtr cPointer, UIntPtr index);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial FloatRect sfText_getLocalBounds(IntPtr cPointer);
-    #endregion
 }

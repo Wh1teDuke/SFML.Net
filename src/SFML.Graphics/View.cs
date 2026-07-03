@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Graphics;
@@ -14,7 +11,7 @@ namespace Gaiden.SFML.Graphics;
 /// See also the note on coordinates and undistorted rendering in SFML.Graphics.Transformable.
 /// </remarks>
 ////////////////////////////////////////////////////////////
-public partial class View : ObjectBase
+public class View : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -22,7 +19,7 @@ public partial class View : ObjectBase
     /// </summary>
     ////////////////////////////////////////////////////////////
     public View() :
-        base(sfView_create())
+        base(CSFMLGraphics.sfView_create())
     {
     }
 
@@ -33,7 +30,7 @@ public partial class View : ObjectBase
     /// <param name="viewRect">Rectangle defining the position and size of the view</param>
     ////////////////////////////////////////////////////////////
     public View(FloatRect viewRect) :
-        base(sfView_createFromRect(viewRect))
+        base(CSFMLGraphics.sfView_createFromRect(viewRect))
     {
     }
 
@@ -45,7 +42,7 @@ public partial class View : ObjectBase
     /// <param name="size">Size of the view</param>
     ////////////////////////////////////////////////////////////
     public View(Vector2f center, Vector2f size) :
-        base(sfView_create())
+        base(CSFMLGraphics.sfView_create())
     {
         Center = center;
         Size = size;
@@ -58,7 +55,7 @@ public partial class View : ObjectBase
     /// <param name="copy">View to copy</param>
     ////////////////////////////////////////////////////////////
     public View(View copy) :
-        base(sfView_copy(copy.CPointer))
+        base(CSFMLGraphics.sfView_copy(copy.CPointer))
     {
     }
 
@@ -69,8 +66,8 @@ public partial class View : ObjectBase
     ////////////////////////////////////////////////////////////
     public Vector2f Center
     {
-        get => sfView_getCenter(CPointer);
-        set => sfView_setCenter(CPointer, value);
+        get => CSFMLGraphics.sfView_getCenter(CPointer);
+        set => CSFMLGraphics.sfView_setCenter(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -80,8 +77,8 @@ public partial class View : ObjectBase
     ////////////////////////////////////////////////////////////
     public Vector2f Size
     {
-        get => sfView_getSize(CPointer);
-        set => sfView_setSize(CPointer, value);
+        get => CSFMLGraphics.sfView_getSize(CPointer);
+        set => CSFMLGraphics.sfView_setSize(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -91,8 +88,8 @@ public partial class View : ObjectBase
     ////////////////////////////////////////////////////////////
     public Angle Rotation
     {
-        get => Angle.FromDegrees(sfView_getRotation(CPointer));
-        set => sfView_setRotation(CPointer, value.Degrees);
+        get => Angle.FromDegrees(CSFMLGraphics.sfView_getRotation(CPointer));
+        set => CSFMLGraphics.sfView_setRotation(CPointer, value.Degrees);
     }
 
     ////////////////////////////////////////////////////////////
@@ -103,8 +100,8 @@ public partial class View : ObjectBase
     ////////////////////////////////////////////////////////////
     public FloatRect Viewport
     {
-        get => sfView_getViewport(CPointer);
-        set => sfView_setViewport(CPointer, value);
+        get => CSFMLGraphics.sfView_getViewport(CPointer);
+        set => CSFMLGraphics.sfView_setViewport(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -126,8 +123,8 @@ public partial class View : ObjectBase
     ////////////////////////////////////////////////////////////
     public FloatRect Scissor
     {
-        get => sfView_getScissor(CPointer);
-        set => sfView_setScissor(CPointer, value);
+        get => CSFMLGraphics.sfView_getScissor(CPointer);
+        set => CSFMLGraphics.sfView_setScissor(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -136,7 +133,7 @@ public partial class View : ObjectBase
     /// </summary>
     /// <param name="offset">Offset to move the view</param>
     ////////////////////////////////////////////////////////////
-    public void Move(Vector2f offset) => sfView_move(CPointer, offset);
+    public void Move(Vector2f offset) => CSFMLGraphics.sfView_move(CPointer, offset);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -144,7 +141,7 @@ public partial class View : ObjectBase
     /// </summary>
     /// <param name="angle">Angle of rotation, in degrees</param>
     ////////////////////////////////////////////////////////////
-    public void Rotate(float angle) => sfView_rotate(CPointer, angle);
+    public void Rotate(float angle) => CSFMLGraphics.sfView_rotate(CPointer, angle);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -152,7 +149,7 @@ public partial class View : ObjectBase
     /// </summary>
     /// <param name="factor">Zoom factor to apply, relative to the current zoom</param>
     ////////////////////////////////////////////////////////////
-    public void Zoom(float factor) => sfView_zoom(CPointer, factor);
+    public void Zoom(float factor) => CSFMLGraphics.sfView_zoom(CPointer, factor);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -193,79 +190,9 @@ public partial class View : ObjectBase
     {
         if (!_external)
         {
-            sfView_destroy(CPointer);
+            CSFMLGraphics.sfView_destroy(CPointer);
         }
     }
 
     private readonly bool _external;
-
-    #region Imports
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfView_create();
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfView_createFromRect(FloatRect rect);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfView_copy(IntPtr view);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfView_destroy(IntPtr view);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfView_setCenter(IntPtr view, Vector2f center);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfView_setSize(IntPtr view, Vector2f size);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfView_setRotation(IntPtr view, float angle);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfView_setViewport(IntPtr view, FloatRect viewport);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfView_setScissor(IntPtr view, FloatRect viewport);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2f sfView_getCenter(IntPtr view);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2f sfView_getSize(IntPtr view);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfView_getRotation(IntPtr view);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial FloatRect sfView_getViewport(IntPtr view);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial FloatRect sfView_getScissor(IntPtr view);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfView_move(IntPtr view, Vector2f offset);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfView_rotate(IntPtr view, float angle);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfView_zoom(IntPtr view, float factor);
-    #endregion
 }

@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Graphics;
@@ -10,7 +7,7 @@ namespace Gaiden.SFML.Graphics;
 /// Specialized shape representing a circle
 /// </summary>
 ////////////////////////////////////////////////////////////
-public partial class CircleShape : Shape
+public class CircleShape : Shape
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -115,14 +112,8 @@ public partial class CircleShape : Shape
     /// </summary>
     /// <returns>The geometric center of the shape</returns>
     ////////////////////////////////////////////////////////////
-    public override Vector2f GetGeometricCenter() => sfCircleShape_getGeometricCenter(CPointer);
+    public override Vector2f GetGeometricCenter() => CSFMLGraphics.sfCircleShape_getGeometricCenter(CPointer);
 
     private float _radius;
     private uint _pointCount;
-
-    #region Imports
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2f sfCircleShape_getGeometricCenter(IntPtr cPointer);
-    #endregion
 }

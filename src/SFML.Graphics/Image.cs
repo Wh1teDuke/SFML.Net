@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 using LoadingFailedException = Gaiden.SFML.Window.LoadingFailedException;
 
@@ -12,7 +9,7 @@ namespace Gaiden.SFML.Graphics;
 /// manipulating images
 /// </summary>
 ////////////////////////////////////////////////////////////
-public partial class Image : ObjectBase
+public class Image : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -31,7 +28,7 @@ public partial class Image : ObjectBase
     /// <param name="color">Color to fill the image with</param>
     /// <exception cref="LoadingFailedException" />
     ////////////////////////////////////////////////////////////
-    public Image(Vector2u size, Color color) : base(sfImage_createFromColor(size, color))
+    public Image(Vector2u size, Color color) : base(CSFMLGraphics.sfImage_createFromColor(size, color))
     {
         if (IsInvalid)
         {
@@ -46,7 +43,7 @@ public partial class Image : ObjectBase
     /// <param name="filename">Path of the image file to load</param>
     /// <exception cref="LoadingFailedException" />
     ////////////////////////////////////////////////////////////
-    public Image(string filename) : base(sfImage_createFromFile(filename))
+    public Image(string filename) : base(CSFMLGraphics.sfImage_createFromFile(filename))
     {
         if (IsInvalid)
         {
@@ -66,7 +63,7 @@ public partial class Image : ObjectBase
     {
         using (var adaptor = new StreamAdaptor(stream))
         {
-            CPointer = sfImage_createFromStream(adaptor.InputStreamPtr);
+            CPointer = CSFMLGraphics.sfImage_createFromStream(adaptor.InputStreamPtr);
         }
 
         if (IsInvalid)
@@ -89,7 +86,7 @@ public partial class Image : ObjectBase
         {
             fixed (void* ptr = bytes)
             {
-                CPointer = sfImage_createFromMemory((IntPtr)ptr, (UIntPtr)bytes.Length);
+                CPointer = CSFMLGraphics.sfImage_createFromMemory((IntPtr)ptr, (UIntPtr)bytes.Length);
             }
         }
 
@@ -126,7 +123,7 @@ public partial class Image : ObjectBase
         {
             fixed (Color* pixelsPtr = transposed)
             {
-                CPointer = sfImage_createFromPixels(new Vector2u(width, height), (byte*)pixelsPtr);
+                CPointer = CSFMLGraphics.sfImage_createFromPixels(new Vector2u(width, height), (byte*)pixelsPtr);
             }
         }
 
@@ -151,7 +148,7 @@ public partial class Image : ObjectBase
         {
             fixed (byte* pixelsPtr = pixels)
             {
-                CPointer = sfImage_createFromPixels(size, pixelsPtr);
+                CPointer = CSFMLGraphics.sfImage_createFromPixels(size, pixelsPtr);
             }
         }
 
@@ -168,7 +165,7 @@ public partial class Image : ObjectBase
     /// <param name="copy">Image to copy</param>
     ////////////////////////////////////////////////////////////
     public Image(Image copy) :
-        base(sfImage_copy(copy.CPointer))
+        base(CSFMLGraphics.sfImage_copy(copy.CPointer))
     {
     }
 
@@ -179,7 +176,7 @@ public partial class Image : ObjectBase
     /// <param name="filename">Path of the file to save (overwritten if already exist)</param>
     /// <returns>True if saving was successful</returns>
     ////////////////////////////////////////////////////////////
-    public bool SaveToFile(string filename) => sfImage_saveToFile(CPointer, filename);
+    public bool SaveToFile(string filename) => CSFMLGraphics.sfImage_saveToFile(CPointer, filename);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -197,7 +194,7 @@ public partial class Image : ObjectBase
     public bool SaveToMemory(out byte[] output, string format)
     {
         using var buffer = new global::Gaiden.SFML.System.Buffer();
-        var success = sfImage_saveToMemory(CPointer, buffer.CPointer, format);
+        var success = CSFMLGraphics.sfImage_saveToMemory(CPointer, buffer.CPointer, format);
 
         output = success ? buffer.GetData() : [];
         return success;
@@ -218,7 +215,7 @@ public partial class Image : ObjectBase
     /// <param name="color">Color to become transparent</param>
     /// <param name="alpha">Alpha value to use for transparent pixels</param>
     ////////////////////////////////////////////////////////////
-    public void CreateMaskFromColor(Color color, byte alpha) => sfImage_createMaskFromColor(CPointer, color, alpha);
+    public void CreateMaskFromColor(Color color, byte alpha) => CSFMLGraphics.sfImage_createMaskFromColor(CPointer, color, alpha);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -254,7 +251,7 @@ public partial class Image : ObjectBase
     /// <param name="sourceRect">Sub-rectangle of the source image to copy</param>
     /// <param name="applyAlpha">Should the copy take in account the source transparency?</param>
     ////////////////////////////////////////////////////////////
-    public void Copy(Image source, Vector2u dest, IntRect sourceRect, bool applyAlpha) => sfImage_copyImage(CPointer, source.CPointer, dest, sourceRect, applyAlpha);
+    public void Copy(Image source, Vector2u dest, IntRect sourceRect, bool applyAlpha) => CSFMLGraphics.sfImage_copyImage(CPointer, source.CPointer, dest, sourceRect, applyAlpha);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -263,7 +260,7 @@ public partial class Image : ObjectBase
     /// <param name="coords">Coordinates of pixel to change</param>
     /// <returns>Color of pixel (x, y)</returns>
     ////////////////////////////////////////////////////////////
-    public Color GetPixel(Vector2u coords) => sfImage_getPixel(CPointer, coords);
+    public Color GetPixel(Vector2u coords) => CSFMLGraphics.sfImage_getPixel(CPointer, coords);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -272,7 +269,7 @@ public partial class Image : ObjectBase
     /// <param name="coords">Coordinates of pixel to change</param>
     /// <param name="color">New color for pixel (x, y)</param>
     ////////////////////////////////////////////////////////////
-    public void SetPixel(Vector2u coords, Color color) => sfImage_setPixel(CPointer, coords, color);
+    public void SetPixel(Vector2u coords, Color color) => CSFMLGraphics.sfImage_setPixel(CPointer, coords, color);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -290,7 +287,7 @@ public partial class Image : ObjectBase
 
         unsafe
         {        
-            var ptr = sfImage_getPixelsPtr(CPointer);
+            var ptr = CSFMLGraphics.sfImage_getPixelsPtr(CPointer);
             var nativeSpan = new ReadOnlySpan<byte>((void*)ptr, len);
             nativeSpan.CopyTo(pixels);
         }
@@ -301,21 +298,21 @@ public partial class Image : ObjectBase
     /// Size of the image, in pixels
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public Vector2u Size => sfImage_getSize(CPointer);
+    public Vector2u Size => CSFMLGraphics.sfImage_getSize(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Flip the image horizontally
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public void FlipHorizontally() => sfImage_flipHorizontally(CPointer);
+    public void FlipHorizontally() => CSFMLGraphics.sfImage_flipHorizontally(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Flip the image vertically
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public void FlipVertically() => sfImage_flipVertically(CPointer);
+    public void FlipVertically() => CSFMLGraphics.sfImage_flipVertically(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -347,77 +344,5 @@ public partial class Image : ObjectBase
     /// </summary>
     /// <param name="disposing">Is the GC disposing the object, or is it an explicit call?</param>
     ////////////////////////////////////////////////////////////
-    protected override void Destroy(bool disposing) => sfImage_destroy(CPointer);
-
-    #region Imports
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfImage_createFromColor(Vector2u size, Color col);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial IntPtr sfImage_createFromPixels(Vector2u size, byte* pixels);
-
-    [LibraryImport(CSFML.Graphics, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfImage_createFromFile(string filename);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfImage_createFromStream(IntPtr stream);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfImage_createFromMemory(IntPtr data, UIntPtr size);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfImage_copy(IntPtr image);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfImage_destroy(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfImage_saveToFile(IntPtr cPointer, string filename);
-
-    [LibraryImport(CSFML.Graphics, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfImage_saveToMemory(IntPtr cPointer, IntPtr bufferOutput, string format);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfImage_createMaskFromColor(IntPtr cPointer, Color col, byte alpha);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfImage_copyImage(IntPtr cPointer, IntPtr source, Vector2u dest, IntRect sourceRect, [MarshalAs(UnmanagedType.Bool)] bool applyAlpha);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfImage_setPixel(IntPtr cPointer, Vector2u coords, Color col);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Color sfImage_getPixel(IntPtr cPointer, Vector2u coords);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfImage_getPixelsPtr(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2u sfImage_getSize(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfImage_flipHorizontally(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfImage_flipVertically(IntPtr cPointer);
-    #endregion
+    protected override void Destroy(bool disposing) => CSFMLGraphics.sfImage_destroy(CPointer);
 }

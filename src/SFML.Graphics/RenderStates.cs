@@ -141,7 +141,7 @@ public struct RenderStates
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct MarshalData
+    public struct MarshalData
     {
         public BlendMode BlendMode;
         public StencilMode StencilMode;

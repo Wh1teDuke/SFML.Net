@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Graphics;
@@ -10,7 +7,7 @@ namespace Gaiden.SFML.Graphics;
 /// Define a set of one or more 2D primitives
 /// </summary>
 ////////////////////////////////////////////////////////////
-public partial class VertexArray : ObjectBase, IDrawable
+public class VertexArray : ObjectBase, IDrawable // TODO sealed where appropriate
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -18,7 +15,7 @@ public partial class VertexArray : ObjectBase, IDrawable
     /// </summary>
     ////////////////////////////////////////////////////////////
     public VertexArray() :
-        base(sfVertexArray_create())
+        base(CSFMLGraphics.sfVertexArray_create())
     {
     }
 
@@ -29,7 +26,7 @@ public partial class VertexArray : ObjectBase, IDrawable
     /// <param name="type">Type of primitives</param>
     ////////////////////////////////////////////////////////////
     public VertexArray(PrimitiveType type) :
-        base(sfVertexArray_create()) => PrimitiveType = type;
+        base(CSFMLGraphics.sfVertexArray_create()) => PrimitiveType = type;
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -39,7 +36,7 @@ public partial class VertexArray : ObjectBase, IDrawable
     /// <param name="vertexCount">Initial number of vertices in the array</param>
     ////////////////////////////////////////////////////////////
     public VertexArray(PrimitiveType type, uint vertexCount) :
-        base(sfVertexArray_create())
+        base(CSFMLGraphics.sfVertexArray_create())
     {
         PrimitiveType = type;
         Resize(vertexCount);
@@ -52,7 +49,7 @@ public partial class VertexArray : ObjectBase, IDrawable
     /// <param name="copy">Transformable to copy</param>
     ////////////////////////////////////////////////////////////
     public VertexArray(VertexArray copy) :
-        base(sfVertexArray_copy(copy.CPointer))
+        base(CSFMLGraphics.sfVertexArray_copy(copy.CPointer))
     {
     }
 
@@ -61,7 +58,7 @@ public partial class VertexArray : ObjectBase, IDrawable
     /// Total <see cref="Vertex"/> count
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public uint VertexCount => (uint)sfVertexArray_getVertexCount(CPointer);
+    public uint VertexCount => (uint)CSFMLGraphics.sfVertexArray_getVertexCount(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -81,14 +78,14 @@ public partial class VertexArray : ObjectBase, IDrawable
         {
             unsafe
             {
-                return *sfVertexArray_getVertex(CPointer, (UIntPtr)index);
+                return *CSFMLGraphics.sfVertexArray_getVertex(CPointer, (UIntPtr)index);
             }
         }
         set
         {
             unsafe
             {
-                *sfVertexArray_getVertex(CPointer, (UIntPtr)index) = value;
+                *CSFMLGraphics.sfVertexArray_getVertex(CPointer, (UIntPtr)index) = value;
             }
         }
     }
@@ -98,7 +95,7 @@ public partial class VertexArray : ObjectBase, IDrawable
     /// Clear the vertex array
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public void Clear() => sfVertexArray_clear(CPointer);
+    public void Clear() => CSFMLGraphics.sfVertexArray_clear(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -113,7 +110,7 @@ public partial class VertexArray : ObjectBase, IDrawable
     /// </remarks>
     /// <param name="vertexCount">New size of the array (number of vertices)</param>
     ////////////////////////////////////////////////////////////
-    public void Resize(uint vertexCount) => sfVertexArray_resize(CPointer, (UIntPtr)vertexCount);
+    public void Resize(uint vertexCount) => CSFMLGraphics.sfVertexArray_resize(CPointer, (UIntPtr)vertexCount);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -121,7 +118,7 @@ public partial class VertexArray : ObjectBase, IDrawable
     /// </summary>
     /// <param name="vertex">Vertex to add</param>
     ////////////////////////////////////////////////////////////
-    public void Append(Vertex vertex) => sfVertexArray_append(CPointer, vertex);
+    public void Append(Vertex vertex) => CSFMLGraphics.sfVertexArray_append(CPointer, vertex);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -133,8 +130,8 @@ public partial class VertexArray : ObjectBase, IDrawable
     ////////////////////////////////////////////////////////////
     public PrimitiveType PrimitiveType
     {
-        get => sfVertexArray_getPrimitiveType(CPointer);
-        set => sfVertexArray_setPrimitiveType(CPointer, value);
+        get => CSFMLGraphics.sfVertexArray_getPrimitiveType(CPointer);
+        set => CSFMLGraphics.sfVertexArray_setPrimitiveType(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -145,7 +142,7 @@ public partial class VertexArray : ObjectBase, IDrawable
     /// Contains the axis-aligned <see cref="FloatRect"/> that contains all the vertices of the array.
     /// </remarks>
     ////////////////////////////////////////////////////////////
-    public FloatRect Bounds => sfVertexArray_getBounds(CPointer);
+    public FloatRect Bounds => CSFMLGraphics.sfVertexArray_getBounds(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -160,11 +157,11 @@ public partial class VertexArray : ObjectBase, IDrawable
 
         if (target is RenderWindow window)
         {
-            sfRenderWindow_drawVertexArray(window.CPointer, CPointer, ref marshaledStates);
+            CSFMLGraphics.sfRenderWindow_drawVertexArray(window.CPointer, CPointer, ref marshaledStates);
         }
         else if (target is RenderTexture texture)
         {
-            sfRenderTexture_drawVertexArray(texture.CPointer, CPointer, ref marshaledStates);
+            CSFMLGraphics.sfRenderTexture_drawVertexArray(texture.CPointer, CPointer, ref marshaledStates);
         }
     }
 
@@ -174,59 +171,5 @@ public partial class VertexArray : ObjectBase, IDrawable
     /// </summary>
     /// <param name="disposing">Is the GC disposing the object, or is it an explicit call ?</param>
     ////////////////////////////////////////////////////////////
-    protected override void Destroy(bool disposing) => sfVertexArray_destroy(CPointer);
-
-    #region Imports
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfVertexArray_create();
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfVertexArray_copy(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfVertexArray_destroy(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial UIntPtr sfVertexArray_getVertexCount(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial Vertex* sfVertexArray_getVertex(IntPtr cPointer, UIntPtr index);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfVertexArray_clear(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfVertexArray_resize(IntPtr cPointer, UIntPtr vertexCount);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfVertexArray_append(IntPtr cPointer, Vertex vertex);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfVertexArray_setPrimitiveType(IntPtr cPointer, PrimitiveType type);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial PrimitiveType sfVertexArray_getPrimitiveType(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial FloatRect sfVertexArray_getBounds(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_drawVertexArray(IntPtr cPointer, IntPtr vertexArray, ref RenderStates.MarshalData states);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_drawVertexArray(IntPtr cPointer, IntPtr vertexArray, ref RenderStates.MarshalData states);
-    #endregion
+    protected override void Destroy(bool disposing) => CSFMLGraphics.sfVertexArray_destroy(CPointer);
 }

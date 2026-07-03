@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.Window;
 using Gaiden.SFML.System;
 using LoadingFailedException = Gaiden.SFML.Window.LoadingFailedException;
@@ -24,7 +21,7 @@ namespace Gaiden.SFML.Graphics;
 /// framebuffer. This can be requested during window creation.
 /// </summary>
 ////////////////////////////////////////////////////////////
-public partial class Texture : ObjectBase
+public class Texture : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -42,11 +39,11 @@ public partial class Texture : ObjectBase
     {
         if (srgb)
         {
-            CPointer = sfTexture_createSrgb(size);
+            CPointer = CSFMLGraphics.sfTexture_createSrgb(size);
         }
         else
         {
-            CPointer = sfTexture_create(size);
+            CPointer = CSFMLGraphics.sfTexture_create(size);
         }
 
         if (IsInvalid)
@@ -82,11 +79,11 @@ public partial class Texture : ObjectBase
     {
         if (srgb)
         {
-            CPointer = sfTexture_createSrgbFromFile(filename, ref area);
+            CPointer = CSFMLGraphics.sfTexture_createSrgbFromFile(filename, ref area);
         }
         else
         {
-            CPointer = sfTexture_createFromFile(filename, ref area);
+            CPointer = CSFMLGraphics.sfTexture_createFromFile(filename, ref area);
         }
 
         if (IsInvalid)
@@ -124,11 +121,11 @@ public partial class Texture : ObjectBase
         {
             if (srgb)
             {
-                CPointer = sfTexture_createSrgbFromStream(adaptor.InputStreamPtr, ref area);
+                CPointer = CSFMLGraphics.sfTexture_createSrgbFromStream(adaptor.InputStreamPtr, ref area);
             }
             else
             {
-                CPointer = sfTexture_createFromStream(adaptor.InputStreamPtr, ref area);
+                CPointer = CSFMLGraphics.sfTexture_createFromStream(adaptor.InputStreamPtr, ref area);
             }
         }
 
@@ -165,11 +162,11 @@ public partial class Texture : ObjectBase
     {
         if (srgb)
         {
-            CPointer = sfTexture_createSrgbFromImage(image.CPointer, ref area);
+            CPointer = CSFMLGraphics.sfTexture_createSrgbFromImage(image.CPointer, ref area);
         }
         else
         {
-            CPointer = sfTexture_createFromImage(image.CPointer, ref area);
+            CPointer = CSFMLGraphics.sfTexture_createFromImage(image.CPointer, ref area);
         }
 
         if (IsInvalid)
@@ -209,11 +206,11 @@ public partial class Texture : ObjectBase
             {
                 if (srgb)
                 {
-                    CPointer = sfTexture_createSrgbFromMemory((IntPtr)ptr, (UIntPtr)bytes.Length, ref area);
+                    CPointer = CSFMLGraphics.sfTexture_createSrgbFromMemory((IntPtr)ptr, (UIntPtr)bytes.Length, ref area);
                 }
                 else
                 {
-                    CPointer = sfTexture_createFromMemory((IntPtr)ptr, (UIntPtr)bytes.Length, ref area);
+                    CPointer = CSFMLGraphics.sfTexture_createFromMemory((IntPtr)ptr, (UIntPtr)bytes.Length, ref area);
                 }
             }
         }
@@ -231,7 +228,7 @@ public partial class Texture : ObjectBase
     /// <param name="copy">Texture to copy</param>
     ////////////////////////////////////////////////////////////
     public Texture(Texture copy) :
-        base(sfTexture_copy(copy.CPointer))
+        base(CSFMLGraphics.sfTexture_copy(copy.CPointer))
     {
     }
 
@@ -245,7 +242,7 @@ public partial class Texture : ObjectBase
     /// or implement a temporary workaround until a bug is fixed.
     /// </remarks>
     ////////////////////////////////////////////////////////////
-    public uint NativeHandle => sfTexture_getNativeHandle(CPointer);
+    public uint NativeHandle => CSFMLGraphics.sfTexture_getNativeHandle(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -253,7 +250,7 @@ public partial class Texture : ObjectBase
     /// </summary>
     /// <returns>Image containing the texture's pixels</returns>
     ////////////////////////////////////////////////////////////
-    public Image CopyToImage() => new(sfTexture_copyToImage(CPointer));
+    public Image CopyToImage() => new(CSFMLGraphics.sfTexture_copyToImage(CPointer));
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -262,7 +259,7 @@ public partial class Texture : ObjectBase
     /// <param name="size">Width and height of the texture</param>
     /// <param name="srgb">True to enable sRGB conversion, false to disable it</param>
     ////////////////////////////////////////////////////////////
-    public bool Resize(Vector2u size, bool srgb = false) => srgb ? sfTexture_resizeSrgb(CPointer, size) : sfTexture_resize(CPointer, size);
+    public bool Resize(Vector2u size, bool srgb = false) => srgb ? CSFMLGraphics.sfTexture_resizeSrgb(CPointer, size) : CSFMLGraphics.sfTexture_resize(CPointer, size);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -286,7 +283,7 @@ public partial class Texture : ObjectBase
         {
             fixed (byte* ptr = pixels)
             {
-                sfTexture_updateFromPixels(CPointer, ptr, size, dest);
+                CSFMLGraphics.sfTexture_updateFromPixels(CPointer, ptr, size, dest);
             }
         }
     }
@@ -298,7 +295,7 @@ public partial class Texture : ObjectBase
     /// <param name="texture">Source texture to copy to destination texture</param>
     /// <param name="dest">Coordinates of the destination position</param>
     ////////////////////////////////////////////////////////////
-    public void Update(Texture texture, Vector2u dest) => sfTexture_updateFromTexture(CPointer, texture.CPointer, dest);
+    public void Update(Texture texture, Vector2u dest) => CSFMLGraphics.sfTexture_updateFromTexture(CPointer, texture.CPointer, dest);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -315,7 +312,7 @@ public partial class Texture : ObjectBase
     /// <param name="image">Image to copy to the texture</param>
     /// <param name="dest">Coordinates of the destination position</param>
     ////////////////////////////////////////////////////////////
-    public void Update(Image image, Vector2u dest) => sfTexture_updateFromImage(CPointer, image.CPointer, dest);
+    public void Update(Image image, Vector2u dest) => CSFMLGraphics.sfTexture_updateFromImage(CPointer, image.CPointer, dest);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -332,7 +329,7 @@ public partial class Texture : ObjectBase
     /// <param name="window">Window to copy to the texture</param>
     /// <param name="dest">Coordinates of the destination position</param>
     ////////////////////////////////////////////////////////////
-    public void Update(global::Gaiden.SFML.Window.Window window, Vector2u dest) => sfTexture_updateFromWindow(CPointer, window.CPointer, dest);
+    public void Update(global::Gaiden.SFML.Window.Window window, Vector2u dest) => CSFMLGraphics.sfTexture_updateFromWindow(CPointer, window.CPointer, dest);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -349,7 +346,7 @@ public partial class Texture : ObjectBase
     /// <param name="window">Render-window to copy to the texture</param>
     /// <param name="dest">Coordinates of the destination position</param>
     ////////////////////////////////////////////////////////////
-    public void Update(RenderWindow window, Vector2u dest) => sfTexture_updateFromRenderWindow(CPointer, window.CPointer, dest);
+    public void Update(RenderWindow window, Vector2u dest) => CSFMLGraphics.sfTexture_updateFromRenderWindow(CPointer, window.CPointer, dest);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -377,7 +374,7 @@ public partial class Texture : ObjectBase
     ///
     /// <returns>True if mipmap generation was successful, false if unsuccessful</returns>
     ////////////////////////////////////////////////////////////
-    public bool GenerateMipmap() => sfTexture_generateMipmap(CPointer);
+    public bool GenerateMipmap() => CSFMLGraphics.sfTexture_generateMipmap(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -385,7 +382,7 @@ public partial class Texture : ObjectBase
     /// </summary>
     /// <param name="right">Instance to swap with</param>
     ////////////////////////////////////////////////////////////
-    public void Swap(Texture right) => sfTexture_swap(CPointer, right.CPointer);
+    public void Swap(Texture right) => CSFMLGraphics.sfTexture_swap(CPointer, right.CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -394,8 +391,8 @@ public partial class Texture : ObjectBase
     ////////////////////////////////////////////////////////////
     public bool Smooth
     {
-        get => sfTexture_isSmooth(CPointer);
-        set => sfTexture_setSmooth(CPointer, value);
+        get => CSFMLGraphics.sfTexture_isSmooth(CPointer);
+        set => CSFMLGraphics.sfTexture_setSmooth(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -420,7 +417,7 @@ public partial class Texture : ObjectBase
     /// framebuffer. This can be requested during window creation.</para>
     /// </remarks>
     ////////////////////////////////////////////////////////////
-    public bool IsSrgb => sfTexture_isSrgb(CPointer);
+    public bool IsSrgb => CSFMLGraphics.sfTexture_isSrgb(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -429,8 +426,8 @@ public partial class Texture : ObjectBase
     ////////////////////////////////////////////////////////////
     public bool Repeated
     {
-        get => sfTexture_isRepeated(CPointer);
-        set => sfTexture_setRepeated(CPointer, value);
+        get => CSFMLGraphics.sfTexture_isRepeated(CPointer);
+        set => CSFMLGraphics.sfTexture_setRepeated(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -438,7 +435,7 @@ public partial class Texture : ObjectBase
     /// Size of the texture, in pixels
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public Vector2u Size => sfTexture_getSize(CPointer);
+    public Vector2u Size => CSFMLGraphics.sfTexture_getSize(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -447,14 +444,14 @@ public partial class Texture : ObjectBase
     /// <param name="texture">Shader to bind (can be null to use no texture)</param>
     /// <param name="type">Type of texture coordinates to use</param>
     ////////////////////////////////////////////////////////////
-    public static void Bind(Texture texture, CoordinateType type) => sfTexture_bind(texture?.CPointer ?? IntPtr.Zero, type);
+    public static void Bind(Texture texture, CoordinateType type) => CSFMLGraphics.sfTexture_bind(texture?.CPointer ?? IntPtr.Zero, type);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Maximum texture size allowed
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public static uint MaximumSize => sfTexture_getMaximumSize();
+    public static uint MaximumSize => CSFMLGraphics.sfTexture_getMaximumSize();
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -499,7 +496,7 @@ public partial class Texture : ObjectBase
                 _ = Context.Global.SetActive(true);
             }
 
-            sfTexture_destroy(CPointer);
+            CSFMLGraphics.sfTexture_destroy(CPointer);
 
             if (!disposing)
             {
@@ -509,136 +506,4 @@ public partial class Texture : ObjectBase
     }
 
     private readonly bool _external;
-
-    #region Imports
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfTexture_create(Vector2u size);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfTexture_createSrgb(Vector2u size);
-
-    [LibraryImport(CSFML.Graphics, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfTexture_createFromFile(string filename, ref IntRect area);
-
-    [LibraryImport(CSFML.Graphics, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfTexture_createSrgbFromFile(string filename, ref IntRect area);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfTexture_createFromStream(IntPtr stream, ref IntRect area);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfTexture_createSrgbFromStream(IntPtr stream, ref IntRect area);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfTexture_createFromImage(IntPtr image, ref IntRect area);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfTexture_createSrgbFromImage(IntPtr image, ref IntRect area);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfTexture_createFromMemory(IntPtr data, UIntPtr size, ref IntRect area);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfTexture_createSrgbFromMemory(IntPtr data, UIntPtr size, ref IntRect area);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfTexture_copy(IntPtr texture);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTexture_destroy(IntPtr texture);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool sfTexture_resize(IntPtr texture, Vector2u size);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool sfTexture_resizeSrgb(IntPtr texture, Vector2u size);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2u sfTexture_getSize(IntPtr texture);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfTexture_copyToImage(IntPtr texture);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial void sfTexture_updateFromPixels(IntPtr texture, byte* pixels, Vector2u size, Vector2u offset);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTexture_updateFromTexture(IntPtr cPointer, IntPtr texture, Vector2u offset);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTexture_updateFromImage(IntPtr texture, IntPtr image, Vector2u offset);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTexture_updateFromWindow(IntPtr texture, IntPtr window, Vector2u offset);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTexture_updateFromRenderWindow(IntPtr texture, IntPtr renderWindow, Vector2u offset);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTexture_bind(IntPtr texture, CoordinateType type);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTexture_setSmooth(IntPtr texture, [MarshalAs(UnmanagedType.Bool)] bool smooth);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfTexture_isSmooth(IntPtr texture);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfTexture_isSrgb(IntPtr texture);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTexture_setRepeated(IntPtr texture, [MarshalAs(UnmanagedType.Bool)] bool repeated);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfTexture_isRepeated(IntPtr texture);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfTexture_generateMipmap(IntPtr texture);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfTexture_swap(IntPtr cPointer, IntPtr right);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial uint sfTexture_getNativeHandle(IntPtr shader);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial uint sfTexture_getMaximumSize();
-    #endregion
 }

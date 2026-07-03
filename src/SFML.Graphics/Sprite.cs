@@ -1,8 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
-using Gaiden.SFML.System;
-
 namespace Gaiden.SFML.Graphics;
 
 ////////////////////////////////////////////////////////////
@@ -14,7 +9,7 @@ namespace Gaiden.SFML.Graphics;
 /// See also the note on coordinates and undistorted rendering in SFML.Graphics.Transformable.
 /// </remarks>
 ////////////////////////////////////////////////////////////
-public partial class Sprite : Transformable, IDrawable
+public class Sprite : Transformable, IDrawable
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -23,7 +18,7 @@ public partial class Sprite : Transformable, IDrawable
     /// <param name="texture">Source texture to assign to the sprite</param>
     ////////////////////////////////////////////////////////////
     public Sprite(Texture texture) :
-        base(sfSprite_create(texture.CPointer)) => Texture = texture;
+        base(CSFMLGraphics.sfSprite_create(texture.CPointer)) => Texture = texture;
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -33,7 +28,7 @@ public partial class Sprite : Transformable, IDrawable
     /// <param name="rectangle">Sub-rectangle of the texture to assign to the sprite</param>
     ////////////////////////////////////////////////////////////
     public Sprite(Texture texture, IntRect rectangle) :
-        base(sfSprite_create(texture.CPointer))
+        base(CSFMLGraphics.sfSprite_create(texture.CPointer))
     {
         Texture = texture;
         TextureRect = rectangle;
@@ -46,7 +41,7 @@ public partial class Sprite : Transformable, IDrawable
     /// <param name="copy">Sprite to copy</param>
     ////////////////////////////////////////////////////////////
     public Sprite(Sprite copy) :
-        base(sfSprite_copy(copy.CPointer))
+        base(CSFMLGraphics.sfSprite_copy(copy.CPointer))
     {
         Origin = copy.Origin;
         Position = copy.Position;
@@ -62,8 +57,8 @@ public partial class Sprite : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     public Color Color
     {
-        get => sfSprite_getColor(CPointer);
-        set => sfSprite_setColor(CPointer, value);
+        get => CSFMLGraphics.sfSprite_getColor(CPointer);
+        set => CSFMLGraphics.sfSprite_setColor(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -74,7 +69,7 @@ public partial class Sprite : Transformable, IDrawable
     public Texture Texture
     {
         get => _texture;
-        set { _texture = value; sfSprite_setTexture(CPointer, value?.CPointer ?? IntPtr.Zero, false); }
+        set { _texture = value; CSFMLGraphics.sfSprite_setTexture(CPointer, value?.CPointer ?? IntPtr.Zero, false); }
     }
 
     ////////////////////////////////////////////////////////////
@@ -84,8 +79,8 @@ public partial class Sprite : Transformable, IDrawable
     ////////////////////////////////////////////////////////////
     public IntRect TextureRect
     {
-        get => sfSprite_getTextureRect(CPointer);
-        set => sfSprite_setTextureRect(CPointer, value);
+        get => CSFMLGraphics.sfSprite_getTextureRect(CPointer);
+        set => CSFMLGraphics.sfSprite_setTextureRect(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -100,7 +95,7 @@ public partial class Sprite : Transformable, IDrawable
     /// </summary>
     /// <returns>Local bounding rectangle of the entity</returns>
     ////////////////////////////////////////////////////////////
-    public FloatRect GetLocalBounds() => sfSprite_getLocalBounds(CPointer);
+    public FloatRect GetLocalBounds() => CSFMLGraphics.sfSprite_getLocalBounds(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -149,11 +144,11 @@ public partial class Sprite : Transformable, IDrawable
 
         if (target is RenderWindow window)
         {
-            sfRenderWindow_drawSprite(window.CPointer, CPointer, ref marshaledStates);
+            CSFMLGraphics.sfRenderWindow_drawSprite(window.CPointer, CPointer, ref marshaledStates);
         }
         else if (target is RenderTexture texture)
         {
-            sfRenderTexture_drawSprite(texture.CPointer, CPointer, ref marshaledStates);
+            CSFMLGraphics.sfRenderTexture_drawSprite(texture.CPointer, CPointer, ref marshaledStates);
         }
     }
 
@@ -163,54 +158,7 @@ public partial class Sprite : Transformable, IDrawable
     /// </summary>
     /// <param name="disposing">Is the GC disposing the object, or is it an explicit call ?</param>
     ////////////////////////////////////////////////////////////
-    protected override void Destroy(bool disposing) => sfSprite_destroy(CPointer);
+    protected override void Destroy(bool disposing) => CSFMLGraphics.sfSprite_destroy(CPointer);
 
     private Texture _texture = null!;
-
-    #region Imports
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfSprite_create(IntPtr texture);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfSprite_copy(IntPtr sprite);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSprite_destroy(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSprite_setColor(IntPtr cPointer, Color color);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Color sfSprite_getColor(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderWindow_drawSprite(IntPtr cPointer, IntPtr sprite, ref RenderStates.MarshalData states);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfRenderTexture_drawSprite(IntPtr cPointer, IntPtr sprite, ref RenderStates.MarshalData states);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSprite_setTexture(IntPtr cPointer, IntPtr texture, [MarshalAs(UnmanagedType.Bool)] bool adjustToNewSize);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSprite_setTextureRect(IntPtr cPointer, IntRect rect);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntRect sfSprite_getTextureRect(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Graphics), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial FloatRect sfSprite_getLocalBounds(IntPtr cPointer);
-    #endregion
 }
