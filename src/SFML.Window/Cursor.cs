@@ -212,8 +212,8 @@ public class Cursor : ObjectBase
     /// <param name="hotspot">(x,y) location of the hotspot</param>
     /// <exception cref="LoadingFailedException" />
     ////////////////////////////////////////////////////////////
-    public Cursor(byte[] pixels, Vector2u size, Vector2u hotspot)
-        : base((IntPtr)0)
+    public Cursor(ReadOnlySpan<byte> pixels, Vector2u size, Vector2u hotspot)
+        : base(0)
     {
         unsafe
         {

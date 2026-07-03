@@ -7,7 +7,7 @@ namespace Gaiden.SFML.System;
 /// Internal helper class for CSFML's sfBuffer
 /// </summary>
 ////////////////////////////////////////////////////////////
-public class Buffer : ObjectBase
+public sealed class Buffer : ObjectBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -30,20 +30,20 @@ public class Buffer : ObjectBase
     /// </summary>
     /// <returns>A byte array containing the buffer data</returns>
     ////////////////////////////////////////////////////////////
-    public byte[] GetData()
+    public ReadOnlySpan<byte> GetData()
     {
         var size = CSFMLSystem.sfBuffer_getSize(CPointer);
         var ptr = CSFMLSystem.sfBuffer_getData(CPointer);
 
         if (ptr == IntPtr.Zero)
         {
-            return [];
+            return Array.Empty<byte>();
         }
 
-        var data = new byte[(int)size];
-        Marshal.Copy(ptr, data, 0, (int)size);
-
-        return data;
+        unsafe
+        {
+            return new ReadOnlySpan<byte>(ptr.ToPointer(), (int)size);
+        }
     }
 
     ////////////////////////////////////////////////////////////

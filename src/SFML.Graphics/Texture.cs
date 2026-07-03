@@ -183,7 +183,7 @@ public class Texture : ObjectBase
     /// <param name="srgb">True to convert the texture source from sRGB, false otherwise</param>
     /// <exception cref="LoadingFailedException" />
     ////////////////////////////////////////////////////////////
-    public Texture(byte[] bytes, bool srgb = false) :
+    public Texture(ReadOnlySpan<byte> bytes, bool srgb = false) :
         this(bytes, new IntRect((0, 0), (0, 0)), srgb)
     {
     }
@@ -197,7 +197,7 @@ public class Texture : ObjectBase
     /// <param name="srgb">True to convert the texture source from sRGB, false otherwise</param>
     /// <exception cref="LoadingFailedException" />
     ////////////////////////////////////////////////////////////
-    public Texture(byte[] bytes, IntRect area, bool srgb = false) :
+    public Texture(ReadOnlySpan<byte> bytes, IntRect area, bool srgb = false) :
         base(IntPtr.Zero)
     {
         unsafe
@@ -267,7 +267,7 @@ public class Texture : ObjectBase
     /// </summary>
     /// <param name="pixels">Array of pixels to copy to the texture</param>
     ////////////////////////////////////////////////////////////
-    public void Update(byte[] pixels) => Update(pixels, Size, new Vector2u());
+    public void Update(ReadOnlySpan<byte> pixels) => Update(pixels, Size, new Vector2u());
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -277,7 +277,7 @@ public class Texture : ObjectBase
     /// <param name="size">Width and height of the pixel region contained in pixels</param>
     /// <param name="dest">Coordinates of the destination position</param>
     ////////////////////////////////////////////////////////////
-    public void Update(byte[] pixels, Vector2u size, Vector2u dest)
+    public void Update(ReadOnlySpan<byte> pixels, Vector2u size, Vector2u dest)
     {
         unsafe
         {

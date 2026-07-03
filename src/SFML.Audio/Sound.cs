@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Audio;
@@ -401,19 +400,8 @@ public class Sound : ObjectBase
     ////////////////////////////////////////////////////////////
     public void SetEffectProcessor(EffectProcessor effectProcessor)
     {
-        _effectProcessor = (inputFrames, inputFrameCount, outputFrames, outputFrameCount, frameChannelCount) =>
-        {
-            var inputFramesArray = new float[inputFrameCount];
-            var outputFramesArray = new float[outputFrameCount];
-
-            Marshal.Copy(inputFrames, inputFramesArray, 0, inputFramesArray.Length);
-            var written = effectProcessor(inputFramesArray, outputFramesArray, frameChannelCount);
-            Marshal.Copy(outputFramesArray, 0, outputFrames, outputFramesArray.Length);
-
-            return written;
-        };
-
-        CSFMLAudio.sfSound_setEffectProcessor(CPointer, Marshal.GetFunctionPointerForDelegate(_effectProcessor));
+        EffectProcessorUtil.Set(
+            this, effectProcessor, CSFMLAudio.sfSound_setEffectProcessor, out _effectProcessor);
     }
 
     ////////////////////////////////////////////////////////////

@@ -1,4 +1,6 @@
+using System.Buffers;
 using System.Runtime.InteropServices;
+using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Audio;
 
@@ -86,3 +88,36 @@ public delegate long EffectProcessor(float[] inputFrames, float[] outputFrames, 
 
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 internal delegate long EffectProcessorInternal(IntPtr inputFrames, uint inputFrameCount, IntPtr outputFrames, uint outputFrameCount, uint frameChannelCount);
+
+internal static class EffectProcessorUtil
+{
+    public static void Set(
+        ObjectBase oBase,
+        EffectProcessor effectProcessor,
+        Action<IntPtr, IntPtr> cb,
+        out EffectProcessorInternal result)
+    {
+        result = (inputFrames, inputFrameCount, outputFrames, outputFrameCount, frameChannelCount) =>
+        {
+            var pool = ArrayPool<float>.Shared;
+            var inputFramesArray = pool.Rent((int)inputFrameCount);
+            var outputFramesArray = pool.Rent((int)outputFrameCount);
+            long written;
+            try
+            {
+                Marshal.Copy(inputFrames, inputFramesArray, 0, (int)inputFrameCount);
+                written = effectProcessor(inputFramesArray, outputFramesArray, frameChannelCount);
+                Marshal.Copy(outputFramesArray, 0, outputFrames, (int)outputFrameCount);
+            }
+            finally
+            {
+                pool.Return(inputFramesArray);
+                pool.Return(outputFramesArray);
+            }
+
+            return written;
+        };
+
+        cb(oBase.CPointer, Marshal.GetFunctionPointerForDelegate(result));
+    }
+}

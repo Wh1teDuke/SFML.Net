@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Audio;
@@ -66,15 +65,13 @@ public class SoundBuffer : ObjectBase
     /// <param name="bytes">Byte array containing the file contents</param>
     /// <exception cref="LoadingFailedException" />
     ////////////////////////////////////////////////////////////
-    public SoundBuffer(byte[] bytes) :
+    public SoundBuffer(ReadOnlySpan<byte> bytes) :
         base(IntPtr.Zero)
     {
         unsafe
         {
-            fixed (void* ptr = bytes)
-            {
+            fixed (void* ptr = bytes) 
                 CPointer = CSFMLAudio.sfSoundBuffer_createFromMemory((IntPtr)ptr, (UIntPtr)bytes.Length);
-            }
         }
 
         if (IsInvalid)
@@ -93,7 +90,7 @@ public class SoundBuffer : ObjectBase
     /// <param name="channelMapData">Map of position in sample frame to sound channel</param>
     /// <exception cref="LoadingFailedException" />
     ////////////////////////////////////////////////////////////
-    public SoundBuffer(short[] samples, uint channelCount, uint sampleRate, SoundChannel[] channelMapData) :
+    public SoundBuffer(ReadOnlySpan<short> samples, uint channelCount, uint sampleRate, ReadOnlySpan<SoundChannel> channelMapData) :
         base(IntPtr.Zero)
     {
         unsafe
@@ -169,13 +166,17 @@ public class SoundBuffer : ObjectBase
     /// (sf::Int16).
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public short[] Samples
+    public ReadOnlySpan<short> Samples
     {
         get
         {
-            var samplesArray = new short[CSFMLAudio.sfSoundBuffer_getSampleCount(CPointer)];
-            Marshal.Copy(CSFMLAudio.sfSoundBuffer_getSamples(CPointer), samplesArray, 0, samplesArray.Length);
-            return samplesArray;
+            unsafe
+            {
+                // Sample array should remain constant and not get invalidated as a result
+                var samplesCount = CSFMLAudio.sfSoundBuffer_getSampleCount(CPointer);
+                var samples = CSFMLAudio.sfSoundBuffer_getSamples(CPointer);
+                return new ReadOnlySpan<short>(samples.ToPointer(), (int)samplesCount);
+            }
         }
     }
 
@@ -187,21 +188,21 @@ public class SoundBuffer : ObjectBase
     /// position during spatialisation.
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public virtual SoundChannel[] ChannelMap
+    public virtual ReadOnlySpan<SoundChannel> ChannelMap
     {
         get
         {
             unsafe
             {
                 var channels = CSFMLAudio.sfSoundBuffer_getChannelMap(CPointer, out var count);
-                var arr = new SoundChannel[(int)count];
+                Array.Resize(ref _channels, (int)count);
 
-                for (var i = 0; i < arr.Length; i++)
+                for (var i = 0; i < _channels.Length; i++)
                 {
-                    arr[i] = channels[i];
+                    _channels[i] = channels[i];
                 }
 
-                return arr;
+                return _channels;
             }
         }
     }
@@ -232,4 +233,6 @@ public class SoundBuffer : ObjectBase
     /// <param name="disposing">Is the GC disposing the object, or is it an explicit call?</param>
     ////////////////////////////////////////////////////////////
     protected override void Destroy(bool disposing) => CSFMLAudio.sfSoundBuffer_destroy(CPointer);
+    
+    private SoundChannel[]? _channels;
 }

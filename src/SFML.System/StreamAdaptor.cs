@@ -145,10 +145,12 @@ public class StreamAdaptor : IDisposable
     ////////////////////////////////////////////////////////////
     private long Read(IntPtr data, UIntPtr size, IntPtr userData)
     {
-        var buffer = new byte[(int)size];
-        var count = _stream.Read(buffer, 0, (int)size);
-        Marshal.Copy(buffer, 0, data, count);
-        return count;
+        unsafe
+        {
+            var buffer = new Span<byte>(data.ToPointer(), (int)size);
+            var count = _stream.Read(buffer);
+            return count;
+        }
     }
 
     ////////////////////////////////////////////////////////////

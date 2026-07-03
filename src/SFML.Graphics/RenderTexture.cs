@@ -11,15 +11,6 @@ namespace Gaiden.SFML.Graphics;
 public class RenderTexture : ObjectBase, IRenderTarget
 {
     ////////////////////////////////////////////////////////////
-    /// <summary>
-    /// Create the render-texture with the given dimensions
-    /// </summary>
-    /// <param name="size">Width and height of the render-texture</param>
-    ////////////////////////////////////////////////////////////
-    public RenderTexture(Vector2u size) :
-        this(size, default)
-    {
-    }
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -29,7 +20,7 @@ public class RenderTexture : ObjectBase, IRenderTarget
     /// <param name="size">Width and height of the render-texture</param>
     /// <param name="contextSettings">A ContextSettings struct representing settings for the RenderTexture</param>
     ////////////////////////////////////////////////////////////
-    public RenderTexture(Vector2u size, ContextSettings contextSettings) :
+    public RenderTexture(Vector2u size, ContextSettings contextSettings = default) :
         base(CSFMLGraphics.sfRenderTexture_create(size, ref contextSettings))
     {
         _defaultView = new View(CSFMLGraphics.sfRenderTexture_getDefaultView(CPointer));
@@ -319,40 +310,17 @@ public class RenderTexture : ObjectBase, IRenderTarget
     /// <param name="vertices">Pointer to the vertices</param>
     /// <param name="type">Type of primitives to draw</param>
     ////////////////////////////////////////////////////////////
-    public void Draw(Vertex[] vertices, PrimitiveType type) => Draw(vertices, type, RenderStates.Default);
-
-    ////////////////////////////////////////////////////////////
-    /// <summary>
-    /// Draw primitives defined by an array of vertices
-    /// </summary>
-    /// <param name="vertices">Pointer to the vertices</param>
-    /// <param name="type">Type of primitives to draw</param>
-    /// <param name="states">Render states to use for drawing</param>
-    ////////////////////////////////////////////////////////////
-    public void Draw(Vertex[] vertices, PrimitiveType type, RenderStates states) => Draw(vertices, 0, (uint)vertices.Length, type, states);
-
-    ////////////////////////////////////////////////////////////
-    /// <summary>
-    /// Draw primitives defined by a sub-array of vertices, with default render states
-    /// </summary>
-    /// <param name="vertices">Array of vertices to draw</param>
-    /// <param name="start">Index of the first vertex to draw in the array</param>
-    /// <param name="count">Number of vertices to draw</param>
-    /// <param name="type">Type of primitives to draw</param>
-    ////////////////////////////////////////////////////////////
-    public void Draw(Vertex[] vertices, uint start, uint count, PrimitiveType type) => Draw(vertices, start, count, type, RenderStates.Default);
+    public void Draw(ReadOnlySpan<Vertex> vertices, PrimitiveType type) => Draw(vertices, type, RenderStates.Default);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Draw primitives defined by a sub-array of vertices
     /// </summary>
     /// <param name="vertices">Pointer to the vertices</param>
-    /// <param name="start">Index of the first vertex to use in the array</param>
-    /// <param name="count">Number of vertices to draw</param>
     /// <param name="type">Type of primitives to draw</param>
     /// <param name="states">Render states to use for drawing</param>
     ////////////////////////////////////////////////////////////
-    public void Draw(Vertex[] vertices, uint start, uint count, PrimitiveType type, RenderStates states)
+    public void Draw(ReadOnlySpan<Vertex> vertices, PrimitiveType type, RenderStates states)
     {
         var marshaledStates = states.Marshal();
 
@@ -360,7 +328,7 @@ public class RenderTexture : ObjectBase, IRenderTarget
         {
             fixed (Vertex* vertexPtr = vertices)
             {
-                CSFMLGraphics.sfRenderTexture_drawPrimitives(CPointer, vertexPtr + start, (UIntPtr)count, type, ref marshaledStates);
+                CSFMLGraphics.sfRenderTexture_drawPrimitives(CPointer, vertexPtr, (UIntPtr)vertices.Length, type, ref marshaledStates);
             }
         }
     }

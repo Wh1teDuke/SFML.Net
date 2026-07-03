@@ -79,7 +79,7 @@ public class Image : ObjectBase
     /// <param name="bytes">Byte array containing the file contents</param>
     /// <exception cref="LoadingFailedException" />
     ////////////////////////////////////////////////////////////
-    public Image(byte[] bytes) :
+    public Image(ReadOnlySpan<byte> bytes) :
         base(IntPtr.Zero)
     {
         unsafe
@@ -100,48 +100,11 @@ public class Image : ObjectBase
     /// <summary>
     /// Construct the image directly from an array of pixels
     /// </summary>
-    /// <param name="pixels">2 dimensions array containing the pixels</param>
-    /// <exception cref="LoadingFailedException" />
-    ////////////////////////////////////////////////////////////
-    public Image(Color[,] pixels) :
-        base(IntPtr.Zero)
-    {
-        var width = (uint)pixels.GetLength(0);
-        var height = (uint)pixels.GetLength(1);
-
-        // Transpose the array (.NET gives dimensions in reverse order of what SFML expects)
-        var transposed = new Color[height, width];
-        for (var x = 0; x < width; ++x)
-        {
-            for (var y = 0; y < height; ++y)
-            {
-                transposed[y, x] = pixels[x, y];
-            }
-        }
-
-        unsafe
-        {
-            fixed (Color* pixelsPtr = transposed)
-            {
-                CPointer = CSFMLGraphics.sfImage_createFromPixels(new Vector2u(width, height), (byte*)pixelsPtr);
-            }
-        }
-
-        if (IsInvalid)
-        {
-            throw new LoadingFailedException("image");
-        }
-    }
-
-    ////////////////////////////////////////////////////////////
-    /// <summary>
-    /// Construct the image directly from an array of pixels
-    /// </summary>
     /// <param name="size">Width and height of the image</param>
     /// <param name="pixels">array containing the pixels</param>
     /// <exception cref="LoadingFailedException" />
     ////////////////////////////////////////////////////////////
-    public Image(Vector2u size, byte[] pixels) :
+    public Image(Vector2u size, ReadOnlySpan<byte> pixels) :
         base(IntPtr.Zero)
     {
         unsafe
@@ -191,12 +154,13 @@ public class Image : ObjectBase
     /// <param name="format">Encoding format to use</param>
     /// <returns>True if saving was successful</returns>
     ////////////////////////////////////////////////////////////
-    public bool SaveToMemory(out byte[] output, string format)
+    public bool SaveToMemory(Span<byte> output, string format)
     {
-        using var buffer = new global::Gaiden.SFML.System.Buffer();
+        using var buffer = new System.Buffer();
         var success = CSFMLGraphics.sfImage_saveToMemory(CPointer, buffer.CPointer, format);
 
-        output = success ? buffer.GetData() : [];
+        var data = success ? buffer.GetData() : Array.Empty<byte>();
+        data.CopyTo(output);
         return success;
     }
 
@@ -276,8 +240,9 @@ public class Image : ObjectBase
     /// Get a copy of the array of pixels (RGBA 8 bits integers components) into the provided span
     /// Array size is Width x Height x 4
     /// </summary>
+    /// <returns>The same span passed as argument with the right size</returns>
     ////////////////////////////////////////////////////////////
-    public void GetPixels(Span<byte> pixels)
+    public Span<byte> GetPixels(Span<byte> pixels)
     {
         var size = Size;
         var len = (int)(size.X * size.Y * 4);
@@ -290,6 +255,30 @@ public class Image : ObjectBase
             var ptr = CSFMLGraphics.sfImage_getPixelsPtr(CPointer);
             var nativeSpan = new ReadOnlySpan<byte>((void*)ptr, len);
             nativeSpan.CopyTo(pixels);
+            return pixels[..len];
+        }
+    }
+    
+    ////////////////////////////////////////////////////////////
+    /// <summary>
+    /// Get a copy of the array of pixels (RGBA 8 bits integers components)
+    /// Array size is Width x Height x 4
+    /// </summary>
+    /// <returns>Array of pixels</returns>
+    ////////////////////////////////////////////////////////////
+    public ReadOnlySpan<byte> Pixels
+    {
+        get
+        {
+            // You can't resize images from C#, so the memory shouldn't get invalidated
+            var size = Size;
+            var ptr = CSFMLGraphics.sfImage_getPixelsPtr(CPointer);
+            var pixelCount = size.X * size.Y * 4;
+
+            unsafe
+            {
+                return new ReadOnlySpan<byte>(ptr.ToPointer(), (int)pixelCount);
+            }
         }
     }
 
@@ -298,7 +287,9 @@ public class Image : ObjectBase
     /// Size of the image, in pixels
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public Vector2u Size => CSFMLGraphics.sfImage_getSize(CPointer);
+    public Vector2u Size =>
+        _size ??= CSFMLGraphics.sfImage_getSize(CPointer);
+    private Vector2u? _size;
 
     ////////////////////////////////////////////////////////////
     /// <summary>

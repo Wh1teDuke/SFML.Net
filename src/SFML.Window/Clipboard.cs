@@ -26,10 +26,11 @@ public static class Clipboard
                 }
             }
 
-            var sourceBytes = new byte[length * 4];
-            Marshal.Copy(source, sourceBytes, 0, sourceBytes.Length);
-
-            return Encoding.UTF32.GetString(sourceBytes);
+            // Convert it to a C# string
+            unsafe
+            {
+                return Encoding.UTF32.GetString((byte*)source, (int)(length * 4));
+            }
         }
         set
         {

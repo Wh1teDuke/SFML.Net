@@ -358,7 +358,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="array">array of <c>float</c> values</param>
     ////////////////////////////////////////////////////////////
-    public unsafe void SetUniformArray(string name, float[] array)
+    public unsafe void SetUniformArray(string name, ReadOnlySpan<float> array)
     {
         fixed (float* data = array)
         {
@@ -373,7 +373,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="array">array of <c>vec2</c> values</param>
     ////////////////////////////////////////////////////////////
-    public unsafe void SetUniformArray(string name, Vec2[] array)
+    public unsafe void SetUniformArray(string name, ReadOnlySpan<Vec2> array)
     {
         fixed (Vec2* data = array)
         {
@@ -388,7 +388,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="array">array of <c>vec3</c> values</param>
     ////////////////////////////////////////////////////////////
-    public unsafe void SetUniformArray(string name, Vec3[] array)
+    public unsafe void SetUniformArray(string name, ReadOnlySpan<Vec3> array)
     {
         fixed (Vec3* data = array)
         {
@@ -403,7 +403,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="array">array of <c>vec4</c> values</param>
     ////////////////////////////////////////////////////////////
-    public unsafe void SetUniformArray(string name, Vec4[] array)
+    public unsafe void SetUniformArray(string name, ReadOnlySpan<Vec4> array)
     {
         fixed (Vec4* data = array)
         {
@@ -418,7 +418,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="array">array of <c>mat3</c> values</param>
     ////////////////////////////////////////////////////////////
-    public unsafe void SetUniformArray(string name, Mat3[] array)
+    public unsafe void SetUniformArray(string name, ReadOnlySpan<Mat3> array)
     {
         fixed (Mat3* data = array)
         {
@@ -433,7 +433,7 @@ public class Shader : ObjectBase
     /// <param name="name">Name of the uniform variable in GLSL</param>
     /// <param name="array">array of <c>mat4</c> values</param>
     ////////////////////////////////////////////////////////////
-    public unsafe void SetUniformArray(string name, Mat4[] array)
+    public unsafe void SetUniformArray(string name, ReadOnlySpan<Mat4> array)
     {
         fixed (Mat4* data = array)
         {
@@ -517,5 +517,6 @@ public class Shader : ObjectBase
     }
 
     // Keeps references to used Textures for GC prevention during use
+    // ReSharper disable once CollectionNeverQueried.Local
     private readonly Dictionary<string, Texture> _textures = [];
 }

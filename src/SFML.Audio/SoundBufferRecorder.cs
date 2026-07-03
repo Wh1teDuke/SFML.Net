@@ -57,9 +57,13 @@ public class SoundBufferRecorder : SoundRecorder
     /// <param name="samples">Array of samples to process</param>
     /// <returns>False to stop recording audio data, true to continue</returns>
     ////////////////////////////////////////////////////////////
-    protected override bool OnProcessSamples(short[] samples)
+    protected override bool OnProcessSamples(ReadOnlySpan<short> samples)
     {
-        _samplesArray.AddRange(samples);
+        foreach (ref readonly var t in samples)
+        {
+            _samplesArray.Add(t);
+        }
+
         return true;
     }
 

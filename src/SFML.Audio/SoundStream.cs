@@ -72,21 +72,21 @@ public abstract class SoundStream : ObjectBase
     /// position during spatialisation.
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public SoundChannel[] ChannelMap
+    public ReadOnlySpan<SoundChannel> ChannelMap
     {
         get
         {
             unsafe
             {
                 var channels = CSFMLAudio.sfSoundStream_getChannelMap(CPointer, out var count);
-                var arr = new SoundChannel[(int)count];
+                Array.Resize(ref _channels, (int)count);
 
-                for (var i = 0; i < arr.Length; i++)
+                for (var i = 0; i < _channels.Length; i++)
                 {
-                    arr[i] = channels[i];
+                    _channels[i] = channels[i];
                 }
 
-                return arr;
+                return _channels;
             }
         }
     }
@@ -405,19 +405,8 @@ public abstract class SoundStream : ObjectBase
     ////////////////////////////////////////////////////////////
     public void SetEffectProcessor(EffectProcessor effectProcessor)
     {
-        _effectProcessor = (inputFrames, inputFrameCount, outputFrames, outputFrameCount, frameChannelCount) =>
-        {
-            var inputFramesArray = new float[inputFrameCount];
-            var outputFramesArray = new float[outputFrameCount];
-
-            Marshal.Copy(inputFrames, inputFramesArray, 0, inputFramesArray.Length);
-            var written = effectProcessor(inputFramesArray, outputFramesArray, frameChannelCount);
-            Marshal.Copy(outputFramesArray, 0, outputFrames, outputFramesArray.Length);
-
-            return written;
-        };
-
-        CSFMLAudio.sfSoundStream_setEffectProcessor(CPointer, Marshal.GetFunctionPointerForDelegate(_effectProcessor));
+        EffectProcessorUtil.Set(
+            this, effectProcessor, CSFMLAudio.sfSoundStream_setEffectProcessor, out _effectProcessor);
     }
 
     ////////////////////////////////////////////////////////////
@@ -455,7 +444,7 @@ public abstract class SoundStream : ObjectBase
     /// <param name="sampleRate">Sample rate, in samples per second</param>
     /// <param name="channelMapData">Map of position in sample frame to sound channel</param>
     ////////////////////////////////////////////////////////////
-    protected void Initialize(uint channelCount, uint sampleRate, SoundChannel[] channelMapData)
+    protected void Initialize(uint channelCount, uint sampleRate, ReadOnlySpan<SoundChannel> channelMapData)
     {
         _getDataCallback = new GetDataCallbackType(GetData);
         _seekCallback = new SeekCallbackType(Seek);
@@ -555,4 +544,5 @@ public abstract class SoundStream : ObjectBase
     private SeekCallbackType? _seekCallback;
     private EffectProcessorInternal? _effectProcessor;
     private short[]? _tempBuffer;
+    private SoundChannel[]? _channels;
 }

@@ -210,7 +210,7 @@ public class Window : WindowBase
     /// <param name="size">Icon's width and height, in pixels</param>
     /// <param name="pixels">Array of pixels, format must be RGBA 32 bits</param>
     ////////////////////////////////////////////////////////////
-    public override void SetIcon(Vector2u size, byte[] pixels)
+    public override void SetIcon(Vector2u size, ReadOnlySpan<byte> pixels)
     {
         unsafe
         {

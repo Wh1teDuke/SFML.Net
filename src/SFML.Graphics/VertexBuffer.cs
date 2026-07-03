@@ -134,7 +134,7 @@ public class VertexBuffer : ObjectBase, IDrawable
 
     ////////////////////////////////////////////////////////////
     /// <summary>
-    /// Update the <see cref="VertexBuffer"/> from a <see cref="Vertex"/>[]
+    /// Update the <see cref="VertexBuffer"/> from a ReadOnlySpan&lt;<see cref="Vertex"/>&gt;
     /// </summary>
     /// <remarks>
     /// <para>
@@ -169,7 +169,7 @@ public class VertexBuffer : ObjectBase, IDrawable
     /// <param name="vertexCount">Number of vertices to copy</param>
     /// <param name="offset">Offset in the buffer to copy to</param>
     ////////////////////////////////////////////////////////////
-    public bool Update(Vertex[] vertices, uint vertexCount, uint offset)
+    public bool Update(ReadOnlySpan<Vertex> vertices, uint vertexCount, uint offset)
     {
         unsafe
         {
@@ -182,7 +182,7 @@ public class VertexBuffer : ObjectBase, IDrawable
 
     ////////////////////////////////////////////////////////////
     /// <summary>
-    /// Update a part of the buffer from a <see cref="Vertex"/>[]
+    /// Update a part of the buffer from a ReadOnlySpan&lt;<see cref="Vertex"/>&gt;
     /// </summary>
     /// <remarks>
     /// <para>
@@ -206,11 +206,11 @@ public class VertexBuffer : ObjectBase, IDrawable
     /// </remarks>
     /// <param name="vertices">Array of vertices to copy to the buffer</param>
     ////////////////////////////////////////////////////////////
-    public bool Update(Vertex[] vertices) => Update(vertices, (uint)vertices.Length, 0);
+    public bool Update(ReadOnlySpan<Vertex> vertices) => Update(vertices, (uint)vertices.Length, 0);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
-    /// Update a part of the buffer from a <see cref="Vertex"/>[]
+    /// Update a part of the buffer from a ReadOnlySpan&lt;<see cref="Vertex"/>&gt;
     /// </summary>
     /// <remarks>
     /// <para>
@@ -244,7 +244,7 @@ public class VertexBuffer : ObjectBase, IDrawable
     /// <param name="vertices">Array of vertices to copy to the buffer</param>
     /// <param name="offset">Offset in the buffer to copy to</param>
     ////////////////////////////////////////////////////////////
-    public bool Update(Vertex[] vertices, uint offset) => Update(vertices, (uint)vertices.Length, offset);
+    public bool Update(ReadOnlySpan<Vertex> vertices, uint offset) => Update(vertices, (uint)vertices.Length, offset);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
