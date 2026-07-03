@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
@@ -10,7 +7,7 @@ namespace Gaiden.SFML.Window;
 /// Give access to the real-time state of sensors
 /// </summary>
 ////////////////////////////////////////////////////////////
-public static partial class Sensor
+public static class Sensor
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -52,7 +49,7 @@ public static partial class Sensor
     /// <param name="sensor">Sensor to check</param>
     /// <returns>True if the sensor is available, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public static bool IsAvailable(Type sensor) => sfSensor_isAvailable(sensor);
+    public static bool IsAvailable(Type sensor) => CSFMLWindow.sfSensor_isAvailable(sensor);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -61,7 +58,7 @@ public static partial class Sensor
     /// <param name="sensor">Sensor to check</param>
     /// <param name="enabled">True to enable, false to disable</param>
     ////////////////////////////////////////////////////////////
-    public static void SetEnabled(Type sensor, bool enabled) => sfSensor_setEnabled(sensor, enabled);
+    public static void SetEnabled(Type sensor, bool enabled) => CSFMLWindow.sfSensor_setEnabled(sensor, enabled);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -70,20 +67,5 @@ public static partial class Sensor
     /// <param name="sensor">Sensor to check</param>
     /// <returns>The current sensor value</returns>
     ////////////////////////////////////////////////////////////
-    public static Vector3f GetValue(Type sensor) => sfSensor_getValue(sensor);
-
-    #region Imports
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfSensor_isAvailable(Type sensor);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfSensor_setEnabled(Type sensor, [MarshalAs(UnmanagedType.Bool)] bool enabled);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector3f sfSensor_getValue(Type sensor);
-    #endregion
+    public static Vector3f GetValue(Type sensor) => CSFMLWindow.sfSensor_getValue(sensor);
 }

@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
@@ -10,7 +8,7 @@ namespace Gaiden.SFML.Window;
 /// Give access to the real-time state of the keyboard
 /// </summary>
 ////////////////////////////////////////////////////////////
-public static partial class Keyboard
+public static class Keyboard
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -563,7 +561,7 @@ public static partial class Keyboard
     /// <param name="key">Key to check</param>
     /// <returns>True if the key is pressed, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public static bool IsKeyPressed(Key key) => sfKeyboard_isKeyPressed(key);
+    public static bool IsKeyPressed(Key key) => CSFMLWindow.sfKeyboard_isKeyPressed(key);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -572,7 +570,7 @@ public static partial class Keyboard
     /// <param name="code">Scancode to check</param>
     /// <returns>True if the physical key is pressed, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public static bool IsScancodePressed(Scancode code) => sfKeyboard_isScancodePressed(code);
+    public static bool IsScancodePressed(Scancode code) => CSFMLWindow.sfKeyboard_isScancodePressed(code);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -586,7 +584,7 @@ public static partial class Keyboard
     /// to a <see cref="Key"/>.
     /// </returns>
     ////////////////////////////////////////////////////////////
-    public static Key Localize(Scancode code) => sfKeyboard_localize(code);
+    public static Key Localize(Scancode code) => CSFMLWindow.sfKeyboard_localize(code);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -600,7 +598,7 @@ public static partial class Keyboard
     /// to a <see cref="Scancode"/>.
     /// </returns>
     ////////////////////////////////////////////////////////////
-    public static Scancode Delocalize(Key key) => sfKeyboard_delocalize(key);
+    public static Scancode Delocalize(Key key) => CSFMLWindow.sfKeyboard_delocalize(key);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -626,7 +624,7 @@ public static partial class Keyboard
     public static string GetDescription(Scancode code)
     {
         // this returns an owning C pointer
-        var ptr = sfKeyboard_getDescription(code);
+        var ptr = CSFMLWindow.sfKeyboard_getDescription(code);
         var description = Marshal.PtrToStringAnsi(ptr);
         Allocation.Free(ptr);
 
@@ -640,33 +638,5 @@ public static partial class Keyboard
     /// <remarks>Applicable only on Android and iOS</remarks>
     /// <param name="visible">Whether to make the virtual keyboard visible (true) or not (false)</param>
     ////////////////////////////////////////////////////////////
-    public static void SetVirtualKeyboardVisible(bool visible) => sfKeyboard_setVirtualKeyboardVisible(visible);
-
-    #region Imports
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfKeyboard_isKeyPressed(Key key);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfKeyboard_isScancodePressed(Scancode code);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Key sfKeyboard_localize(Scancode code);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Scancode sfKeyboard_delocalize(Key key);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfKeyboard_getDescription(Scancode code);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfKeyboard_setVirtualKeyboardVisible([MarshalAs(UnmanagedType.Bool)] bool visible);
-    #endregion
+    public static void SetVirtualKeyboardVisible(bool visible) => CSFMLWindow.sfKeyboard_setVirtualKeyboardVisible(visible);
 }

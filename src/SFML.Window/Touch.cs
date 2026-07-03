@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
@@ -10,7 +7,7 @@ namespace Gaiden.SFML.Window;
 /// Give access to the real-time state of the touches
 /// </summary>
 ////////////////////////////////////////////////////////////
-public static partial class Touch
+public static class Touch
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -19,7 +16,7 @@ public static partial class Touch
     /// <param name="finger">Finger index</param>
     /// <returns>True if the finger is currently touching the screen, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public static bool IsDown(uint finger) => sfTouch_isDown(finger);
+    public static bool IsDown(uint finger) => CSFMLWindow.sfTouch_isDown(finger);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -46,17 +43,6 @@ public static partial class Touch
             return relativeTo.InternalGetTouchPosition(finger);
         }
 
-        return sfTouch_getPosition(finger, IntPtr.Zero);
+        return CSFMLWindow.sfTouch_getPosition(finger, IntPtr.Zero);
     }
-
-    #region Imports
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfTouch_isDown(uint finger);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2i sfTouch_getPosition(uint finger, IntPtr relativeTo);
-    #endregion
 }

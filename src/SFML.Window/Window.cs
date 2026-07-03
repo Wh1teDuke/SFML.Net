@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
 using System.Text;
 using Gaiden.SFML.System;
 
@@ -11,7 +8,7 @@ namespace Gaiden.SFML.Window;
 /// Window that serves as a target for OpenGL rendering
 /// </summary>
 ////////////////////////////////////////////////////////////
-public partial class Window : WindowBase
+public class Window : WindowBase
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -59,7 +56,7 @@ public partial class Window : WindowBase
         {
             fixed (byte* titlePtr = titleAsUtf32)
             {
-                CPointer = sfWindow_createUnicode(mode, (IntPtr)titlePtr, style, state, ref settings);
+                CPointer = CSFMLWindow.sfWindow_createUnicode(mode, (IntPtr)titlePtr, style, state, ref settings);
             }
         }
     }
@@ -83,7 +80,7 @@ public partial class Window : WindowBase
     /// <param name="settings">Creation parameters</param>
     ////////////////////////////////////////////////////////////
     public Window(IntPtr handle, ContextSettings settings) :
-        base(sfWindow_createFromHandle(handle, ref settings))
+        base(CSFMLWindow.sfWindow_createFromHandle(handle, ref settings))
     {
     }
 
@@ -95,7 +92,7 @@ public partial class Window : WindowBase
     /// </summary>
     /// <returns>True if the window is opened</returns>
     ////////////////////////////////////////////////////////////
-    public override bool IsOpen => sfWindow_isOpen(CPointer);
+    public override bool IsOpen => CSFMLWindow.sfWindow_isOpen(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -104,21 +101,21 @@ public partial class Window : WindowBase
     /// Create to recreate the window
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public override void Close() => sfWindow_close(CPointer);
+    public override void Close() => CSFMLWindow.sfWindow_close(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Display the window on screen
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public virtual void Display() => sfWindow_display(CPointer);
+    public virtual void Display() => CSFMLWindow.sfWindow_display(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Creation settings of the window
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public virtual ContextSettings Settings => sfWindow_getSettings(CPointer);
+    public virtual ContextSettings Settings => CSFMLWindow.sfWindow_getSettings(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -127,8 +124,8 @@ public partial class Window : WindowBase
     ////////////////////////////////////////////////////////////
     public override Vector2i Position
     {
-        get => sfWindow_getPosition(CPointer);
-        set => sfWindow_setPosition(CPointer, value);
+        get => CSFMLWindow.sfWindow_getPosition(CPointer);
+        set => CSFMLWindow.sfWindow_setPosition(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -138,8 +135,8 @@ public partial class Window : WindowBase
     ////////////////////////////////////////////////////////////
     public override Vector2u Size
     {
-        get => sfWindow_getSize(CPointer);
-        set => sfWindow_setSize(CPointer, value);
+        get => CSFMLWindow.sfWindow_getSize(CPointer);
+        set => CSFMLWindow.sfWindow_setSize(CPointer, value);
     }
 
     ////////////////////////////////////////////////////////////
@@ -157,7 +154,7 @@ public partial class Window : WindowBase
         {
             fixed (byte* titlePtr = titleAsUtf32)
             {
-                sfWindow_setUnicodeTitle(CPointer, (IntPtr)titlePtr);
+                CSFMLWindow.sfWindow_setUnicodeTitle(CPointer, (IntPtr)titlePtr);
             }
         }
     }
@@ -175,11 +172,11 @@ public partial class Window : WindowBase
             if (minimumSize.HasValue)
             {
                 var minimumSizeRef = minimumSize.Value;
-                sfWindow_setMinimumSize(CPointer, &minimumSizeRef);
+                CSFMLWindow.sfWindow_setMinimumSize(CPointer, &minimumSizeRef);
             }
             else
             {
-                sfWindow_setMinimumSize(CPointer, null);
+                CSFMLWindow.sfWindow_setMinimumSize(CPointer, null);
             }
         }
     }
@@ -197,11 +194,11 @@ public partial class Window : WindowBase
             if (maximumSize.HasValue)
             {
                 var maximumSizeRef = maximumSize.Value;
-                sfWindow_setMaximumSize(CPointer, &maximumSizeRef);
+                CSFMLWindow.sfWindow_setMaximumSize(CPointer, &maximumSizeRef);
             }
             else
             {
-                sfWindow_setMaximumSize(CPointer, null);
+                CSFMLWindow.sfWindow_setMaximumSize(CPointer, null);
             }
         }
     }
@@ -219,7 +216,7 @@ public partial class Window : WindowBase
         {
             fixed (byte* pixelsPtr = pixels)
             {
-                sfWindow_setIcon(CPointer, size, pixelsPtr);
+                CSFMLWindow.sfWindow_setIcon(CPointer, size, pixelsPtr);
             }
         }
     }
@@ -230,7 +227,7 @@ public partial class Window : WindowBase
     /// </summary>
     /// <param name="visible">True to show the window, false to hide it</param>
     ////////////////////////////////////////////////////////////
-    public override void SetVisible(bool visible) => sfWindow_setVisible(CPointer, visible);
+    public override void SetVisible(bool visible) => CSFMLWindow.sfWindow_setVisible(CPointer, visible);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -238,7 +235,7 @@ public partial class Window : WindowBase
     /// </summary>
     /// <param name="visible"></param>
     ////////////////////////////////////////////////////////////
-    public override void SetMouseCursorVisible(bool visible) => sfWindow_setMouseCursorVisible(CPointer, visible);
+    public override void SetMouseCursorVisible(bool visible) => CSFMLWindow.sfWindow_setMouseCursorVisible(CPointer, visible);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -255,7 +252,7 @@ public partial class Window : WindowBase
     /// cursor).
     /// </remarks>
     ////////////////////////////////////////////////////////////
-    public override void SetMouseCursorGrabbed(bool grabbed) => sfWindow_setMouseCursorGrabbed(CPointer, grabbed);
+    public override void SetMouseCursorGrabbed(bool grabbed) => CSFMLWindow.sfWindow_setMouseCursorGrabbed(CPointer, grabbed);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -263,7 +260,7 @@ public partial class Window : WindowBase
     /// </summary>
     /// <param name="cursor">Native system cursor type to display</param>
     ////////////////////////////////////////////////////////////
-    public override void SetMouseCursor(Cursor cursor) => sfWindow_setMouseCursor(CPointer, cursor.CPointer);
+    public override void SetMouseCursor(Cursor cursor) => CSFMLWindow.sfWindow_setMouseCursor(CPointer, cursor.CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -271,7 +268,7 @@ public partial class Window : WindowBase
     /// </summary>
     /// <param name="enable">True to enable v-sync, false to deactivate</param>
     ////////////////////////////////////////////////////////////
-    public virtual void SetVerticalSyncEnabled(bool enable) => sfWindow_setVerticalSyncEnabled(CPointer, enable);
+    public virtual void SetVerticalSyncEnabled(bool enable) => CSFMLWindow.sfWindow_setVerticalSyncEnabled(CPointer, enable);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -280,7 +277,7 @@ public partial class Window : WindowBase
     /// </summary>
     /// <param name="enable">True to enable, false to disable</param>
     ////////////////////////////////////////////////////////////
-    public override void SetKeyRepeatEnabled(bool enable) => sfWindow_setKeyRepeatEnabled(CPointer, enable);
+    public override void SetKeyRepeatEnabled(bool enable) => CSFMLWindow.sfWindow_setKeyRepeatEnabled(CPointer, enable);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -299,7 +296,7 @@ public partial class Window : WindowBase
     /// <param name="active">True to activate, false to deactivate (true by default)</param>
     /// <returns>True if operation was successful, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public virtual bool SetActive(bool active) => sfWindow_setActive(CPointer, active);
+    public virtual bool SetActive(bool active) => CSFMLWindow.sfWindow_setActive(CPointer, active);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -307,7 +304,7 @@ public partial class Window : WindowBase
     /// </summary>
     /// <param name="limit">Framerate limit, in frames per seconds (use 0 to disable limit)</param>
     ////////////////////////////////////////////////////////////
-    public virtual void SetFramerateLimit(uint limit) => sfWindow_setFramerateLimit(CPointer, limit);
+    public virtual void SetFramerateLimit(uint limit) => CSFMLWindow.sfWindow_setFramerateLimit(CPointer, limit);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -316,14 +313,14 @@ public partial class Window : WindowBase
     /// </summary>
     /// <param name="threshold">New threshold, in range [0, 100]</param>
     ////////////////////////////////////////////////////////////
-    public override void SetJoystickThreshold(float threshold) => sfWindow_setJoystickThreshold(CPointer, threshold);
+    public override void SetJoystickThreshold(float threshold) => CSFMLWindow.sfWindow_setJoystickThreshold(CPointer, threshold);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// OS-specific handle of the window
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public override IntPtr NativeHandle => sfWindow_getNativeHandle(CPointer);
+    public override IntPtr NativeHandle => CSFMLWindow.sfWindow_getNativeHandle(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -331,7 +328,7 @@ public partial class Window : WindowBase
     /// foreground window
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public override void RequestFocus() => sfWindow_requestFocus(CPointer);
+    public override void RequestFocus() => CSFMLWindow.sfWindow_requestFocus(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -339,7 +336,7 @@ public partial class Window : WindowBase
     /// </summary>
     /// <returns>True if the window has focus, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public override bool HasFocus() => sfWindow_hasFocus(CPointer);
+    public override bool HasFocus() => CSFMLWindow.sfWindow_hasFocus(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -350,7 +347,7 @@ public partial class Window : WindowBase
     /// <param name="vkAllocator">Allocator to use</param>
     /// <returns>True if surface creation was successful, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public override bool CreateVulkanSurface(IntPtr vkInstance, out IntPtr vkSurface, IntPtr vkAllocator) => sfWindow_createVulkanSurface(CPointer, vkInstance, out vkSurface, vkAllocator);
+    public override bool CreateVulkanSurface(IntPtr vkInstance, out IntPtr vkSurface, IntPtr vkAllocator) => CSFMLWindow.sfWindow_createVulkanSurface(CPointer, vkInstance, out vkSurface, vkAllocator);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -392,7 +389,7 @@ public partial class Window : WindowBase
     /// </summary>
     /// <returns>Relative mouse position</returns>
     ////////////////////////////////////////////////////////////
-    protected internal override Vector2i InternalGetMousePosition() => sfMouse_getPosition(CPointer);
+    protected internal override Vector2i InternalGetMousePosition() => CSFMLWindow.sfMouse_getPosition(CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -402,7 +399,7 @@ public partial class Window : WindowBase
     /// </summary>
     /// <param name="position">Relative mouse position</param>
     ////////////////////////////////////////////////////////////
-    protected internal override void InternalSetMousePosition(Vector2i position) => sfMouse_setPosition(position, CPointer);
+    protected internal override void InternalSetMousePosition(Vector2i position) => CSFMLWindow.sfMouse_setPosition(position, CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -413,7 +410,7 @@ public partial class Window : WindowBase
     /// <param name="finger">Finger index</param>
     /// <returns>Relative touch position</returns>
     ////////////////////////////////////////////////////////////
-    protected internal override Vector2i InternalGetTouchPosition(uint finger) => sfTouch_getPosition(finger, CPointer);
+    protected internal override Vector2i InternalGetTouchPosition(uint finger) => CSFMLWindow.sfTouch_getPosition(finger, CPointer);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -422,7 +419,7 @@ public partial class Window : WindowBase
     /// <param name="eventToFill">Variable to fill with the raw pointer to the event structure</param>
     /// <returns>True if there was an event, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    protected override bool PollEvent(out Event eventToFill) => sfWindow_pollEvent(CPointer, out eventToFill);
+    protected override bool PollEvent(out Event eventToFill) => CSFMLWindow.sfWindow_pollEvent(CPointer, out eventToFill);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -432,7 +429,7 @@ public partial class Window : WindowBase
     /// <param name="eventToFill">Variable to fill with the raw pointer to the event structure</param>
     /// <returns>False if any error occurred</returns>
     ////////////////////////////////////////////////////////////
-    protected override bool WaitEvent(Time timeout, out Event eventToFill) => sfWindow_waitEvent(CPointer, timeout, out eventToFill);
+    protected override bool WaitEvent(Time timeout, out Event eventToFill) => CSFMLWindow.sfWindow_waitEvent(CPointer, timeout, out eventToFill);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -440,145 +437,5 @@ public partial class Window : WindowBase
     /// </summary>
     /// <param name="disposing">Is the GC disposing the object, or is it an explicit call ?</param>
     ////////////////////////////////////////////////////////////
-    protected override void Destroy(bool disposing) => sfWindow_destroy(CPointer);
-
-    #region Imports
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfWindow_createUnicode(VideoMode mode, IntPtr title, Styles style, State state, ref ContextSettings settings);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfWindow_createFromHandle(IntPtr handle, ref ContextSettings settings);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_destroy(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfWindow_isOpen(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_close(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfWindow_pollEvent(IntPtr cPointer, out Event evt);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfWindow_waitEvent(IntPtr cPointer, Time timeout, out Event evt);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_display(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial ContextSettings sfWindow_getSettings(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2i sfWindow_getPosition(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_setPosition(IntPtr cPointer, Vector2i position);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2u sfWindow_getSize(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_setSize(IntPtr cPointer, Vector2u size);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial void sfWindow_setMinimumSize(IntPtr cPointer, Vector2u* minimumSize);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial void sfWindow_setMaximumSize(IntPtr cPointer, Vector2u* maximumSize);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_setUnicodeTitle(IntPtr cPointer, IntPtr title);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial void sfWindow_setIcon(IntPtr cPointer, Vector2u size, byte* pixels);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_setVisible(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool visible);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_setMouseCursorVisible(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool show);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_setMouseCursorGrabbed(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool grabbed);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_setMouseCursor(IntPtr cPointer, IntPtr cursor);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_setVerticalSyncEnabled(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool enable);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_setKeyRepeatEnabled(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool enable);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfWindow_setActive(IntPtr cPointer, [MarshalAs(UnmanagedType.Bool)] bool active);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_setFramerateLimit(IntPtr cPointer, uint limit);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_setJoystickThreshold(IntPtr cPointer, float threshold);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfWindow_getNativeHandle(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfWindow_requestFocus(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfWindow_hasFocus(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2i sfMouse_getPosition(IntPtr cPointer);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfMouse_setPosition(Vector2i position, IntPtr cPointer);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2i sfTouch_getPosition(uint finger, IntPtr relativeTo);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfWindow_createVulkanSurface(IntPtr cPointer, IntPtr vkInstance, out IntPtr surface, IntPtr vkAllocator);
-    #endregion
+    protected override void Destroy(bool disposing) => CSFMLWindow.sfWindow_destroy(CPointer);
 }

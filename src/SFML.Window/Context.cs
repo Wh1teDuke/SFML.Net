@@ -1,8 +1,4 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
-using System.Runtime.InteropServices;
-using System.Security;
-using Gaiden.SFML.System;
 
 // TODO getActiveContext
 // TODO getActiveContextId
@@ -14,21 +10,21 @@ namespace Gaiden.SFML.Window;
 /// This class defines a .NET interface to an SFML OpenGL Context
 /// </summary>
 //////////////////////////////////////////////////////////////////
-public partial class Context : CriticalFinalizerObject
+public class Context : CriticalFinalizerObject
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Default constructor
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public Context() => _this = sfContext_create();
+    public Context() => _this = CSFMLWindow.sfContext_create();
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Finalizer
     /// </summary>
     ////////////////////////////////////////////////////////////
-    ~Context() => sfContext_destroy(_this);
+    ~Context() => CSFMLWindow.sfContext_destroy(_this);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -37,7 +33,7 @@ public partial class Context : CriticalFinalizerObject
     /// <param name="name">Name of the extension to check for</param>
     /// <returns>True if available, false if unavailable</returns>
     ////////////////////////////////////////////////////////////
-    public static bool IsExtensionAvailable(string name) => sfContext_isExtensionAvailable(name);
+    public static bool IsExtensionAvailable(string name) => CSFMLWindow.sfContext_isExtensionAvailable(name);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -46,7 +42,7 @@ public partial class Context : CriticalFinalizerObject
     /// <param name="active">True to activate, false to deactivate</param>
     /// <returns>True on success, false on failure</returns>
     ////////////////////////////////////////////////////////////
-    public bool SetActive(bool active) => sfContext_setActive(_this, active);
+    public bool SetActive(bool active) => CSFMLWindow.sfContext_setActive(_this, active);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -55,14 +51,14 @@ public partial class Context : CriticalFinalizerObject
     /// <param name="name">Name of the function to get the address of</param>
     /// <returns>Address of the OpenGL function, <see cref="nint.Zero"/> on failure</returns>
     ////////////////////////////////////////////////////////////
-    public static IntPtr GetFunction(string name) => sfContext_getFunction(name);
+    public static IntPtr GetFunction(string name) => CSFMLWindow.sfContext_getFunction(name);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
     /// Get the settings of the context.
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public ContextSettings Settings => sfContext_getSettings(_this);
+    public ContextSettings Settings => CSFMLWindow.sfContext_getSettings(_this);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -89,32 +85,4 @@ public partial class Context : CriticalFinalizerObject
     private static Context? _globalContext;
 
     private readonly IntPtr _this = IntPtr.Zero;
-
-    #region Imports
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfContext_create();
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfContext_destroy(IntPtr view);
-
-    [LibraryImport(CSFML.Window, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfContext_isExtensionAvailable(string name);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfContext_setActive(IntPtr view, [MarshalAs(UnmanagedType.Bool)] bool active);
-
-    [LibraryImport(CSFML.Window, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfContext_getFunction(string name);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial ContextSettings sfContext_getSettings(IntPtr view);
-    #endregion
 }

@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
@@ -13,18 +11,9 @@ namespace Gaiden.SFML.Window;
 /// </summary>
 ////////////////////////////////////////////////////////////
 [StructLayout(LayoutKind.Sequential)]
-public partial struct VideoMode
+public struct VideoMode
 {
     ////////////////////////////////////////////////////////////
-    /// <summary>
-    /// Construct the video mode with its width and height
-    /// </summary>
-    /// <param name="size">Video mode size</param>
-    ////////////////////////////////////////////////////////////
-    public VideoMode(Vector2u size) :
-        this(size, 32)
-    {
-    }
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -33,7 +22,7 @@ public partial struct VideoMode
     /// <param name="size">Video mode size</param>
     /// <param name="bpp">Video mode depth (bits per pixel)</param>
     ////////////////////////////////////////////////////////////
-    public VideoMode(Vector2u size, uint bpp)
+    public VideoMode(Vector2u size, uint bpp = 32)
     {
         Size = size;
         BitsPerPixel = bpp;
@@ -45,7 +34,7 @@ public partial struct VideoMode
     /// </summary>
     /// <returns>True if the video mode is valid, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public readonly bool IsValid() => sfVideoMode_isValid(this);
+    public readonly bool IsValid() => CSFMLWindow.sfVideoMode_isValid(this);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -58,7 +47,7 @@ public partial struct VideoMode
         {
             unsafe
             {
-                var modesPtr = sfVideoMode_getFullscreenModes(out var count);
+                var modesPtr = CSFMLWindow.sfVideoMode_getFullscreenModes(out var count);
                 var modes = new VideoMode[(int)count];
                 for (var i = 0; i < (int)count; ++i)
                 {
@@ -75,7 +64,7 @@ public partial struct VideoMode
     /// Get the current desktop video mode
     /// </summary>
     ////////////////////////////////////////////////////////////
-    public static VideoMode DesktopMode => sfVideoMode_getDesktopMode();
+    public static VideoMode DesktopMode => CSFMLWindow.sfVideoMode_getDesktopMode();
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -192,19 +181,4 @@ public partial struct VideoMode
     /// <returns>True if <paramref name="left"/> is greater than or equal to <paramref name="right"/></returns>
     ////////////////////////////////////////////////////////////
     public static bool operator >=(VideoMode left, VideoMode right) => !(left < right);
-
-    #region Imports
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial VideoMode sfVideoMode_getDesktopMode();
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial VideoMode* sfVideoMode_getFullscreenModes(out UIntPtr count);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfVideoMode_isValid(VideoMode mode);
-    #endregion
 }

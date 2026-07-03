@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
@@ -10,7 +7,7 @@ namespace Gaiden.SFML.Window;
 /// Cursor defines the appearance of a system cursor.
 /// </summary>
 ////////////////////////////////////////////////////////////
-public partial class Cursor : ObjectBase
+public class Cursor : ObjectBase
 {
     /// <summary>
     /// Enumeration of possibly available native system cursor types
@@ -179,7 +176,7 @@ public partial class Cursor : ObjectBase
     /// <exception cref="LoadingFailedException" />
     ////////////////////////////////////////////////////////////
     public Cursor(CursorType type)
-        : base(sfCursor_createFromSystem(type))
+        : base(CSFMLWindow.sfCursor_createFromSystem(type))
     {
         if (IsInvalid)
         {
@@ -222,7 +219,7 @@ public partial class Cursor : ObjectBase
         {
             fixed (byte* ptr = pixels)
             {
-                CPointer = sfCursor_createFromPixels((IntPtr)ptr, size, hotspot);
+                CPointer = CSFMLWindow.sfCursor_createFromPixels((IntPtr)ptr, size, hotspot);
             }
         }
 
@@ -238,17 +235,5 @@ public partial class Cursor : ObjectBase
     /// </summary>
     /// <param name="disposing">Is the GC disposing the object, or is it an explicit call ?</param>
     ////////////////////////////////////////////////////////////
-    protected override void Destroy(bool disposing) => sfCursor_destroy(CPointer);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfCursor_createFromSystem(CursorType type);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfCursor_createFromPixels(IntPtr pixels, Vector2u size, Vector2u hotspot);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfCursor_destroy(IntPtr cPointer);
+    protected override void Destroy(bool disposing) => CSFMLWindow.sfCursor_destroy(CPointer);
 }

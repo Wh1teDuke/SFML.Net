@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
 using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
@@ -10,7 +7,7 @@ namespace Gaiden.SFML.Window;
 /// Give access to the real-time state of the mouse
 /// </summary>
 ////////////////////////////////////////////////////////////
-public static partial class Mouse
+public static class Mouse
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -63,7 +60,7 @@ public static partial class Mouse
     /// <param name="button">Button to check</param>
     /// <returns>True if the button is pressed, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public static bool IsButtonPressed(Button button) => sfMouse_isButtonPressed(button);
+    public static bool IsButtonPressed(Button button) => CSFMLWindow.sfMouse_isButtonPressed(button);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -92,7 +89,7 @@ public static partial class Mouse
         }
         else
         {
-            return sfMouse_getPosition(IntPtr.Zero);
+            return CSFMLWindow.sfMouse_getPosition(IntPtr.Zero);
         }
     }
 
@@ -123,22 +120,7 @@ public static partial class Mouse
         }
         else
         {
-            sfMouse_setPosition(position, IntPtr.Zero);
+            CSFMLWindow.sfMouse_setPosition(position, IntPtr.Zero);
         }
     }
-
-    #region Imports
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfMouse_isButtonPressed(Button button);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial Vector2i sfMouse_getPosition(IntPtr relativeTo);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfMouse_setPosition(Vector2i position, IntPtr relativeTo);
-    #endregion
 }

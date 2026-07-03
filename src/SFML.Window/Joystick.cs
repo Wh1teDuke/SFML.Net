@@ -1,7 +1,4 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
-using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
 
@@ -10,7 +7,7 @@ namespace Gaiden.SFML.Window;
 /// Give access to the real-time state of the joysticks
 /// </summary>
 ////////////////////////////////////////////////////////////
-public static partial class Joystick
+public static class Joystick
 {
     /// <summary>Maximum number of supported joysticks</summary>
     public static readonly uint Count = 8;
@@ -60,7 +57,7 @@ public static partial class Joystick
     /// <param name="joystick">Index of the joystick to check</param>
     /// <returns>True if the joystick is connected, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public static bool IsConnected(uint joystick) => sfJoystick_isConnected(joystick);
+    public static bool IsConnected(uint joystick) => CSFMLWindow.sfJoystick_isConnected(joystick);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -70,7 +67,7 @@ public static partial class Joystick
     /// <param name="joystick">Index of the joystick</param>
     /// <returns>Number of buttons supported by the joystick</returns>
     ////////////////////////////////////////////////////////////
-    public static uint GetButtonCount(uint joystick) => sfJoystick_getButtonCount(joystick);
+    public static uint GetButtonCount(uint joystick) => CSFMLWindow.sfJoystick_getButtonCount(joystick);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -81,7 +78,7 @@ public static partial class Joystick
     /// <param name="axis">Axis to check</param>
     /// <returns>True if the joystick supports the axis, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public static bool HasAxis(uint joystick, Axis axis) => sfJoystick_hasAxis(joystick, axis);
+    public static bool HasAxis(uint joystick, Axis axis) => CSFMLWindow.sfJoystick_hasAxis(joystick, axis);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -92,7 +89,7 @@ public static partial class Joystick
     /// <param name="button">Button to check</param>
     /// <returns>True if the button is pressed, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public static bool IsButtonPressed(uint joystick, uint button) => sfJoystick_isButtonPressed(joystick, button);
+    public static bool IsButtonPressed(uint joystick, uint button) => CSFMLWindow.sfJoystick_isButtonPressed(joystick, button);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -103,7 +100,7 @@ public static partial class Joystick
     /// <param name="axis">Axis to check</param>
     /// <returns>Current position of the axis, in range [-100 .. 100]</returns>
     ////////////////////////////////////////////////////////////
-    public static float GetAxisPosition(uint joystick, Axis axis) => sfJoystick_getAxisPosition(joystick, axis);
+    public static float GetAxisPosition(uint joystick, Axis axis) => CSFMLWindow.sfJoystick_getAxisPosition(joystick, axis);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -114,7 +111,7 @@ public static partial class Joystick
     /// call it if you have no window yet (or no window at all):
     /// in this case the joysticks states are not updated automatically.
     ////////////////////////////////////////////////////////////
-    public static void Update() => sfJoystick_update();
+    public static void Update() => CSFMLWindow.sfJoystick_update();
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -125,7 +122,7 @@ public static partial class Joystick
     ////////////////////////////////////////////////////////////
     public static Identification GetIdentification(uint joystick)
     {
-        var identification = sfJoystick_getIdentification(joystick);
+        var identification = CSFMLWindow.sfJoystick_getIdentification(joystick);
         var retIdentification = new Identification
         {
             Name = Marshal.PtrToStringAnsi(identification.Name)!,
@@ -160,43 +157,10 @@ public static partial class Joystick
     /// </summary>
     ////////////////////////////////////////////////////////////
     [StructLayout(LayoutKind.Sequential)]
-    internal struct IdentificationMarshalData
+    public struct IdentificationMarshalData
     {
         public IntPtr Name;
         public uint VendorId;
         public uint ProductId;
     }
-
-    #region Imports
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfJoystick_isConnected(uint joystick);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial uint sfJoystick_getButtonCount(uint joystick);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfJoystick_hasAxis(uint joystick, Axis axis);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfJoystick_isButtonPressed(uint joystick, uint button);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial float sfJoystick_getAxisPosition(uint joystick, Axis axis);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial void sfJoystick_update();
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IdentificationMarshalData sfJoystick_getIdentification(uint joystick);
-    #endregion
 }

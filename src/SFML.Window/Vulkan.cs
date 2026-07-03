@@ -1,12 +1,9 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
-using Gaiden.SFML.System;
 
 namespace Gaiden.SFML.Window;
 
 /// <summary>Vulkan helper functions</summary>
-public static partial class Vulkan
+public static class Vulkan
 {
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -23,7 +20,7 @@ public static partial class Vulkan
     /// <param name="requireGraphics"> True to skip checking for graphics extensions, false otherwise </param>
     /// <returns>True if Vulkan is supported, false otherwise</returns>
     ////////////////////////////////////////////////////////////
-    public static bool IsAvailable(bool requireGraphics = true) => sfVulkan_isAvailable(requireGraphics);
+    public static bool IsAvailable(bool requireGraphics = true) => CSFMLWindow.sfVulkan_isAvailable(requireGraphics);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -32,7 +29,7 @@ public static partial class Vulkan
     /// <param name="name"> Name of the function to get the address of </param>
     /// <returns>Address of the Vulkan function, <see cref="nint.Zero"/> on failure</returns>
     ////////////////////////////////////////////////////////////
-    public static IntPtr GetFunction(string name) => sfVulkan_getFunction(name);
+    public static IntPtr GetFunction(string name) => CSFMLWindow.sfVulkan_getFunction(name);
 
     ////////////////////////////////////////////////////////////
     /// <summary>
@@ -44,7 +41,7 @@ public static partial class Vulkan
     {
         unsafe
         {
-            var extensionsPtr = sfVulkan_getGraphicsRequiredInstanceExtensions(out var count);
+            var extensionsPtr = CSFMLWindow.sfVulkan_getGraphicsRequiredInstanceExtensions(out var count);
             var extensions = new string[(int)count];
 
             for (var i = 0; i < (int)count; ++i)
@@ -55,19 +52,4 @@ public static partial class Vulkan
             return extensions;
         }
     }
-
-    #region Imports
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static partial bool sfVulkan_isAvailable([MarshalAs(UnmanagedType.Bool)] bool requireGraphics);
-
-    [LibraryImport(CSFML.Window, StringMarshalling = StringMarshalling.Utf8), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial IntPtr sfVulkan_getFunction(string name);
-
-    [LibraryImport(CSFML.Window), SuppressUnmanagedCodeSecurity]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static unsafe partial IntPtr* sfVulkan_getGraphicsRequiredInstanceExtensions(out UIntPtr count);
-    #endregion
 }
