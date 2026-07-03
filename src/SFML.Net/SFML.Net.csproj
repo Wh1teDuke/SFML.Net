@@ -10,7 +10,7 @@
 
       This is a meta-package that includes all SFML modules.
     </Description>
-    <Title>SFML.Net</Title>
+    <Title>SFML.Gaiden</Title>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
     <Platforms>AnyCPU;x64;x86</Platforms>
