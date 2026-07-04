@@ -6,9 +6,9 @@
     <TargetFramework>net10.0</TargetFramework>
     <PackageId>SFML.Gaiden</PackageId>
     <Description>
-      A simple, fast, cross-platform and object-oriented multimedia API. It provides access to windowing, graphics, audio and network.
+      Unofficial fork of the simple, fast, cross-platform and object-oriented multimedia API. It provides access to windowing, graphics, audio and network.
 
-      This is a meta-package that includes all SFML modules.
+      This is a meta-package that includes all SFML.Gaiden modules.
     </Description>
     <Title>SFML.Gaiden</Title>
     <IncludeBuildOutput>false</IncludeBuildOutput>
