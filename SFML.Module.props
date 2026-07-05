@@ -27,7 +27,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CSFML.Gaiden" Version="[3.0.0, 3.1)" />
+    <PackageReference Include="CSFML.Gaiden" Version="100.1.0-alpha-1" />
   </ItemGroup>
 
 </Project>
