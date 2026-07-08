@@ -10,5 +10,6 @@ Last commit: https://github.com/SFML/SFML.Net/commit/d3bcfeb2a6f29336f9f64d8ecca
 * `Nullable` warnings as errors
 * Use `Span`
 * `sealed` classes
+* `WindowBase` related events converted to `struct`.
 * `DllImport` converted to `LibraryImport`
 * Move `P/Invoke` methods to CSFML* related classes.
