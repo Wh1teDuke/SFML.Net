@@ -1,0 +1,53 @@
+name: Test Release
+
+on: [workflow_dispatch]
+
+concurrency:
+  group: environment-${{github.ref}}
+  cancel-in-progress: true
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+jobs:
+  build:
+    name: ${{ matrix.platform.name }} ${{ matrix.dotnet.name }}
+    runs-on: ${{ matrix.platform.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - { name: Linux x64, os: ubuntu-latest }
+        dotnet:
+          - { name: .NET 10, version: "10.0.x" }
+
+    steps:
+      - name: Check out SFML.Net
+        uses: actions/checkout@v6
+
+      - name: Setup .NET ${{ matrix.dotnet.version }} SDK
+        id: setup-dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ matrix.dotnet.version }}
+      - name: Enforce SDK Version
+        run: dotnet new globaljson --sdk-version ${{ steps.setup-dotnet.outputs.dotnet-version }} --force
+      - name: Verify SDK Installation
+        run: dotnet --info
+        continue-on-error: true
+
+      - name: Install SFML.Net Dependencies
+        run: dotnet restore
+      - name: Build SFML.Net
+        run: dotnet build --configuration Release --no-restore
+      - name: Pack SFML.Net
+        if: matrix.platform.name == 'Linux x64'
+        run: dotnet pack --configuration Release --no-build -o Publish
+
+      - name: Upload Artifact
+        if: matrix.platform.name == 'Linux x64'
+        uses: actions/upload-artifact@v6
+        with:
+          name: SFML.Net-nupkgs
+          path: Publish/*.nupkg
